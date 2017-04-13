@@ -1,0 +1,24 @@
+.padding {
+	width: 120px;
+	background: #FFF;
+	display: inline-flex;
+}
+
+#search {
+  display: flex;
+  overflow: hidden;
+}
+
+#searchWidget {
+ flex-grow: 1; 
+ display: flex;
+}
+
+#searchWidget input {
+    margin-left: 10px;
+	flex-grow: 1; 
+}
+
+#searchWidget button {
+	background: rgba(75,205,100,0.5)
+}
