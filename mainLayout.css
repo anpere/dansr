@@ -4,20 +4,23 @@
 	display: inline-flex;
 }
 
+
 #search {
   display: flex;
   overflow: hidden;
 }
 
-#searchWidget {
- flex-grow: 1; 
- display: flex;
-}
-
-#searchWidget input {
-    margin-left: 10px;
+div#searchWidget {
+    display: inline-flex;
 	flex-grow: 1; 
 }
+
+input#codeSearch {
+    margin-left: 10px;
+    width:100%;
+    font-size: 1.5em;
+}
+
 
 #searchWidget button {
 	background: rgba(75,205,100,0.5)
