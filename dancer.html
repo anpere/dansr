@@ -23,7 +23,6 @@
 			
 			$('#codeSubmit').click(function(){
 				//TODO: Prevent multiple entries from being added
-				
 				//Add entered code to auto-complete list:
 				availableCodes.push($('#codeSearch').val());
 				
@@ -45,13 +44,11 @@
     
     <div id ="search">
     	<div class="padding"> </div>
-    	
 		<div class="ui-widget" id="searchWidget">
-				<label for="codeSearch">Enter Code:</label>
-				<input id="codeSearch" class="ui-autocomplete-input" >
-				<button id="codeSubmit">Submit</button>
-  		</div>
-		
+			<label for="codeSearch">Enter Code:</label>
+			<input id="codeSearch" class="ui-autocomplete-input" >
+			<button id="codeSubmit">Submit</button>
+  		</div>		
     	<div class="padding"> </div>
     </div>
     
