@@ -3,11 +3,12 @@
     <!--this is bootstrap if you want it-->
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
     <link rel="stylesheet" href="mainLayout.css">
+	
+	<!-- jQuery and jQueryUI -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-  		
-    </script>
+    
     <script> 
 		$(document).ready(function(){
 			//Initialize auto-complete
@@ -21,15 +22,16 @@
 			});
 			
 			$('#codeSubmit').click(function(){
-				//Add entered code to auto-complete list:
 				//TODO: Prevent multiple entries from being added
+				//Add entered code to auto-complete list:
 				availableCodes.push($('#codeSearch').val());
+				
+				//$( "#codeSearch" ).val(""); //Uncomment to clear text field
 				$( "#codeSearch" ).autocomplete({
 			  		source: availableCodes
 				});
-				
+		
 				//TODO:	 Advance to next screen after searching for dance code
-			
 			});
 		});
     </script>
@@ -42,13 +44,11 @@
     
     <div id ="search">
     	<div class="padding"> </div>
-    	
 		<div class="ui-widget" id="searchWidget">
-  			<label for="codeSearch">Enter Code:</label>
-  			<input id="codeSearch" >
-  			<button id="codeSubmit">Submit</button>
-  		</div>
-		
+			<label for="codeSearch">Enter Code:</label>
+			<input id="codeSearch" class="ui-autocomplete-input" >
+			<button id="codeSubmit">Submit</button>
+  		</div>		
     	<div class="padding"> </div>
     </div>
     
