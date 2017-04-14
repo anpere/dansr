@@ -11,6 +11,7 @@
 
     <script>
 		$(document).ready(function(){
+      console.log("ready:")
 			//Initialize auto-complete
 			var availableCodes = [
 			  "chicken",
@@ -22,6 +23,7 @@
 			});
 
 			$('#codeSubmit').click(function(){
+        console.log("codeSubmit:")
 				//TODO: Prevent multiple entries from being added
 				//Add entered code to auto-complete list:
 				availableCodes.push($('#codeSearch').val());
@@ -37,6 +39,7 @@
 
     $(document).on('click', "#play", function(evt)
     {
+      console.log("play:")
     });
     </script>
 </head>
