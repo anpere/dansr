@@ -4,7 +4,10 @@
 	display: inline-flex;
 }
 
-
+.tool-icon{
+	height: 42;
+	width: 42;
+}
 #search {
   display: flex;
   overflow: hidden;
@@ -12,7 +15,7 @@
 
 div#searchWidget {
     display: inline-flex;
-	flex-grow: 1; 
+	flex-grow: 1;
 }
 
 input#codeSearch {
@@ -25,6 +28,9 @@ input#codeSearch {
 #searchWidget button {
 	background: rgba(75,205,100,0.5)
 }
+
+
+
 
 #video{
 	border-style: solid;

@@ -3,14 +3,16 @@
     <!--this is bootstrap if you want it-->
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
     <link rel="stylesheet" href="mainLayout.css">
-	
+
 	<!-- jQuery and jQueryUI -->
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    
-    <script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
 		$(document).ready(function(){
+      console.log("ready:")
 			//Initialize auto-complete
 			var availableCodes = [
 			  "chicken",
@@ -20,20 +22,26 @@
 			$( "#codeSearch" ).autocomplete({
 			  source: availableCodes
 			});
-			
+
 			$('#codeSubmit').click(function(){
+        console.log("codeSubmit:")
 				//TODO: Prevent multiple entries from being added
 				//Add entered code to auto-complete list:
 				availableCodes.push($('#codeSearch').val());
-				
+
 				//$( "#codeSearch" ).val(""); //Uncomment to clear text field
 				$( "#codeSearch" ).autocomplete({
 			  		source: availableCodes
 				});
-		
+
 				//TODO:	 Advance to next screen after searching for dance code
 			});
 		});
+
+    $(document).on('click', "#play", function(evt)
+    {
+      console.log("play:")
+    });
     </script>
 </head>
 <body>
@@ -41,24 +49,36 @@
     <div id ="top">
         <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
     </div>
-    
+
     <div id ="search">
     	<div class="padding"> </div>
 		<div class="ui-widget" id="searchWidget">
 			<label for="codeSearch">Enter Code:</label>
 			<input id="codeSearch" class="ui-autocomplete-input" >
 			<button id="codeSubmit">Submit</button>
-  		</div>		
+  		</div>
     	<div class="padding"> </div>
     </div>
-    
-    <div id ="video">
 
+    <div id ="video">
+      <div class="btn-group" id="toolbar">
+        <button type="button" class="btn btn-primary" id="play"><img src="images/play.png" class="tool-icon"/>
+        <button type="button" class="btn btn-primary"><img src="images/go.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary"><img src="images/loop.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary" id="left" class="tool-icon"><img src="images/left.png" class="tool-icon"/></button>
+        <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
+        <button type="button" class="btn btn-primary active" id="speed" class="tool-icon">1.0</button>
+        <button type="button" class="btn btn-primary" id="right" class="tool-icon"><img src="images/right.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary"><img src="images/gear.png" class="tool-icon"/></button>
+      </div>
     </div>
+
     <div id ="seekbar">
 
     </div>
     <div id ="watchTools">
 
     </div>
+
+
 </body>
