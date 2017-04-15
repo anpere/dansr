@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
 		$(document).ready(function(){
@@ -61,17 +62,17 @@
 
     <div id ="video">
       <div class="btn-group" id="toolbar">
-        <button type="button" class="btn btn-primary" id="play">Play</button>
-        <button type="button" class="btn btn-primary">Go back</button>
-        <button type="button" class="btn btn-primary">Loop</button>
-        <button type="button" class="btn btn-primary">Speed</button>
-        <button type="button" class="btn btn-primary"></button>
-        <button type="button" class="btn btn-primary">Settings</button>
-
-
-
+        <button type="button" class="btn btn-primary" id="play"><img src="images/playTransparent.png" class="tool-icon"/>
+        <button type="button" class="btn btn-primary"><img src="images/goTransparent2.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary"><img src="images/loop.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary" id="left" class="tool-icon"><img src="images/left.png" class="tool-icon"/></button>
+        <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
+        <button type="button" class="btn btn-primary active" id="speed" class="tool-icon">1.0</button>
+        <button type="button" class="btn btn-primary" id="right" class="tool-icon"><img src="images/right.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary"><img src="images/gear.png" class="tool-icon"/></button>
       </div>
     </div>
+
     <div id ="seekbar">
 
     </div>
