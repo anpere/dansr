@@ -1,0 +1,54 @@
+img {
+	opacity: 1;
+	display: inline;
+}
+
+h1 {
+	display: inline;
+	color: #4785e8;
+	font-size: 75px;
+
+	position: relative;
+	top: 30px;
+	left: 0px;
+}
+
+.row {
+	text-align: center;
+	vertical-align: middle;
+	
+	position: absolute;
+	top: 150px;
+	left: 350px;
+}
+
+#search {
+	position: absolute;
+	top: 330px;
+	left: 150px;
+
+	width: 100%;
+}
+
+label {
+	position: relative;
+	top: 7px;
+	left: 0px;
+}
+
+div#searchWidget {
+    display: inline-flex;
+    vertical-align: middle;
+    flex-grow: 1; 
+}
+
+input#codeSearch {
+    margin-left: 10px;
+    width: 60%;
+    font-size: 1.5em;
+}
+
+
+#searchWidget button {
+    background: rgba(75,205,100,0.5)
+}
