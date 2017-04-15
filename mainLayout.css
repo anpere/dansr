@@ -3,7 +3,7 @@ body {
 }
 
 .padding {
-    width: 0px;
+    width: 20%
     background: #FFF;
     display: inline-flex;
 }
@@ -12,17 +12,21 @@ body {
 #search {
   display: flex;
   overflow: hidden;
+  height: 8%;
+  max-height: 25px;
 }
 
 div#searchWidget {
     display: inline-flex;
-    flex-grow: 1; 
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 input#codeSearch {
-    margin-left: 10px;
+    margin-left: 50px;
     width: 100%;
-    font-size: 1.5em;
+    font-size: 1.25em;
 }
 
 
@@ -33,8 +37,9 @@ input#codeSearch {
 #seekbar {
     display: flex;
     height: 30px;
-    width: 100%;
+    width: 75%;
     border: 2px solid black;
+    margin: 0 auto;
 }
 
 #indicator {
@@ -45,9 +50,14 @@ input#codeSearch {
 }
 
 #video{
-	border-style: solid;
-	height: 60%;
-	width: 90%;
-	margin:auto;
-	margin-top: 2%;
+    display: flex;
+    border-style: solid;
+    height: 75%;
+    width: 75%;
+    max-width: 640px;
+    max-height: 480px;
+    align-self: center;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
 }
