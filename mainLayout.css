@@ -43,3 +43,11 @@ input#codeSearch {
     width: 6px;
     align-self: flex-end;
 }
+
+#video{
+	border-style: solid;
+	height: 60%;
+	width: 90%;
+	margin:auto;
+	margin-top: 2%;
+}
