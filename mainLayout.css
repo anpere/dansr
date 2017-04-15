@@ -4,7 +4,10 @@
 	display: inline-flex;
 }
 
-
+.tool-icon{
+	height: 42;
+	width: 42;
+}
 #search {
   display: flex;
   overflow: hidden;
@@ -26,7 +29,13 @@ input#codeSearch {
 	background: rgba(75,205,100,0.5)
 }
 
-.tool-icon{
-	height: 42;
-	width: 42;
+
+
+
+#video{
+	border-style: solid;
+	height: 60%;
+	width: 90%;
+	margin:auto;
+	margin-top: 2%;
 }
