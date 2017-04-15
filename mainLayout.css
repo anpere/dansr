@@ -40,6 +40,6 @@ input#codeSearch {
 #indicator {
     background: #FF0000;
     height: 33px;
-    width: 7px;
+    width: 6px;
     align-self: flex-end;
 }

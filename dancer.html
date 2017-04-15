@@ -40,9 +40,23 @@
       });
 
       //Draggable Indicator:
-      //$(#indicator).dragable({ axis: "x" });
       $(function() {
-        $( "#indicator" ).draggable({ axis: "x", containment: "parent"});
+        $("#indicator").draggable({ axis: "x", containment: "parent"});
+        $("#indicator").on("drag", function(event, ui) {
+          var width = $("#seekbar").width();
+          //console.log( "New left: " + ui.position.left + " [ " + (ui.position.left /  width) + "]");
+      
+           //TODO: Trigger seek in video / audio
+        });
+      });
+
+      $("#seekbar").click(function(event) {
+      var clickedPositionX_centered = event.clientX - event.delegateTarget.offsetLeft;
+      console.log("delegateTarget.offsetLeft : " + clickedPositionX_centered);
+      console.log("clientX : " + event.clientX);
+      console.log( $('#indicator').width() );
+      $("#indicator").css({ position: 'relative',
+                            left: clickedPositionX_centered - $('#indicator').width() });
       });
     });
     </script>
@@ -69,7 +83,7 @@
 
       </div>
       <div id ="seekbar">
-	<div id="indicator" class="ui-widget-content ui-draggable ui-draggable-handle">
+	<div id="indicator" class="ui-draggable ui-draggable-handle">
 	</div>
       </div>
     </div>
