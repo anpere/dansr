@@ -1,7 +1,11 @@
+body {
+    margin: 10px;
+}
+
 .padding {
-	width: 120px;
-	background: #FFF;
-	display: inline-flex;
+    width: 0px;
+    background: #FFF;
+    display: inline-flex;
 }
 
 
@@ -12,16 +16,30 @@
 
 div#searchWidget {
     display: inline-flex;
-	flex-grow: 1; 
+    flex-grow: 1; 
 }
 
 input#codeSearch {
     margin-left: 10px;
-    width:100%;
+    width: 100%;
     font-size: 1.5em;
 }
 
 
 #searchWidget button {
-	background: rgba(75,205,100,0.5)
+    background: rgba(75,205,100,0.5)
+}
+
+#seekbar {
+    display: flex;
+    height: 30px;
+    width: 100%;
+    border: 2px solid black;
+}
+
+#indicator {
+    background: #FF0000;
+    height: 33px;
+    width: 7px;
+    align-self: flex-end;
 }
