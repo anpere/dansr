@@ -44,21 +44,29 @@
         $("#indicator").draggable({ axis: "x", containment: "parent"});
         $("#indicator").on("drag", function(event, ui) {
           var width = $("#seekbar").width();
-          //console.log( "New left: " + ui.position.left + " [ " + (ui.position.left /  width) + "]");
+          var fractionalPosition = ui.position.left / width;
       
            //TODO: Trigger seek in video / audio
         });
       });
 
-      $("#seekbar").click(function(event) {
-      var clickedPositionX_centered = event.clientX - event.delegateTarget.offsetLeft;
-      console.log("delegateTarget.offsetLeft : " + clickedPositionX_centered);
-      console.log("clientX : " + event.clientX);
-      console.log( $('#indicator').width() );
+      $("#seekbar").mousedown(function(event) {
+      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
+
       $("#indicator").css({ position: 'relative',
-                            left: clickedPositionX_centered - $('#indicator').width() });
+                            left: clickedPosX_centered });
+      
+      var indicator = $("#indicator");
+
+      var ui = {};
+      ui['helper'] = indicator;
+      ui['position'] = indicator.position();
+      ui['offset'] =  {top: 0, left: 0};
+      
+      indicator.triggerHandler(event);
+
       });
-    });
+      });
     </script>
 </head>
 <body>
