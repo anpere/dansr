@@ -25,3 +25,11 @@ input#codeSearch {
 #searchWidget button {
 	background: rgba(75,205,100,0.5)
 }
+
+#video{
+	border-style: solid;
+	height: 60%;
+	width: 90%;
+	margin:auto;
+	margin-top: 2%;
+}
