@@ -3,7 +3,7 @@ img {
 	display: inline;
 }
 
-h1 {
+#title h1 {
 	display: inline;
 	color: #4785e8;
 	font-size: 75px;
@@ -13,19 +13,22 @@ h1 {
 	left: 0px;
 }
 
-.row {
+#title {
 	text-align: center;
 	vertical-align: middle;
 	
 	position: absolute;
 	top: 150px;
-	left: 350px;
+	left: 545px;
 }
 
 #search {
+	text-align: center;
+	vertical-align: middle;
+
 	position: absolute;
 	top: 330px;
-	left: 150px;
+	left: 225px;
 
 	width: 100%;
 }
@@ -52,3 +55,24 @@ input#codeSearch {
 #searchWidget button {
     background: rgba(75,205,100,0.5)
 }
+
+#newDance {
+	display: inline-flex;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+
+	margin: 10px;
+	padding: 3px;
+}
+
+#newDance h3 {
+	font-size: 18px;
+	margin: 5px;
+}
+
+#newDance img {
+	margin: 6px 3px 7px 3px;
+	padding: 0px;
+}
+
