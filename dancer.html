@@ -65,12 +65,7 @@
       
       var indicator = $("#indicator");
 
-      var ui = {};
-      ui['helper'] = indicator;
-      ui['position'] = indicator.position();
-      ui['offset'] =  {top: 0, left: 0};
-      
-      indicator.triggerHandler(event);
+      indicator.triggerHandler(event, ui);
 
       });
       });
