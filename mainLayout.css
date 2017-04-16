@@ -71,7 +71,22 @@ input#codeSearch {
     margin: 0 auto;
 }
 
+#volumeBar {
+    display: flex;
+    height: 30px;
+    width: 75%;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
 #indicator {
+    background: #FF0000;
+    height: 33px;
+    width: 6px;
+    align-self: flex-end;
+}
+
+#volumeIndicator {
     background: #FF0000;
     height: 33px;
     width: 6px;
