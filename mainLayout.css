@@ -1,41 +1,92 @@
-.padding {
-	width: 120px;
-	background: #FFF;
-	display: inline-flex;
+body {
+    margin: 10px;
 }
 
-.tool-icon{
-	height: 42;
-	width: 42;
+.padding {
+    width: 20%
+    background: #FFF;
+    display: inline-flex;
 }
+
+.tool-icon {
+    height: 42;
+    width: 42;
+    margin: 0 auto;
+}
+
+.btn-primary {
+    color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: rgba(100,210,125,0);
+    border-color: rgba(100,210,125,0);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+    color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #0F0;
+    border-color: rgba(100,255,125,0);
+}
+
+#toolbar {
+    width: 75%;
+    display: flex;
+    margin: 0 auto;
+    background-color: rgba(75,205,100, .75)
+}
+
 #search {
   display: flex;
   overflow: hidden;
+  height: 8%;
+  max-height: 25px;
 }
 
 div#searchWidget {
     display: inline-flex;
-	flex-grow: 1;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 input#codeSearch {
-    margin-left: 10px;
-    width:100%;
-    font-size: 1.5em;
+    margin-left: 25px;
+    width: 100%;
+    font-size: 1.25em;
 }
-
 
 #searchWidget button {
-	background: rgba(75,205,100,0.5)
+    background: rgba(75,205,100,0.5)
 }
 
+#seekbar {
+    display: flex;
+    height: 30px;
+    width: 75%;
+    border: 1px solid black;
+    margin: 0 auto;
+}
 
-
+#indicator {
+    background: #FF0000;
+    height: 33px;
+    width: 6px;
+    align-self: flex-end;
+}
 
 #video{
-	border-style: solid;
-	height: 60%;
-	width: 90%;
-	margin:auto;
-	margin-top: 2%;
+    display: flex;
+    border-style: solid;
+    height: 75%;
+    width: 75%;
+    max-width: 640px;
+    max-height: 480px;
+    align-self: center;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
 }
