@@ -56,7 +56,10 @@
 
       $("#seekbar").mousedown(function(event) {
       var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
-
+      //Adjust to 0 if negative to avoid glitches:
+      if(clickedPosX_centered < 0) { 
+	clickedPosX_centered = 0;
+      }
       $("#indicator").css({ position: 'relative',
                             left: clickedPosX_centered });
       
@@ -87,34 +90,33 @@
     </div>
 
     <div id ="search">
-      
 	<div class="ui-widget" id="searchWidget">
 	  <label for="codeSearch">Enter Code:</label>
 	  <input id="codeSearch" class="ui-autocomplete-input" >
 	  <button id="codeSubmit">Submit</button>
   	</div>
+    </div>
+    
+    <div id="content" style="width:80%; margin: 0 auto">
+    <div id="video">
 
-    <div id ="video">
-      <div class="btn-group" id="toolbar">
-        <button type="button" class="btn btn-primary" id="play"><img src="images/play.png" class="tool-icon"/>
-        <button type="button" class="btn btn-primary"><img src="images/go.png" class="tool-icon"/></button>
-        <button type="button" class="btn btn-primary"><img src="images/loop.png" class="tool-icon"/></button>
-        <button type="button" class="btn btn-primary" id="left" class="tool-icon"><img src="images/left.png" class="tool-icon"/></button>
-        <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
-        <button type="button" class="btn btn-primary active" id="speed" class="tool-icon">1.0</button>
-        <button type="button" class="btn btn-primary" id="right" class="tool-icon"><img src="images/right.png" class="tool-icon"/></button>
-        <button type="button" class="btn btn-primary"><img src="images/gear.png" class="tool-icon"/></button>
-      </div>
     </div>
 
-    <div id ="seekbar">
-    <div id="content" style="width:80%; margin: 0 auto">
-      <div id ="video">
-
-      </div>
       <div id ="seekbar">
-	<div id="indicator" class="ui-draggable ui-draggable-handle">
-	</div>
+	<div id="indicator" class="ui-draggable ui-draggable-handle"></div>
+      </div>
+      
+      <div class="btn-group" id="toolbar">
+        <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.png')"/>
+
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/go.png')"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.png')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.png')"/>
+
+        <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
+        <button type="button" class="btn btn-primary tool-icon" id="speed">1.0</button>
+        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.png')"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/gear.png')"/>
       </div>
     </div>
     <div id ="watchTools">
