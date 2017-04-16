@@ -2,14 +2,18 @@
     <title>Dansr</title>
     <!--this is bootstrap if you want it-->
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+
     <link rel="stylesheet" href="mainLayout.css">
-	
+    <link rel='shortcut icon' href='images/dicon.ico'/>
+
+
 	<!-- jQuery and jQueryUI -->
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
-    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
     <script>
       $(document).ready(function() {
 
@@ -67,14 +71,21 @@
 
       });
       });
+      
+    $(document).on('click', "#play", function(evt)
+    {
+      console.log("play:")
+    });
     </script>
 </head>
+
+
 <body>
     <!-- <h1> This is an awesome Dancer interface</h1> -->
     <div id ="top">
         <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
     </div>
-    
+
     <div id ="search">
       
 	<div class="ui-widget" id="searchWidget">
@@ -83,8 +94,20 @@
 	  <button id="codeSubmit">Submit</button>
   	</div>
 
+    <div id ="video">
+      <div class="btn-group" id="toolbar">
+        <button type="button" class="btn btn-primary" id="play"><img src="images/play.png" class="tool-icon"/>
+        <button type="button" class="btn btn-primary"><img src="images/go.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary"><img src="images/loop.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary" id="left" class="tool-icon"><img src="images/left.png" class="tool-icon"/></button>
+        <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
+        <button type="button" class="btn btn-primary active" id="speed" class="tool-icon">1.0</button>
+        <button type="button" class="btn btn-primary" id="right" class="tool-icon"><img src="images/right.png" class="tool-icon"/></button>
+        <button type="button" class="btn btn-primary"><img src="images/gear.png" class="tool-icon"/></button>
+      </div>
     </div>
 
+    <div id ="seekbar">
     <div id="content" style="width:80%; margin: 0 auto">
       <div id ="video">
 
@@ -97,4 +120,6 @@
     <div id ="watchTools">
 
     </div>
+
+
 </body>

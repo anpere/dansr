@@ -8,7 +8,10 @@ body {
     display: inline-flex;
 }
 
-
+.tool-icon{
+	height: 42;
+	width: 42;
+}
 #search {
   display: flex;
   overflow: hidden;
@@ -48,6 +51,9 @@ input#codeSearch {
     width: 6px;
     align-self: flex-end;
 }
+
+
+
 
 #video{
     display: flex;
