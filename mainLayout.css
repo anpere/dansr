@@ -112,3 +112,15 @@ input#codeSearch {
 	bottom:0;
 	right:0;
 }
+
+#top{
+	position:relative;
+}
+#editDance{
+	position:absolute;
+	right:0;
+}
+#watchDance{
+	position:absolute;
+	right:0;
+}
