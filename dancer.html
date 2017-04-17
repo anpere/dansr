@@ -18,23 +18,29 @@
     var secEnd = 1;
     var secStart = 0;
     var loop = false;
+    var pause = false;
+    var isPlaying = false;
 
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       if (secStart >= secEnd) {
         console.log("play with handles reversed: " + secEnd + "-" + secStart);
-        $("#indicator").css({
-          "left": $("#sectionEnd").position().left-rect.left-5
-        });
+        if (!pause) {
+          $("#indicator").css({
+            "left": $("#sectionEnd").position().left-rect.left-5
+          });
+        }
         $("#indicator").animate({
           "left": $("#sectionStart").position().left-rect.left-5
         }, (secStart-secEnd)*30000, "linear");
 
       } else {
         console.log("play: " + secStart + "-" + secEnd);
-        $("#indicator").css({
-          "left": $("#sectionStart").position().left-rect.left-5
-        });
+        if (!pause) {
+          $("#indicator").css({
+            "left": $("#sectionStart").position().left-rect.left-5
+          });
+        }
         $("#indicator").animate({
           "left": $("#sectionEnd").position().left-rect.left-5
         }, (secEnd-secStart)*30000, "linear");
@@ -47,6 +53,7 @@
       }, Math.abs(secStart-secEnd)*30000 + 50);
     }
 
+    
     $(document).ready(function() {
 
       //Initialize auto-complete
@@ -56,6 +63,8 @@
         "nature",
       ];
 
+
+      // TODO(ap) get rid of global variable
       $( "#codeSearch" ).autocomplete({
           source: availableCodes
       });
@@ -163,16 +172,33 @@
         playIndicator();
       });
 
-      $(document).on('click', "#play", function(evt)
-      {
-        if (loop) {
-          playIndicator();
-          console.log("repeat");
-        } else {
-          playIndicator();
-        }
-      });
+    $(document).on('click', "#playPause", function(evt)
+    {
+      var button  = document.getElementById("playPause") // maybe this instead?
+      if (!isPlaying){
+        console.log("play:")
+        var video = document.getElementById("videoBox");
+        video.play();
+        isPlaying = true;
+        playIndicator();
+        pause = false;
+        // set button to pause
+        button.setAttribute("style", "background-image:url('images/pause.svg')")
+      } else {
+        console.log("pause:")
+        var video = document.getElementById("videoBox");
+        video.pause();
+        $("#indicator").stop();
+        pause = true;
+        // set button to play
+        button.setAttribute("style", "background-image:url('images/play.svg')")
+        isPlaying = false;
+
+      }
     });
+
+  });
+
     </script>
 </head>
 
@@ -195,7 +221,11 @@
 
     <div id="content" style="width:80%; margin: 0 auto">
     <div id="video">
-
+      <!-- https://www.w3schools.com/html/html5_video.asp -->
+      <video id="videoBox">
+  <source src="images/Exercise1949_512kb.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
     </div>
 
       <div id ="seekbar">
@@ -205,7 +235,7 @@
       </div>
 
       <div class="btn-group" id="toolbar">
-        <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')"/>
 
         <button type="button" class="btn btn-primary tool-icon" id="replay" style="background-image:url('images/replay.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')"/>
