@@ -65,20 +65,25 @@ input#codeSearch {
 
 #seekbar {
     display: flex;
-    height: 30px;
-    width: 75%;
+    width: 100%;
+    max-width: 640px;
     border: 1px solid black;
     margin: 0 auto;
 }
 
 #volumeBar {
     display: flex;
-    height: 30px;
-    width: 75%;
+    width: 100%;
+    max-width: 100px;
     border: 1px solid black;
     margin: 0 auto;
 }
 
+#toolbar {
+	display: flex;
+	max-width:640px;
+	width:100%;
+}
 #indicator {
     background: #FF0000;
     height: 33px;
@@ -96,8 +101,8 @@ input#codeSearch {
 #video{
     display: flex;
     border-style: solid;
-    height: 75%;
-    width: 75%;
+    height: 100%;
+    width: 100%;
     max-width: 640px;
     max-height: 480px;
     align-self: center;
