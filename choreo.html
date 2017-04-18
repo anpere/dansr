@@ -2,25 +2,162 @@
     <title>Dansr</title>
     <!--this is bootstrap if you want it-->
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+
     <link rel="stylesheet" href="mainLayout.css">
+    <link rel='shortcut icon' href='images/dicon.ico'/>
+    <meta charset="UTF-8">
+
+
+	<!-- jQuery and jQueryUI -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+
+      //Initialize auto-complete
+      var availableCodes = [
+        "chicken",
+        "toffee",
+        "nature",
+      ];
+
+      $( "#codeSearch" ).autocomplete({
+          source: availableCodes
+      });
+
+      $('#codeSubmit').click(function() {
+      //TODO: Prevent multiple entries from being added
+
+        //Add entered code to auto-complete list:
+        availableCodes.push($('#codeSearch').val());
+
+        //$( "#codeSearch" ).val(""); //Uncomment to clear text field
+
+        $( "#codeSearch" ).autocomplete({
+            source: availableCodes
+        });
+
+        //TODO:	 Advance to next screen after searching for dance code
+      });
+
+      //Draggable Indicator:
+      $(function() {
+        $("#indicator").draggable({ axis: "x", containment: "parent"});
+        $("#indicator").on("drag", function(event, ui) {
+          var width = $("#seekbar").width();
+          var fractionalPosition = ui.position.left / width;
+
+           //TODO: Trigger seek in video / audio
+        });
+      });
+
+      $("#seekbar").mousedown(function(event) {
+      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
+      //Adjust to 0 if negative to avoid glitches:
+      if(clickedPosX_centered < 0) {
+	clickedPosX_centered = 0;
+      }
+      $("#indicator").css({ position: 'relative',
+                            left: clickedPosX_centered });
+
+      var indicator = $("#indicator");
+
+      indicator.triggerHandler(event, ui);
+
+      });
+      });
+
+    $(document).on('click', "#play", function(evt)
+    {
+      console.log("play:")
+    });
+
+    /*choreo button handlers*/
+    $(document).on('click', "#addSection", function (evt) {
+
+    });
+
+    $(document).on('click', "#addMetronome", function (evt) {
+
+    });
+
+    $(document).on('click', "#undo", function (evt) {
+
+    });
+
+    $(document).on('click', "#trash", function (evt) {
+
+    });
+
+    $(document).on('click', '#addComment', function (evt){
+      console.log("addComment: ")
+    })
+    $(document).on('mouseup', '#addComment', function (evt){
+      console.log("addComment:");
+      // make button look not pressed when user releases button
+       $(this).blur();
+    })
+
+    </script>
 </head>
 
-<body>
-    <h1> This is an awesome Choreographer interface</h1>
 
+<body>
+    <!-- <h1> This is an awesome Dancer interface</h1> -->
     <div id ="top">
         <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
+        <a href="homepage.html" id="logo">Dancer</a>
+        <a href="dancer.html" id="watchDance">Watch Dance</a>
     </div>
+
     <div id ="search">
-
+	<div class="ui-widget" id="searchWidget">
+	  <label for="codeSearch">Enter Code:</label>
+	  <input id="codeSearch" class="ui-autocomplete-input" >
+	  <button id="codeSubmit">Submit</button>
+  	</div>
     </div>
-    <div id ="video">
 
+    <div id="content" style="width:80%; margin: 0 auto">
+    <div id="video">
+      <button type="button" class="btn btn-primary" id="addComment">Add comment &#43;</button>
+        <div class="btn-group" id="choreoTools">
+            <button type="button" class="btn btn-primary tool-icon" id="addSection" style="background-image:url('images/plus.svg')"/>
+            <button type="button" class="btn btn-primary tool-icon" id="addMetronome" style="background-image:url('images/play.png')"/>
+            <button type="button" class="btn btn-primary tool-icon" id="undo" style="background-image:url('images/undo.svg')"/>
+            <button type="button" class="btn btn-primary tool-icon" id="trash" style="background-image:url('images/trash.svg')"/>
+        </div>
     </div>
-    <div id ="seekbar">
 
-    </div>
-    <div id ="watchTools">
+      <div id ="seekbar">
+	<div id="indicator" class="ui-draggable ui-draggable-handle"></div>
+      </div>
 
+      <div class="btn-group" id="toolbar">
+        <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.svg')"/>
+
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/replay.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')"/>
+
+        <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
+        <button type="button" class="btn btn-primary tool-icon" id="speed">1.0</button>
+        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/gear.png')"/>
+        <!-- TODO(AP) make not a button, but still look nice --->
+        <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')">	</button>
+        <div id ="volumeBar">
+          <div id="volumeIndicator" class="ui-draggable ui-draggable-handle" style="zIndex:3;"></div>
+        </div>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/fullscreen.svg')"/>
+
+      </div>
     </div>
+
+
+
 </body>

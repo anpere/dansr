@@ -13,13 +13,14 @@ img {
 	left: 0px;
 }
 
-#title {
+
+#title{
 	text-align: center;
 	vertical-align: middle;
 	
 	position: absolute;
 	top: 150px;
-	left: 545px;
+	left: 525px;
 }
 
 #search {
@@ -39,6 +40,28 @@ label {
 	left: 0px;
 }
 
+.body {
+	margin: 15px;
+}
+
+#newDance {
+	display: inline-flex;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 6px;
+}
+
+#newDance h3 {
+	padding: 0px;
+	margin: 0px;
+}
+
+#newDance img {
+	margin: 2px 5px 2px 2px;
+}
 div#searchWidget {
     display: inline-flex;
     vertical-align: middle;
@@ -54,26 +77,6 @@ input#codeSearch {
 
 #searchWidget button {
     background: rgba(75,205,100,0.5)
-}
-
-#newDance {
-	display: inline-flex;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-
-	margin: 10px;
-	padding: 3px;
-}
-
-#newDance h3 {
-	font-size: 18px;
-	margin: 5px;
-}
-
-#newDance img {
-	margin: 6px 3px 7px 3px;
-	padding: 0px;
 }
 
 #hamburger {
