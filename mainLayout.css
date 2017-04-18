@@ -27,7 +27,8 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     background-color: lightgray;
-		height: 42;
+	height: 42;
+	border-color:lightgray;
     //background-color: rgba(100,210,125,0);
     //border-color: rgba(100,210,125,0);
 }
@@ -35,7 +36,8 @@ body {
 .btn-primary:hover{
     background-color:lightgray;
     outline: none;
-    border-color: white;
+    border-color: lightgray;
+	cursor:pointer;
 
 }
 
