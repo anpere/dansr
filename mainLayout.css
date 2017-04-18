@@ -54,11 +54,13 @@ body {
 }
 
 #toolbar {
-    width: 75%;
+    width: 100%;
     display: flex;
     margin: 0 auto;
     position:fixed;
 }
+
+
 #addComment {
 	top: 415px;
 	margin-left:auto;
@@ -98,8 +100,7 @@ input#codeSearch {
 
 #seekbar {
     display: flex;
-    width: 75%;
-    max-width: 640px;
+    width: 100%;
     border: 1px solid black;
     margin: 0 auto;
 }
@@ -114,8 +115,7 @@ input#codeSearch {
 
 #toolbar {
 	display: flex;
-	max-width:640px;
-	width:75%;
+	width:100%;
     position:relative;
     background-color:lightgray;
     height:42;
@@ -137,9 +137,8 @@ input#codeSearch {
 #video{
     display: flex;
     border-style: solid;
-    height: 75%;
-    width: 75%;
-    max-width: 640px;
+    height: 100%;
+    width: 100%;
     max-height: 480px;
     align-self: center;
     margin-top: 1%;
@@ -190,4 +189,3 @@ video{
 #addComment:hover{
 	background-color: gray !important;
 }
-
