@@ -63,7 +63,14 @@ body {
   display: flex;
   overflow: hidden;
   height: 8%;
-  max-height: 25px;
+  max-height: 28px;
+  align-self:center;
+  width: 75%;
+  max-width: 640px;
+  max-height: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  position:relative;
 }
 
 div#searchWidget {
@@ -74,9 +81,9 @@ div#searchWidget {
 }
 
 input#codeSearch {
-    margin-left: 25px;
     width: 100%;
     font-size: 1.25em;
+
 }
 
 #searchWidget button {
@@ -129,7 +136,7 @@ input#codeSearch {
     max-width: 640px;
     max-height: 480px;
     align-self: center;
-    margin-top: 2%;
+    margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
 	position:relative;
