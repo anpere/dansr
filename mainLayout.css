@@ -27,8 +27,7 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     background-color: lightgray;
-    border: none;
-
+		height: 42;
     //background-color: rgba(100,210,125,0);
     //border-color: rgba(100,210,125,0);
 }
@@ -58,7 +57,12 @@ body {
     margin: 0 auto;
     position:fixed;
 }
-
+#addComment {
+	top: 415px;
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+}
 #search {
   display: flex;
   overflow: hidden;
@@ -176,5 +180,12 @@ video{
 }
 #speedLabel{
     margin-left:0;
+}
+#addComment{
+	background-color: black;
+	opacity:0.5;
+}
+#addComment:hover{
+	background-color: gray !important;
 }
 
