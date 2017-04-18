@@ -139,6 +139,11 @@
 
       }
     });
+
+    $( function() {
+      $( "#slider" ).slider();
+    } );
+
     $(document).on('click', '#metronome', function(evt){
       console.log("metronome:")
 
@@ -162,7 +167,7 @@
   	</div>
     </div>
 
-    <div id="content" style="width:80%; margin: 0 auto">
+    <div id="content" style="max-width:80%; margin: 0 auto">
     <div id="video">
       <!-- https://www.w3schools.com/html/html5_video.asp -->
       <video id="videoBox">
@@ -182,6 +187,7 @@ Your browser does not support the video tag.
 
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')"/>
+
         <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')">
         </button>
         <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
@@ -191,9 +197,18 @@ Your browser does not support the video tag.
                   <input class="form-control" id="speed" placeholder="x1.0">
               </div>
           </form>
+        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
+        </button>
 
-        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')"/>
-        <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.png')"/>
+
+        <form>
+            <div class="form-group form-inline">
+                <label for="speed" id="speedLabel">Countoff</label>
+            </div>
+        </form>
+        <div id="countOffSlider"></div>
+
+        <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')"/>
 
         <!-- TODO(AP) make not a button, but still look nice --->
         <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')">	</button>
