@@ -181,3 +181,11 @@ video{
 #speedLabel{
     margin-left:0;
 }
+#addComment{
+	background-color: black;
+	opacity:0.5;
+}
+#addComment:hover{
+	background-color: gray !important;
+}
+
