@@ -15,6 +15,38 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
+    var secEnd = 1;
+    var secStart = 0;
+    var loop = false;
+
+    this.playIndicator = function() {
+      var rect = document.getElementById("seekbar").getBoundingClientRect();
+      if (secStart >= secEnd) {
+        console.log("play with handles reversed: " + secEnd + "-" + secStart);
+        $("#indicator").css({
+          "left": $("#sectionEnd").position().left-rect.left-5
+        });
+        $("#indicator").animate({
+          "left": $("#sectionStart").position().left-rect.left-5
+        }, (secStart-secEnd)*30000, "linear");
+
+      } else {
+        console.log("play: " + secStart + "-" + secEnd);
+        $("#indicator").css({
+          "left": $("#sectionStart").position().left-rect.left-5
+        });
+        $("#indicator").animate({
+          "left": $("#sectionEnd").position().left-rect.left-5
+        }, (secEnd-secStart)*30000, "linear");
+      }
+      setTimeout(function() {
+        console.log("here");
+        if (loop) {
+          playIndicator();
+        } 
+      }, Math.abs(secStart-secEnd)*30000 + 50);
+    }
+
     $(document).ready(function() {
 
       //Initialize auto-complete
@@ -47,6 +79,7 @@
       $(function() {
         $("#indicator").draggable({ axis: "x", containment: "parent"});
         $("#indicator").on("drag", function(event, ui) {
+          $("#indicator").stop();
           var width = $("#seekbar").width();
           var fractionalPosition = ui.position.left / width;
 
@@ -64,15 +97,21 @@
       $(function() {
         var rect = document.getElementById("seekbar").getBoundingClientRect();
         $(".handlebar").draggable({ axis: "x", containment: "parent"});
-        $("#sectionStart").css({"position": "absolute", "left": "" + (rect.left-3)});
-        $("#sectionEnd").css({"position": "absolute", "left": "" + (rect.right-3)});
+        $("#sectionStart").css({"position": "relative", "left": 0});
+        $("#sectionEnd").css({"position": "relative", "left": rect.right-rect.left-20});
         $(".handlebar").on("drag", function(event, ui) {
           var width = $("#seekbar").width();
           var fractionalPosition = ui.position.left / width;
+          if ($(this).attr("id") == "sectionEnd") {
+            secEnd = fractionalPosition;
+          } else {
+            secStart = fractionalPosition;
+          }
         });
       });
 
       $("#seekbar").mousedown(function(event) {
+        $("#indicator").stop();
         var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
         //Adjust to 0 if negative to avoid glitches:
         if(clickedPosX_centered < 0) {
@@ -113,9 +152,25 @@
         volumeIndicator.triggerHandler(event);
       });
 
+      $(document).on('click', "#loop", function(evt)
+      {
+        loop = !loop;
+      });
+
+      $(document).on('click', "#replay", function(evt)
+      {
+        $("#indicator").stop();
+        playIndicator();
+      });
+
       $(document).on('click', "#play", function(evt)
       {
-        console.log("play:")
+        if (loop) {
+          playIndicator();
+          console.log("repeat");
+        } else {
+          playIndicator();
+        }
       });
     });
     </script>
@@ -152,8 +207,8 @@
       <div class="btn-group" id="toolbar">
         <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.svg')"/>
 
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/replay.svg')"/>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="replay" style="background-image:url('images/replay.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')"/>
 
         <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
