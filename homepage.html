@@ -2,7 +2,7 @@
     <title>Dansr</title>
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
 
-    <link rel="stylesheet" href="mainLayout.css">
+    <link rel="stylesheet" href="homepageLayout.css">
     <link rel='shortcut icon' href='images/dicon.ico'/>
 
 
@@ -23,6 +23,10 @@
         "nature",
         ];
 
+        $( ".menu" ).hide();
+        $("#hamburger").click(function() {
+            $( ".menu" ).slideToggle("slow");
+        });
         $( "#codeSearch" ).autocomplete({
           source: availableCodes
         });
@@ -46,7 +50,19 @@
 <body>
 
     <div class="row" id="top">
+    <div id="hamburgerMenu">
+        <button id="hamburger">
+          <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
+        </button>
 
+      <div id="options" class="menu">
+        <ul>
+            <a href="#"><li> <img src="http://www.clipartkid.com/images/158/clipartbest-com-7TO9x9-clipart.png" width="20px" height="20px"> Create New Dance</li></a>
+            <a href="#"><li> <img src="http://mattvanderpol.com/images/star_selected.png" width="20px" height="20px"> Favorites</li></a>
+            <a href="#"><li> <img src="https://thetomatos.com/wp-content/uploads/2016/12/symbol-hourglass-clipart.png" width="15px" height="20px"> History</li></a>
+        </ul>
+      </div>
+    </div>
         <!--For now, this buton links directly to the choreographer interface-->
         <button class="btn" id="newDance" onclick="location.href='choreo.html'">
             <img src="http://www.clipartkid.com/images/158/clipartbest-com-7TO9x9-clipart.png" width="15px" height="15px">
@@ -66,5 +82,4 @@
           <button id="codeSubmit">Submit</button>
         </div>
     </div>
-
 </body>
