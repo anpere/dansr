@@ -11,7 +11,6 @@ body {
 .tool-icon {
     height: 42;
     width: 50 !important;
-    //margin: 0 auto;
     position:relative;
     display:inline-block;
     float:left;
@@ -46,8 +45,8 @@ body {
 .btn-primary:focus, .btn-primary:active, .btn-primary.active {
     background-position: center;
     background-repeat: no-repeat;
-    background-color:gray;
-    border-color: white;
+    background-color:lightgray;
+    border-color: lightgray;
     //background-size: contain;
     //background-color: #0F0;
     //border-color: rgba(100,255,125,0);
@@ -137,7 +136,7 @@ input#codeSearch {
 #video{
     display: flex;
     border-style: solid;
-    height: 75%;
+    height: 70%;
     width: 75%;
     max-width: 640px;
     max-height: 480px;
@@ -206,3 +205,4 @@ video{
   outline:none;
   z-index:10000000000000;
 }
+
