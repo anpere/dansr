@@ -51,7 +51,10 @@ body {
     //background-color: #0F0;
     //border-color: rgba(100,255,125,0);
 }
-
+#logo {
+	width: 300px;
+	height: 100px;
+}
 #toolbar {
     width: 75%;
     display: flex;
