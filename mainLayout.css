@@ -69,6 +69,7 @@ input#codeSearch {
     max-width: 640px;
     border: 1px solid black;
     margin: 0 auto;
+    position: relative;
 }
 
 #volumeBar {
@@ -89,6 +90,7 @@ input#codeSearch {
     height: 33px;
     width: 6px;
     align-self: flex-end;
+    z-index: 5;
 }
 
 .handlebar {
@@ -96,6 +98,7 @@ input#codeSearch {
     height: 33px;
     width: 6px;
     align-self: flex-end;
+    z-index: 6;
 }
 
 
@@ -136,5 +139,42 @@ input#codeSearch {
 #watchDance{
 	position:absolute;
 	right:0;
+}
+
+.section {
+    z-index: 1;
+    height: 100%;
+}
+
+#sections {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: inline-flex;
+}
+
+#section1 {
+    width: 15%;
+    position: relative;
+    top: 0px;
+    left: 50px;
+    background-color: #b067c6;
+}
+
+#section2 {
+    width: 25%;
+    position: relative;
+    top: 0px;
+    left: 100px;
+    background-color: #b1d83c;
+}
+
+
+#section3 {
+    width: 5%;
+    position: relative;
+    top: 0px;
+    left: 200px;
+    background-color: #dba55e;
 }
 

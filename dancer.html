@@ -23,26 +23,29 @@
 
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
+      var handleStart = document.getElementById("sectionStart").getBoundingClientRect();
+      var handleEnd = document.getElementById("sectionEnd").getBoundingClientRect();
+
       if (secStart >= secEnd) {
         console.log("play with handles reversed: " + secEnd + "-" + secStart);
         if (!pause) {
           $("#indicator").css({
-            "left": $("#sectionEnd").position().left-rect.left-5
+            "left": handleEnd.left-rect.left-5
           });
         }
         $("#indicator").animate({
-          "left": $("#sectionStart").position().left-rect.left-5
+          "left": handleStart.left-rect.left-5
         }, (secStart-secEnd)*30000, "linear");
 
       } else {
-        console.log("play: " + secStart + "-" + secEnd);
+        console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
         if (!pause) {
           $("#indicator").css({
-            "left": $("#sectionStart").position().left-rect.left-5
+            "left": handleStart.left-rect.left-5
           });
         }
         $("#indicator").animate({
-          "left": $("#sectionEnd").position().left-rect.left-5
+          "left": handleEnd.left-rect.left-5
         }, (secEnd-secStart)*30000, "linear");
       }
       setTimeout(function() {
@@ -197,6 +200,12 @@
       }
     });
 
+    $(document).on('dblclick', ".section", function(evt) {
+      console.log($(this).width());
+      $("#sectionStart").css({"position": "relative", "left": $(this).position().left});
+      $("#sectionEnd").css({"position": "relative", "left": $(this).position().left + $(this).width() - 20});
+    })
+
   });
 
     </script>
@@ -229,10 +238,17 @@ Your browser does not support the video tag.
     </div>
 
       <div id ="seekbar">
+        <div id="sections">
+          <div id="section1" class="section"></div>
+          <div id="section2" class="section"></div>
+          <div id="section3" class="section"></div>
+        </div>
          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar"></div>
          <div id="indicator" class="ui-draggable ui-draggable-handle"></div>
          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar"></div>
       </div>
+
+      
 
       <div class="btn-group" id="toolbar">
         <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')"/>
