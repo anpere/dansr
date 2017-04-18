@@ -115,9 +115,12 @@
           var width = $("#seekbar").width();
           var fractionalPosition = ui.position.left / width;
           if ($(this).attr("id") == "sectionEnd") {
+            var handle = document.getElementById("sectionEnd").getBoundingClientRect();
             secEnd = fractionalPosition;
+            $("#grayRight").css({"left": ui.position.left+20, "width": rect.right-handle.left-10});
           } else {
             secStart = fractionalPosition;
+            $("#grayLeft").css({"width": ui.position.left});
           }
         });
       });
@@ -201,12 +204,16 @@
     });
 
     $(document).on('dblclick', ".section", function(evt) {
+      var rect = document.getElementById("seekbar").getBoundingClientRect();
       var left = $(this).position().left;
-      var right = $(this).position().left + $(this).width() - 20;
-      $("#sectionStart").css({"position": "relative", "left": $(this).position().left});
-      $("#sectionEnd").css({"position": "relative", "left": $(this).position().left + $(this).width() - 20});
+      var right = left + $(this).width() - 20;
+      $("#sectionStart").css({"position": "relative", "left": left});
+      $("#sectionEnd").css({"position": "relative", "left": left + $(this).width() - 20});
+      var handle = document.getElementById("sectionEnd").getBoundingClientRect();
       secEnd = right / $("#seekbar").width();
       secStart = left / $("#seekbar").width();
+      $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
+      $("#grayLeft").css({"width": left});
     })
 
   });
@@ -246,9 +253,15 @@ Your browser does not support the video tag.
           <div id="section2" class="section"></div>
           <div id="section3" class="section"></div>
         </div>
-         <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar"></div>
+         <div id="grayLeft" class="grey"></div>
+         <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
+           <img src="images/handlebarRight.svg">
+         </div>
          <div id="indicator" class="ui-draggable ui-draggable-handle"></div>
-         <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar"></div>
+         <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
+            <img src="images/handlebarLeft.svg">
+         </div>
+         <div id="grayRight" class="grey"></div>
       </div>
 
       
