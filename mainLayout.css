@@ -10,11 +10,12 @@ body {
 
 .tool-icon {
     height: 42;
-    width: 42;
-    margin: 0 auto;
-    position:relative;display:inline-block;float:left;
-
-
+    width: 50 !important;
+    //margin: 0 auto;
+    position:relative;
+    display:inline-block;
+    float:left;
+    margin-right:2 !important;
 }
 
 .btn-primary {
@@ -26,17 +27,25 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     background-color: lightgray;
-    border-color: white;
 		height: 42;
     //background-color: rgba(100,210,125,0);
     //border-color: rgba(100,210,125,0);
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
-    //color: #fff;
+.btn-primary:hover{
+    background-color:lightgray;
+    outline: none;
+    border-color: white;
+
+}
+
+
+
+.btn-primary:focus, .btn-primary:active, .btn-primary.active {
     background-position: center;
     background-repeat: no-repeat;
     background-color:gray;
+    border-color: white;
     //background-size: contain;
     //background-color: #0F0;
     //border-color: rgba(100,255,125,0);
@@ -58,7 +67,14 @@ body {
   display: flex;
   overflow: hidden;
   height: 8%;
-  max-height: 25px;
+  max-height: 28px;
+  align-self:center;
+  width: 75%;
+  max-width: 640px;
+  max-height: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  position:relative;
 }
 
 div#searchWidget {
@@ -69,9 +85,9 @@ div#searchWidget {
 }
 
 input#codeSearch {
-    margin-left: 25px;
     width: 100%;
     font-size: 1.25em;
+
 }
 
 #searchWidget button {
@@ -100,7 +116,7 @@ input#codeSearch {
 	width:75%;
     position:relative;
     background-color:lightgray;
-    height:41;
+    height:42;
 }
 #indicator {
     background: #FF0000;
@@ -124,7 +140,7 @@ input#codeSearch {
     max-width: 640px;
     max-height: 480px;
     align-self: center;
-    margin-top: 2%;
+    margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
 	position:relative;
@@ -158,10 +174,10 @@ video{
 
 #speed{
     width:60;
-    margin-left:10;
+    margin-left:5;
     margin-top:2;
-    margin-right:10;
+    margin-right:0;
 }
 #speedLabel{
-    margin-left:10;
+    margin-left:0;
 }
