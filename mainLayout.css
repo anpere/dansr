@@ -65,20 +65,25 @@ input#codeSearch {
 
 #seekbar {
     display: flex;
-    height: 30px;
     width: 75%;
+    max-width: 640px;
     border: 1px solid black;
     margin: 0 auto;
 }
 
 #volumeBar {
     display: flex;
-    height: 30px;
     width: 75%;
+    max-width: 100px;
     border: 1px solid black;
     margin: 0 auto;
 }
 
+#toolbar {
+	display: flex;
+	max-width:640px;
+	width:75%;
+}
 #indicator {
     background: #FF0000;
     height: 33px;
@@ -104,4 +109,23 @@ input#codeSearch {
     margin-top: 2%;
     margin-left: auto;
     margin-right: auto;
+	position:relative;
+}
+
+#choreoTools{
+	position:absolute;
+	bottom:0;
+	right:0;
+}
+
+#top{
+	position:relative;
+}
+#editDance{
+	position:absolute;
+	right:0;
+}
+#watchDance{
+	position:absolute;
+	right:0;
 }

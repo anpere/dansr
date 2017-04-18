@@ -74,6 +74,24 @@
     {
       console.log("play:")
     });
+
+    /*choreo button handlers*/
+    $(document).on('click', "#addSection", function (evt) {
+
+    });
+
+    $(document).on('click', "#addMetronome", function (evt) {
+
+    });
+
+    $(document).on('click', "#undo", function (evt) {
+
+    });
+
+    $(document).on('click', "#trash", function (evt) {
+
+    });
+
     </script>
 </head>
 
@@ -82,6 +100,8 @@
     <!-- <h1> This is an awesome Dancer interface</h1> -->
     <div id ="top">
         <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
+        <a href="homepage.html" id="logo">Dancer</a>
+        <a href="dancer.html" id="watchDance">Watch Dance</a>
     </div>
 
     <div id ="search">
@@ -94,7 +114,13 @@
     
     <div id="content" style="width:80%; margin: 0 auto">
     <div id="video">
+        <div class="btn-group" id="choreoTools">
+            <button type="button" class="btn btn-primary tool-icon" id="addSection" style="background-image:url('images/plus.svg')"/>
+            <button type="button" class="btn btn-primary tool-icon" id="addMetronome" style="background-image:url('images/play.png')"/>
+            <button type="button" class="btn btn-primary tool-icon" id="undo" style="background-image:url('images/undo.svg')"/>
+            <button type="button" class="btn btn-primary tool-icon" id="trash" style="background-image:url('images/trash.svg')"/>
 
+        </div>
     </div>
 
       <div id ="seekbar">
@@ -102,16 +128,23 @@
       </div>
       
       <div class="btn-group" id="toolbar">
-        <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.png')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.svg')"/>
 
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/go.png')"/>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.png')"/>
-        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.png')"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/replay.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')"/>
 
         <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
         <button type="button" class="btn btn-primary tool-icon" id="speed">1.0</button>
-        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.png')"/>
+        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/gear.png')"/>
+        <!-- TODO(AP) make not a button, but still look nice --->
+        <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')">	</button>
+        <div id ="volumeBar">
+          <div id="volumeIndicator" class="ui-draggable ui-draggable-handle" style="zIndex:3;"></div>
+        </div>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/fullscreen.svg')"/>
+
       </div>
     </div>
 
