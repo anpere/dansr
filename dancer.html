@@ -15,7 +15,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-    $(document).ready(function() {
+
+    var isPlaying = false;
+      $(document).ready(function() {
 
       //Initialize auto-complete
       var availableCodes = [
@@ -24,6 +26,8 @@
         "nature",
       ];
 
+
+      // TODO(ap) get rid of global variable
       $( "#codeSearch" ).autocomplete({
           source: availableCodes
       });
@@ -113,11 +117,27 @@
         volumeIndicator.triggerHandler(event);
       });
 
-      $(document).on('click', "#play", function(evt)
-      {
+    $(document).on('click', "#playPause", function(evt)
+    {
+      var button  = document.getElementById("playPause") // maybe this instead?
+      if (!isPlaying){
         console.log("play:")
-      });
+        var video = document.getElementById("videoBox");
+        video.play();
+        isPlaying = true;
+        // set button to pause
+        button.setAttribute("style", "background-image:url('images/pause.svg')")
+      } else {
+        console.log("pause:")
+        var video = document.getElementById("videoBox");
+        video.pause();
+        // set button to play
+        button.setAttribute("style", "background-image:url('images/play.svg')")
+        isPlaying = false;
+
+      }
     });
+
     </script>
 </head>
 
@@ -140,7 +160,11 @@
 
     <div id="content" style="width:80%; margin: 0 auto">
     <div id="video">
-
+      <!-- https://www.w3schools.com/html/html5_video.asp -->
+      <video id="videoBox">
+  <source src="images/Exercise1949_512kb.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
     </div>
 
       <div id ="seekbar">
@@ -148,9 +172,9 @@
 	       <div id="indicator" class="ui-draggable ui-draggable-handle"></div>
          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar"></div>
       </div>
-
-      <div id="toolbar">
-        <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.svg')"/>
+      
+      <div class="btn-group" id="toolbar">
+        <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')"/>
 
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')"/>
