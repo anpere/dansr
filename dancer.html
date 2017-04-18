@@ -201,9 +201,12 @@
     });
 
     $(document).on('dblclick', ".section", function(evt) {
-      console.log($(this).width());
+      var left = $(this).position().left;
+      var right = $(this).position().left + $(this).width() - 20;
       $("#sectionStart").css({"position": "relative", "left": $(this).position().left});
       $("#sectionEnd").css({"position": "relative", "left": $(this).position().left + $(this).width() - 20});
+      secEnd = right / $("#seekbar").width();
+      secStart = left / $("#seekbar").width();
     })
 
   });
