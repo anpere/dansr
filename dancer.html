@@ -15,6 +15,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
+
     var isPlaying = false;
       $(document).ready(function() {
 
@@ -57,21 +58,38 @@
         });
       });
 
+      //Draggable Handlebars
+      
+
+      $(".handlebar").mousedown(function(event) {
+        event.stopPropagation();
+      });
+
+      $(function() {
+        var rect = document.getElementById("seekbar").getBoundingClientRect();
+        $(".handlebar").draggable({ axis: "x", containment: "parent"});
+        $("#sectionStart").css({"position": "absolute", "left": "" + (rect.left-3)});
+        $("#sectionEnd").css({"position": "absolute", "left": "" + (rect.right-3)});
+        $(".handlebar").on("drag", function(event, ui) {
+          var width = $("#seekbar").width();
+          var fractionalPosition = ui.position.left / width;
+        });
+      });
+
       $("#seekbar").mousedown(function(event) {
-      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
-      //Adjust to 0 if negative to avoid glitches:
-      if(clickedPosX_centered < 0) {
-	clickedPosX_centered = 0;
-      }
-      $("#indicator").css({ position: 'relative',
-                            left: clickedPosX_centered });
+        var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
+        //Adjust to 0 if negative to avoid glitches:
+        if(clickedPosX_centered < 0) {
+  	     clickedPosX_centered = 0;
+        }
+        $("#indicator").css({ position: 'relative',
+          left: clickedPosX_centered });
 
-      var indicator = $("#indicator");
+        var indicator = $("#indicator");
 
-      indicator.triggerHandler(event);
+        indicator.triggerHandler(event);
 
-      });
-      });
+        });
 
       //Valume control
       //Draggable volumeIndicator:
@@ -86,18 +104,17 @@
       });
 
       $("#volumeBar").mousedown(function(event) {
-      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
-      //Adjust to 0 if negative to avoid glitches:
-      if(clickedPosX_centered < 0) {
-  clickedPosX_centered = 0;
-      }
-      $("#volumeIndicator").css({ position: 'relative',
-                            left: clickedPosX_centered });
+        var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
+        //Adjust to 0 if negative to avoid glitches:
+        if(clickedPosX_centered < 0) {
+          clickedPosX_centered = 0;
+        }
+        $("#volumeIndicator").css({ position: 'relative',
+                              left: clickedPosX_centered });
 
-      var volumeIndicator = $("#volumeIndicator");
+        var volumeIndicator = $("#volumeIndicator");
 
-      volumeIndicator.triggerHandler(event);
-
+        volumeIndicator.triggerHandler(event);
       });
 
     $(document).on('click', "#playPause", function(evt)
@@ -119,7 +136,6 @@
         isPlaying = false;
 
       }
-
     });
 
     </script>
@@ -152,22 +168,28 @@ Your browser does not support the video tag.
     </div>
 
       <div id ="seekbar">
-	<div id="indicator" class="ui-draggable ui-draggable-handle"></div>
+         <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar"></div>
+	       <div id="indicator" class="ui-draggable ui-draggable-handle"></div>
+         <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar"></div>
       </div>
-
+      
       <div class="btn-group" id="toolbar">
         <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')"/>
 
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/replay.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')"/>
-        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')"/>
-
+        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')">
+        </button>
         <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
-        <button type="button" class="btn btn-primary tool-icon" id="speed">1.0</button>
+        <div id="speed">
+          <input type="text" class="form-control" id="speed">
+        </div>
         <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/gear.png')"/>
+
         <!-- TODO(AP) make not a button, but still look nice --->
         <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')">	</button>
+
         <div id ="volumeBar">
           <div id="volumeIndicator" class="ui-draggable ui-draggable-handle" style="zIndex:3;"></div>
         </div>
