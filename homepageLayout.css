@@ -13,7 +13,9 @@ img {
 	left: 0px;
 }
 
-
+#top {
+    position:relative;
+}
 #title{
 	text-align: center;
 	vertical-align: middle;
@@ -51,11 +53,10 @@ label {
 	right: 10px;
 	text-align: center;
 	vertical-align: middle;
-	padding: 6px;
 }
 
-#newDance h3 {
-	padding: 0px;
+#newDanceText {
+	padding-top: 4px;
 	margin: 0px;
 }
 
@@ -82,8 +83,8 @@ input#codeSearch {
 #hamburger {
   background:none;
   position:absolute;
-  top: 0;
-  left: 0;
+  top: 10;
+  left: 10;
   line-height:45px;
   padding:5px 15px 0px 5px;
   color:#999;
