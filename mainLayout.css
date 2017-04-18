@@ -12,31 +12,41 @@ body {
     height: 42;
     width: 42;
     margin: 0 auto;
+    position:relative;display:inline-block;float:left;
+
+
 }
 
 .btn-primary {
+    margin-right:0;
+    margin-left:0;
+    border-radius:0;
     color: #fff;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    background-color: rgba(100,210,125,0);
-    border-color: rgba(100,210,125,0);
+
+
+
+    //background-color: rgba(100,210,125,0);
+    //border-color: rgba(100,210,125,0);
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
-    color: #fff;
+    //color: #fff;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
-    background-color: #0F0;
-    border-color: rgba(100,255,125,0);
+    //background-size: contain;
+    //background-color: #0F0;
+    //border-color: rgba(100,255,125,0);
 }
 
 #toolbar {
     width: 75%;
     display: flex;
     margin: 0 auto;
-    background-color: rgba(75,205,100, .75)
+    background-color: rgba(75,205,100, .75);
+    position:fixed;
 }
 
 #search {
@@ -83,6 +93,7 @@ input#codeSearch {
 	display: flex;
 	max-width:640px;
 	width:75%;
+    position:relative;
 }
 #indicator {
     background: #FF0000;
@@ -128,4 +139,10 @@ input#codeSearch {
 #watchDance{
 	position:absolute;
 	right:0;
+}
+
+#speed{
+    position:relative;display:inline-block;float:left;
+    margin-top:0;
+    border-radius:0;
 }

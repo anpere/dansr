@@ -149,15 +149,17 @@
          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar"></div>
       </div>
 
-      <div class="btn-group" id="toolbar">
+      <div id="toolbar">
         <button type="button" class="btn btn-primary tool-icon" id="play" style="background-image:url('images/play.svg')"/>
 
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/replay.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')"/>
-        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')"/>
-
+        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')">
+        </button>
         <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
-        <button type="button" class="btn btn-primary tool-icon" id="speed">1.0</button>
+        <div id="speed">
+          <input type="text" class="form-control" id="speed">
+        </div>
         <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/gear.png')"/>
 
