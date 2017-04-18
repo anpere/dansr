@@ -1,18 +1,20 @@
 <head>
     <title>Dansr</title>
-    <link rel="stylesheet" href="homepageLayout.css">
-    
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    
-    <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+
+    <link rel="stylesheet" href="mainLayout.css">
+    <link rel='shortcut icon' href='images/dicon.ico'/>
+
+
+	<!-- jQuery and jQueryUI -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--this is bootstrap if you want it-->
-    
     <script>
     $(document).ready(function() {
-
+    });
 
         //Initialize auto-complete
         var availableCodes = [
@@ -21,43 +23,39 @@
         "nature",
         ];
 
-        
-
         $( "#codeSearch" ).autocomplete({
           source: availableCodes
         });
 
         $('#codeSubmit').click(function() {
-            //TODO: Prevent multiple entries from being added
+          //TODO: Prevent multiple entries from being added
+          //Add entered code to auto-complete list:
+          availableCodes.push($('#codeSearch').val());
 
-            //Add entered code to auto-complete list:
-            availableCodes.push($('#codeSearch').val());
-
-            //$( "#codeSearch" ).val(""); //Uncomment to clear text field
-
-            $( "#codeSearch" ).autocomplete({
-                source: availableCodes
-            });
+          //$( "#codeSearch" ).val(""); //Uncomment to clear text field
+        });
+        $( "#codeSearch" ).autocomplete({
+          source: availableCodes
         });
 
-    });
     </script>
-    
+
+
 </head>
 
 <body>
 
     <div class="row" id="top">
-        
+
         <!--For now, this buton links directly to the choreographer interface-->
         <button class="btn" id="newDance" onclick="location.href='choreo.html'">
             <img src="http://www.clipartkid.com/images/158/clipartbest-com-7TO9x9-clipart.png" width="15px" height="15px">
             <h3> Create New Dance </h3>
         </button>
-    </div>
-    
+  </div>
+
     <div class="row" id="title">
-        <img id="logo" src="http://images.clipartpanda.com/recital-clipart-9c4no6KcE.jpeg" width="200px" height="150px"> 
+        <img id="logo" src="http://images.clipartpanda.com/recital-clipart-9c4no6KcE.jpeg" width="200px" height="150px">
         <h1> Dansr </h1>
     </div>
 

@@ -13,9 +13,7 @@ img {
 	left: 0px;
 }
 
-.btn h3 {
-	font-size: 18px;
-}
+
 
 #title{
 	text-align: center;
@@ -81,6 +79,3 @@ input#codeSearch {
 #searchWidget button {
     background: rgba(75,205,100,0.5)
 }
-
-
-
