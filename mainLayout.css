@@ -153,6 +153,14 @@ input#codeSearch {
 	right:0;
 }
 
+video{
+	height: 75%;
+	width: 75%;
+	max-width: 640px;
+	max-height: 480px;
+}
+
+
 #speed{
     width:60;
     margin-left:5;
@@ -162,5 +170,4 @@ input#codeSearch {
 #speedLabel{
     margin-left:0;
 }
-
 
