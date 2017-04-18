@@ -96,6 +96,11 @@
     $(document).on('click', '#addComment', function (evt){
       console.log("addComment: ")
     })
+    $(document).on('mouseup', '#addComment', function (evt){
+      console.log("addComment:");
+      // make button look not pressed when user releases button
+       $(this).blur();
+    })
 
     </script>
 </head>
