@@ -24,6 +24,14 @@
     var isPlaying = false;
     var isMetronomeOn = false;
 
+    var SECOND_CONVERTER = 1;
+    // function that plays the video starting at percentage
+    // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
+    // returns: null
+    loopVideoTo = function(percentage){
+      var video = document.getElementById("videoBox");
+      video.currentTime = (percentage/100) * video.duration;
+    }
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = document.getElementById("sectionStart").getBoundingClientRect();
