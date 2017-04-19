@@ -1,4 +1,4 @@
-<head>
+﻿<head>
     <title>Dansr</title>
     <!--this is bootstrap if you want it-->
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -21,7 +21,11 @@
         var isLoopOn = false;
 
       $(document).ready(function() {
-        //document.getElementById("countoffBar").value=0;
+          //document.getElementById("countoffBar").value=0;
+          countoff = this.value;
+
+          // set countoff display
+          document.getElementById("countoff").innerHTML = "&nbsp15s";
       });
       //Initialize auto-complete
       var availableCodes = [
@@ -126,14 +130,12 @@
     {
       var button  = document.getElementById("playPause") // maybe this instead?
       if (!isPlaying){
-        console.log("play:")
         var video = document.getElementById("videoBox");
         video.play();
         isPlaying = true;
         // set button to pause
         button.setAttribute("style", "background-image:url('images/pause.svg')")
       } else {
-        console.log("pause:")
         var video = document.getElementById("videoBox");
         video.pause();
         // set button to play
@@ -147,13 +149,12 @@
     var COUNTOFF_MAX=30;
     var countoff = 0;
     $(document).on('mousemove', "#countoffBar", function(evt){
-      // set countoff
-      console.log("countoffBar: ");
+        // set countoff
       countoff = this.value;
 
       // set countoff display
       document.getElementById("countoff").innerHTML = countoffToString();
-
+      
     })
 
     // returns the string representation of countoff which is just
@@ -164,8 +165,9 @@
 
       var toString = '&nbsp' + countoff + "s";
       if (countoff < 10){
-        toString += ' &#160'
+          toString = '&nbsp' + '   ' + countoff + "s";
       }
+
       return toString;
     }
     $( function() {
@@ -173,7 +175,6 @@
     } );
 
     $(document).on('click', '#metronome', function (evt) {
-      console.log("metronome:")
         metronomeButton = document.getElementById("metronome");
         if (isMetronomeOn) {
             isMetronomeOn = false;
@@ -252,9 +253,9 @@ Your browser does not support the video tag.
         <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
         </button>
 
-
                 <label id="countoffLabel">Countoff:</label>
-                <div  id="countoff" >&#160 15s</div>
+                <div id="countoff">&#160 15s</div>
+
 
         <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
 
