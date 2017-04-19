@@ -53,11 +53,18 @@ body {
 }
 
 #toolbar {
-    width: 75%;
+    width: 100%;
     display: flex;
     margin: 0 auto;
     position:fixed;
 }
+
+#countoffBar {
+	position: relative;
+	margin-top: 21px;
+	margin-left: -60px;
+}
+
 #addComment {
 	top: 415px;
 	margin-left:auto;
@@ -97,24 +104,14 @@ input#codeSearch {
 
 #seekbar {
     display: flex;
-    width: 75%;
-    max-width: 640px;
-    border: 1px solid black;
-    margin: 0 auto;
-}
-
-#volumeBar {
-    display: flex;
-    width: 75%;
-    max-width: 100px;
+    width: 100%;
     border: 1px solid black;
     margin: 0 auto;
 }
 
 #toolbar {
 	display: flex;
-	max-width:640px;
-	width:75%;
+	width:100%;
     position:relative;
     background-color:lightgray;
     height:42;
@@ -136,9 +133,9 @@ input#codeSearch {
 #video{
     display: flex;
     border-style: solid;
+    width: 100%;
     height: 70%;
-    width: 75%;
-    max-width: 640px;
+
     max-height: 480px;
     align-self: center;
     margin-top: 1%;
@@ -204,6 +201,14 @@ video{
   cursor:pointer;
   outline:none;
   z-index:10000000000000;
+}
+
+#countoffLabel{
+	margin-left:10;
+}
+
+#countoffbar{
+	margin-left:-110;
 }
 
 #editDance{
