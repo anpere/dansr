@@ -60,6 +60,11 @@ body {
     position:fixed;
 }
 
+#countoffBar {
+	position: relative;
+	margin-top: 21px;
+	margin-left: -60px;
+}
 
 #addComment {
 	top: 415px;

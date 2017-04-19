@@ -19,6 +19,7 @@
 
     var isPlaying = false;
       $(document).ready(function() {
+        //document.getElementById("countoffBar").value=0;
       });
       //Initialize auto-complete
       var availableCodes = [
@@ -139,7 +140,33 @@
 
       }
     });
+    // TODO put vars in correct place
+    var COUNTOFF_MIN=0;
+    var COUNTOFF_MAX=30;
+    var countoff = 0;
+    $(document).on('mousemove', "#countoffBar", function(evt){
+      // set countoff
+      console.log("countoffBar: " + this);
+      console.log(this.value);
+      countoff = this.value;
 
+      // set countoff display
+      document.getElementById("countoff").innerHTML = countoffToString();
+
+    })
+
+    // returns the string representation of countoff which is just
+    // " (number)s"
+    // note the preceding space
+    // length of string is padded to 4 characters with a space
+    countoffToString = function() {
+
+      var toString = '&nbsp' + countoff + "s";
+      if (countoff < 10){
+        toString += ' &#160'
+      }
+      return toString;
+    }
     $( function() {
       $( "#slider" ).slider();
     } );
@@ -203,10 +230,13 @@ Your browser does not support the video tag.
 
         <form>
             <div class="form-group form-inline">
-                <label for="speed" id="speedLabel">Countoff</label>
+              <!-- can't get whitespace to appear properly :/ -->
+                <label for="speed" id="speedLabel">Countoff:</label>
+                <div  id="countoff" >&#160 15s</div>
             </div>
         </form>
-        <div id="countOffSlider"></div>
+        <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
+
 
         <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')"/>
 
