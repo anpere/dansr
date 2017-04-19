@@ -14,12 +14,10 @@ img {
 #search {
 	text-align: center;
 	vertical-align: middle;
-
 	position: absolute;
-	top: 330px;
-	left: 225px;
-
+	top: 50%;
 	width: 100%;
+	margin-left:2;
 }
 
 label {
@@ -51,14 +49,15 @@ label {
 }
 div#searchWidget {
     display: inline-flex;
-    vertical-align: middle;
     flex-grow: 1; 
 }
 
 input#codeSearch {
-    margin-left: 10px;
-    width: 60%;
+	align-self:center;
     font-size: 1.5em;
+	margin-left:auto;
+	margin-right:auto;
+	width:50%
 }
 
 
@@ -144,3 +143,4 @@ input#codeSearch {
 	margin-left:auto;
 	margin-right:auto;
 }
+
