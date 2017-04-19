@@ -19,6 +19,7 @@
         var isPlaying = false;
         var isMetronomeOn = false;
         var isLoopOn = false;
+        var isMirrorOn = false;
 
       $(document).ready(function() {
           //document.getElementById("countoffBar").value=0;
@@ -196,6 +197,19 @@
             loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:#0275d8;border-color:#0275d8")
         }
     });
+
+
+    $(document).on('click', '#mirror', function (evt) {
+        mirrorButton = document.getElementById("mirror");
+        if (isMirrorOn) {
+            isMirrorOn = false;
+            mirrorButton.setAttribute("style", "background-image:url('images/flip.svg');background-color:lightgray;");
+        }
+        else {
+            isMirrorOn = true;
+            mirrorButton.setAttribute("style", "background-image:url('images/flip.svg');background-color:#0275d8;border-color:#0275d8")
+        }
+    });
     </script>
 </head>
 
@@ -260,6 +274,7 @@ Your browser does not support the video tag.
         <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
 
         <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
+        <button type="button" class="btn btn-primary tool-icon"  id="mirror" style="background-image:url('images/flip.svg')" data-toggle="tooltip" data-placement="bottom" title="Mirror Video" />
 
         <!-- TODO(AP) make not a button, but still look nice --->
         <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
