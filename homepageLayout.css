@@ -3,26 +3,12 @@ img {
 	display: inline;
 }
 
-#title h1 {
-	display: inline;
-	color: #4785e8;
-	font-size: 75px;
-
-	position: relative;
-	top: 30px;
-	left: 0px;
-}
 
 #top {
     position:relative;
 }
 #title{
-	text-align: center;
-	vertical-align: middle;
-	
-	position: absolute;
-	top: 150px;
-	left: 525px;
+	margin-top:10%;
 }
 
 #search {
@@ -50,7 +36,7 @@ label {
 	display: inline-flex;
 	position: absolute;
 	top: 10px;
-	right: 10px;
+	right: 25px;
 	text-align: center;
 	vertical-align: middle;
 }
@@ -84,7 +70,7 @@ input#codeSearch {
   background:none;
   position:absolute;
   top: 10;
-  left: 10;
+  left: 25;
   line-height:45px;
   padding:5px 15px 0px 5px;
   color:#999;
@@ -153,4 +139,8 @@ input#codeSearch {
 .menu a:hover{ 
 	text-decoration:none; 
 	color:#666;
+}
+#logo{
+	margin-left:auto;
+	margin-right:auto;
 }

@@ -206,3 +206,32 @@ video{
   z-index:10000000000000;
 }
 
+#editDance{
+	display: inline-flex;
+	position: absolute;
+	text-align: center;
+	vertical-align: middle;
+	padding-left:19px;
+	padding-bottom:12px;
+}
+
+#editDanceText {
+	padding-top: 4px;
+	margin: 0px;
+	padding-left:8px;
+}
+
+#watchDance{
+	display: inline-flex;
+	position: absolute;
+	text-align: center;
+	vertical-align: middle;
+	padding-left:19px;
+	padding-bottom:12px;
+}
+
+#watchDanceText {
+	padding-top: 4px;
+	margin: 0px;
+	padding-left:8px;
+}
