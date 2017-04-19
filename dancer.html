@@ -42,9 +42,8 @@
         console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
         if (!pause) {
           $("#indicator").css({
-            "left": handleStart.left-rect.left-5
-          });
-        }
+            "left": 0
+        });
         $("#indicator").animate({
           "left": handleEnd.left-rect.left-5
         }, (secEnd-secStart)*30000, "linear");
@@ -56,13 +55,14 @@
         }
       }, Math.abs(secStart-secEnd)*30000 + 50);
     }
+  }
       $(document).ready(function() {
           //document.getElementById("countoffBar").value=0;
           countoff = this.value;
 
           // set countoff display
           document.getElementById("countoff").innerHTML = "&nbsp15s";
-      });
+    
       //Initialize auto-complete
       var availableCodes = [
         "chicken",
@@ -116,13 +116,14 @@
         });
       });
       $("#seekbar").mousedown(function(event) {
+        console.log("click");
         $("#indicator").stop();
-        var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
+        var clickedPosX_centered = -1*($("#seekbar").width() - event.clientX);
         //Adjust to 0 if negative to avoid glitches:
         if(clickedPosX_centered < 0) {
          clickedPosX_centered = 0;
         }
-        $("#indicator").css({ position: 'relative',
+        $("#indicator").css({
           left: clickedPosX_centered });
         var indicator = $("#indicator");
         indicator.triggerHandler(event);
@@ -240,6 +241,8 @@
             loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:#0275d8;border-color:#0275d8")
         }
     });
+
+  });
     </script>
 </head>
 
