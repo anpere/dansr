@@ -5,7 +5,6 @@
 
     <link rel="stylesheet" href="mainLayout.css">
     <link rel='shortcut icon' href='images/dicon.ico'/>
-    <meta charset="UTF-8">
 
 
   <!-- jQuery and jQueryUI -->
@@ -16,18 +15,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-<<<<<<< HEAD
     var secEnd = 1;
     var secStart = 0;
     var loop = false;
     var pause = false;
     var isPlaying = false;
-
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = document.getElementById("sectionStart").getBoundingClientRect();
       var handleEnd = document.getElementById("sectionEnd").getBoundingClientRect();
-
       if (secStart >= secEnd) {
         console.log("play with handles reversed: " + secEnd + "-" + secStart);
         if (!pause) {
@@ -38,7 +34,6 @@
         $("#indicator").animate({
           "left": handleStart.left-rect.left-5
         }, (secStart-secEnd)*30000, "linear");
-
       } else {
         console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
         if (!pause) {
@@ -57,44 +52,28 @@
         } 
       }, Math.abs(secStart-secEnd)*30000 + 50);
     }
-
     
     $(document).ready(function() {
-=======
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
-
-    var isPlaying = false;
-      $(document).ready(function() {
-      });
       //Initialize auto-complete
       var availableCodes = [
         "chicken",
         "toffee",
         "nature",
       ];
-
-
       // TODO(ap) get rid of global variable
       $( "#codeSearch" ).autocomplete({
           source: availableCodes
       });
-
-      //TODO: change this to a function that is used when the user presses enter while focused on the textbox
       $('#codeSubmit').click(function() {
       //TODO: Prevent multiple entries from being added
-
         //Add entered code to auto-complete list:
         availableCodes.push($('#codeSearch').val());
-
         //$( "#codeSearch" ).val(""); //Uncomment to clear text field
-
         $( "#codeSearch" ).autocomplete({
             source: availableCodes
         });
-
         //TODO:  Advance to next screen after searching for dance code
       });
-
       //Draggable Indicator:
       $(function() {
         $("#indicator").draggable({ axis: "x", containment: "parent"});
@@ -102,18 +81,14 @@
           $("#indicator").stop();
           var width = $("#seekbar").width();
           var fractionalPosition = ui.position.left / width;
-
            //TODO: Trigger seek in video / audio
         });
       });
-
       //Draggable Handlebars
-
-
+      
       $(".handlebar").mousedown(function(event) {
         event.stopPropagation();
       });
-
       $(function() {
         var rect = document.getElementById("seekbar").getBoundingClientRect();
         $(".handlebar").draggable({ axis: "x", containment: "parent"});
@@ -132,7 +107,6 @@
           }
         });
       });
-
       $("#seekbar").mousedown(function(event) {
         $("#indicator").stop();
         var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
@@ -142,13 +116,9 @@
         }
         $("#indicator").css({ position: 'relative',
           left: clickedPosX_centered });
-
         var indicator = $("#indicator");
-
         indicator.triggerHandler(event);
-
         });
-
       //Valume control
       //Draggable volumeIndicator:
       $(function() {
@@ -156,11 +126,9 @@
         $("#volumeIndicator").on("drag", function(event, ui) {
           var width = $("#volumeBar").width();
           var fractionalPosition = ui.position.left / width;
-
            //TODO: Trigger seek in video / audio
         });
       });
-
       $("#volumeBar").mousedown(function(event) {
         var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
         //Adjust to 0 if negative to avoid glitches:
@@ -169,26 +137,18 @@
         }
         $("#volumeIndicator").css({ position: 'relative',
                               left: clickedPosX_centered });
-
         var volumeIndicator = $("#volumeIndicator");
-
         volumeIndicator.triggerHandler(event);
       });
-
-<<<<<<< HEAD
       $(document).on('click', "#loop", function(evt)
       {
         loop = !loop;
       });
-
       $(document).on('click', "#replay", function(evt)
       {
         $("#indicator").stop();
         playIndicator();
       });
-
-=======
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
     $(document).on('click', "#playPause", function(evt)
     {
       var button  = document.getElementById("playPause") // maybe this instead?
@@ -197,30 +157,21 @@
         var video = document.getElementById("videoBox");
         video.play();
         isPlaying = true;
-<<<<<<< HEAD
         playIndicator();
         pause = false;
-=======
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
         // set button to pause
         button.setAttribute("style", "background-image:url('images/pause.svg')")
       } else {
         console.log("pause:")
         var video = document.getElementById("videoBox");
         video.pause();
-<<<<<<< HEAD
         $("#indicator").stop();
         pause = true;
-=======
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
         // set button to play
         button.setAttribute("style", "background-image:url('images/play.svg')")
         isPlaying = false;
-
       }
-<<<<<<< HEAD
     });
-
     $(document).on('dblclick', ".section", function(evt) {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var left = $(this).position().left;
@@ -233,17 +184,7 @@
       $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
       $("#grayLeft").css({"width": left});
     })
-
   });
-
-=======
-    });
-    $(document).on('click', '#metronome', function(evt){
-      console.log("metronome:")
-
-    });
-
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
     </script>
 </head>
 
@@ -252,25 +193,16 @@
     <!-- <h1> This is an awesome Dancer interface</h1> -->
     <div id ="top">
         <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
-        <button id="hamburger">
-            <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
-        </button>
         <a href="homepage.html" id="logo">Dancer</a>
         <a href="choreo.html" id="editDance">Edit Dance</a>
     </div>
 
     <div id ="search">
-<<<<<<< HEAD
   <div class="ui-widget" id="searchWidget">
     <label for="codeSearch">Enter Code:</label>
     <input id="codeSearch" class="ui-autocomplete-input" >
     <button id="codeSubmit">Submit</button>
     </div>
-=======
-	<div class="ui-widget" id="searchWidget">
-	  <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-  	</div>
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
     </div>
 
     <div id="content" style="width:80%; margin: 0 auto">
@@ -290,11 +222,11 @@ Your browser does not support the video tag.
         </div>
          <div id="grayLeft" class="grey"></div>
          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
-           <img src="images/handlebarRight.svg">
+           <!-- <img src="images/handlebarRight.svg"> -->
          </div>
          <div id="indicator" class="ui-draggable ui-draggable-handle"></div>
          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
-            <img src="images/handlebarLeft.svg">
+            <!-- <img src="images/handlebarLeft.svg"> -->
          </div>
          <div id="grayRight" class="grey"></div>
       </div>
@@ -302,43 +234,24 @@ Your browser does not support the video tag.
       
 
       <div class="btn-group" id="toolbar">
-<<<<<<< HEAD
         <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')"/>
 
         <button type="button" class="btn btn-primary tool-icon" id="replay" style="background-image:url('images/replay.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')"/>
         <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')"/>
 
-=======
-        <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
-        </button>
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
         <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
-          <form>
-              <div class="form-group form-inline">
-                  <label for="speed" id="speedLabel">Speed</label>
-                  <input class="form-control" id="speed" placeholder="x1.0">
-              </div>
-          </form>
+        <button type="button" class="btn btn-primary tool-icon" id="speed">1.0</button>
+        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/gear.png')"/>
 
-        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')" data-toggle="tooltip" data-placement="bottom" title="Increase Speed"/>
-        <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
-
-<<<<<<< HEAD
         <!-- TODO(AP) make not a button, but still look nice -->
         <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')">  </button>
-=======
-        <!-- TODO(AP) make not a button, but still look nice --->
-        <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
 
         <div id ="volumeBar">
           <div id="volumeIndicator" class="ui-draggable ui-draggable-handle" style="zIndex:3;"></div>
         </div>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/fullscreen.svg')" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/fullscreen.svg')"/>
 
       </div>
     </div>

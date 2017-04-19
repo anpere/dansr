@@ -10,73 +10,40 @@ body {
 
 .tool-icon {
     height: 42;
-    width: 50 !important;
-    //margin: 0 auto;
-    position:relative;
-    display:inline-block;
-    float:left;
-    margin-right:2 !important;
+    width: 42;
+    margin: 0 auto;
 }
 
 .btn-primary {
-    margin-right:0;
-    margin-left:0;
-    border-radius:0;
     color: #fff;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    background-color: lightgray;
-	height: 42;
-	border-color:lightgray;
-    //background-color: rgba(100,210,125,0);
-    //border-color: rgba(100,210,125,0);
+    background-color: rgba(100,210,125,0);
+    border-color: rgba(100,210,125,0);
 }
 
-.btn-primary:hover{
-    background-color:lightgray;
-    outline: none;
-    border-color: lightgray;
-	cursor:pointer;
-
-}
-
-
-
-.btn-primary:focus, .btn-primary:active, .btn-primary.active {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+    color: #fff;
     background-position: center;
     background-repeat: no-repeat;
-    background-color:gray;
-    border-color: white;
-    //background-size: contain;
-    //background-color: #0F0;
-    //border-color: rgba(100,255,125,0);
+    background-size: contain;
+    background-color: #0F0;
+    border-color: rgba(100,255,125,0);
 }
 
 #toolbar {
     width: 75%;
     display: flex;
     margin: 0 auto;
-    position:fixed;
+    background-color: rgba(75,205,100, .75)
 }
-#addComment {
-	top: 415px;
-	margin-left:auto;
-	margin-right:auto;
-	position:relative;
-}
+
 #search {
   display: flex;
   overflow: hidden;
   height: 8%;
-  max-height: 28px;
-  align-self:center;
-  width: 75%;
-  max-width: 640px;
-  max-height: 480px;
-  margin-left: auto;
-  margin-right: auto;
-  position:relative;
+  max-height: 25px;
 }
 
 div#searchWidget {
@@ -87,9 +54,9 @@ div#searchWidget {
 }
 
 input#codeSearch {
+    margin-left: 25px;
     width: 100%;
     font-size: 1.25em;
-
 }
 
 #searchWidget button {
@@ -114,12 +81,9 @@ input#codeSearch {
 }
 
 #toolbar {
-	display: flex;
-	max-width:640px;
-	width:75%;
-    position:relative;
-    background-color:lightgray;
-    height:42;
+    display: flex;
+    max-width:640px;
+    width:75%;
 }
 #indicator {
     background: #FF0000;
@@ -153,31 +117,30 @@ input#codeSearch {
     max-width: 640px;
     max-height: 480px;
     align-self: center;
-    margin-top: 1%;
+    margin-top: 2%;
     margin-left: auto;
     margin-right: auto;
-	position:relative;
+    position:relative;
 }
 
 #choreoTools{
-	position:absolute;
-	bottom:0;
-	right:0;
+    position:absolute;
+    bottom:0;
+    right:0;
 }
 
 #top{
-	position:relative;
+    position:relative;
 }
 #editDance{
-	position:absolute;
-	right:0;
+    position:absolute;
+    right:0;
 }
 #watchDance{
-	position:absolute;
-	right:0;
+    position:absolute;
+    right:0;
 }
 
-<<<<<<< HEAD
 .section {
     z-index: 1;
     height: 100%;
@@ -223,46 +186,3 @@ input#codeSearch {
     z-index: 10;
     pointer-events: none;
 }
-
-=======
-video{
-	height: 75%;
-	width: 75%;
-	max-width: 640px;
-	max-height: 480px;
-}
-
-
-#speed{
-    width:60;
-    margin-left:5;
-    margin-top:2;
-    margin-right:0;
-}
-#speedLabel{
-    margin-left:0;
-}
-#addComment{
-	background-color: black;
-	opacity:0.5;
-}
-#addComment:hover{
-	background-color: gray !important;
-}
-
-#hamburger {
-  background:none;
-  position:relative;
-  top: 0;
-  left: 0;
-  line-height:45px;
-  padding:5px 15px 0px 5px;
-  color:#999;
-  border:0;
-  font-size:1.4em;
-  font-weight:bold;
-  cursor:pointer;
-  outline:none;
-  z-index:10000000000000;
-}
->>>>>>> 07d5e559b5183cd9aeb60356eed089d5b327c42f
