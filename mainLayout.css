@@ -202,3 +202,11 @@ video{
   outline:none;
   z-index:10000000000000;
 }
+
+#countoffLabel{
+	margin-left:10;
+}
+
+#countoffbar{
+	margin-left:-110;
+}
