@@ -47,6 +47,7 @@ label {
 #newDance img {
 	margin: 2px 5px 2px 2px;
 }
+
 div#searchWidget {
     display: inline-flex;
     flex-grow: 1; 
@@ -141,6 +142,7 @@ input#codeSearch {
 }
 #logo{
 	margin-left:auto;
-	margin-right:auto;
+	margin-right:auto; 
+	margin-top:20;
 }
 
