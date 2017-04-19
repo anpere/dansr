@@ -16,9 +16,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-        var isPlaying = false;
-        var isMetronomeOn = false;
-        var isLoopOn = false;
+    var secEnd = 1;
+    var secStart = 0;
+    var loop = false;
+    var isLoopOn = false;
+    var pause = false;
+    var isPlaying = false;
+    var isMetronomeOn = false;
+    var isLoopOn = false;
+    
 
       $(document).ready(function() {
           //document.getElementById("countoffBar").value=0;
@@ -26,7 +32,7 @@
 
           // set countoff display
           document.getElementById("countoff").innerHTML = "&nbsp15s";
-      });
+    
       //Initialize auto-complete
       var availableCodes = [
         "chicken",
@@ -197,13 +203,13 @@
         }
     });
 
-    $(document).on('click', '#left', function(evt) {
-      
-      var speed = document.getElementById("speed").value;
-      console.log(speed.length);
+
+    $(document).on('click', "#left", function(evt) {
+      var speed = $("#speed").val();
       if (speed.length < 1) {
         speed = 1.0;
       }
+      speed = parseFloat(speed);
       var newSpeed = speed - 0.1;
       if (newSpeed <= 0) {
         return;
@@ -211,9 +217,8 @@
       $("#speed").val(newSpeed.toFixed(1));
     });
 
-    $(document).on('click', '#right', function(evt) {
-      
-      var speed = document.getElementById("speed").value;
+    $(document).on('click', "#right", function(evt) {
+      var speed = $("#speed").val();
       if (speed.length < 1) {
         speed = 1.0;
       }
@@ -221,6 +226,15 @@
       var newSpeed = speed + 0.1;
       $("#speed").val(newSpeed.toFixed(1));
     });
+
+    $(document).on('keyup', "#speed", function(evt) {
+      var speed = $("#speed").val();
+      if (isNaN(speed)) {
+        $("#speed").val("1.0");
+      }
+    });
+
+  });
     </script>
 </head>
 
