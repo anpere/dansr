@@ -3,37 +3,21 @@ img {
 	display: inline;
 }
 
-#title h1 {
-	display: inline;
-	color: #4785e8;
-	font-size: 75px;
-
-	position: relative;
-	top: 30px;
-	left: 0px;
-}
 
 #top {
     position:relative;
 }
 #title{
-	text-align: center;
-	vertical-align: middle;
-	
-	position: absolute;
-	top: 150px;
-	left: 525px;
+	margin-top:10%;
 }
 
 #search {
 	text-align: center;
 	vertical-align: middle;
-
 	position: absolute;
-	top: 330px;
-	left: 225px;
-
+	top: 50%;
 	width: 100%;
+	margin-left:2;
 }
 
 label {
@@ -50,7 +34,7 @@ label {
 	display: inline-flex;
 	position: absolute;
 	top: 10px;
-	right: 10px;
+	right: 25px;
 	text-align: center;
 	vertical-align: middle;
 }
@@ -65,14 +49,15 @@ label {
 }
 div#searchWidget {
     display: inline-flex;
-    vertical-align: middle;
     flex-grow: 1; 
 }
 
 input#codeSearch {
-    margin-left: 10px;
-    width: 60%;
+	align-self:center;
     font-size: 1.5em;
+	margin-left:auto;
+	margin-right:auto;
+	width:50%
 }
 
 
@@ -84,7 +69,7 @@ input#codeSearch {
   background:none;
   position:absolute;
   top: 10;
-  left: 10;
+  left: 25;
   line-height:45px;
   padding:5px 15px 0px 5px;
   color:#999;
@@ -154,3 +139,8 @@ input#codeSearch {
 	text-decoration:none; 
 	color:#666;
 }
+#logo{
+	margin-left:auto;
+	margin-right:auto;
+}
+
