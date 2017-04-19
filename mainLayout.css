@@ -110,14 +110,6 @@ input#codeSearch {
     margin: 0 auto;
 }
 
-#volumeBar {
-    display: flex;
-    width: 75%;
-    max-width: 100px;
-    border: 1px solid black;
-    margin: 0 auto;
-}
-
 #toolbar {
 	display: flex;
 	width:100%;

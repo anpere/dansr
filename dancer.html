@@ -243,10 +243,8 @@ Your browser does not support the video tag.
         <!-- TODO(AP) make not a button, but still look nice --->
         <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')">	</button>
 
-        <div id ="volumeBar">
-          <div id="volumeIndicator" class="ui-draggable ui-draggable-handle" style="zIndex:3;"></div>
-        </div>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/fullscreen.svg')"/>
+        <input id ="volumeBar" type="range" min="0" max="100" step="1"></input>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/fullscreen.svg'); margin:0 auto"/>
 
       </div>
     </div>
