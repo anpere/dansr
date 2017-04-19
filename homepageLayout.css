@@ -13,8 +13,9 @@ img {
 	left: 0px;
 }
 
-
-
+#top {
+    position:relative;
+}
 #title{
 	text-align: center;
 	vertical-align: middle;
@@ -52,11 +53,10 @@ label {
 	right: 10px;
 	text-align: center;
 	vertical-align: middle;
-	padding: 6px;
 }
 
-#newDance h3 {
-	padding: 0px;
+#newDanceText {
+	padding-top: 4px;
 	margin: 0px;
 }
 
@@ -78,4 +78,79 @@ input#codeSearch {
 
 #searchWidget button {
     background: rgba(75,205,100,0.5)
+}
+
+#hamburger {
+  background:none;
+  position:absolute;
+  top: 10;
+  left: 10;
+  line-height:45px;
+  padding:5px 15px 0px 5px;
+  color:#999;
+  border:0;
+  font-size:1.4em;
+  font-weight:bold;
+  cursor:pointer;
+  outline:none;
+  z-index:10000000000000;
+}
+
+.menu {
+	z-index:1000000; 
+	font-weight:bold; 
+	width:13%; 
+	background:#f1f1f1;  
+	position:absolute; 
+	text-align:left; 
+	font-size:14px;
+
+	position: absolute;
+	top: 40px;
+	left: 0px;
+}
+
+.menu ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none; 
+	list-style-image: none;
+}
+
+.menu li {
+	display: block;   
+	padding: 7px 3px 5px 3px; 
+	border-bottom:#dddddd 1px solid;
+}
+
+.menu li:hover{
+	display: block;    
+	background: #9fc2f9; 
+	padding: 7px 3px 5px 3px; 
+	border-bottom:#dddddd 1px solid;
+}
+
+.menu ul li img {
+	margin: 5px;
+}
+.menu ul li a { 
+	text-decoration:none;  
+	margin: 0px; 
+	color:#666;
+}
+
+.menu ul li a:hover {  
+	color: #666; 
+	margin: 0px;
+	text-decoration:none;
+}
+
+.menu a{
+	text-decoration:none; 
+	color:#666;
+}
+
+.menu a:hover{ 
+	text-decoration:none; 
+	color:#666;
 }
