@@ -32,6 +32,13 @@
       var video = document.getElementById("videoBox");
       video.currentTime = (percentage/100) * video.duration;
     }
+    // sets the speed of the video
+    // speed: a positive floating point number that represents the speed of video
+    // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
+    setVideoSpeed = function(speed){
+      var video = document.getElementById("videoBox");
+      video.playbackRate = speed
+    }
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = document.getElementById("sectionStart").getBoundingClientRect();
