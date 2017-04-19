@@ -53,7 +53,7 @@
         console.log("here");
         if (loop) {
           playIndicator();
-        } 
+        }
       }, Math.abs(secStart-secEnd)*30000 + 50);
     }
       $(document).ready(function() {
@@ -94,15 +94,14 @@
         });
       });
       //Draggable Handlebars
-      
+
       $(".handlebar").mousedown(function(event) {
         event.stopPropagation();
       });
       $(function() {
         var rect = document.getElementById("seekbar").getBoundingClientRect();
         $(".handlebar").draggable({ axis: "x", containment: "parent"});
-        $("#sectionStart").css({"position": "relative", "left": 0});
-        $("#sectionEnd").css({"position": "relative", "left": rect.right-rect.left-20});
+
         $(".handlebar").on("drag", function(event, ui) {
           var width = $("#seekbar").width();
           var fractionalPosition = ui.position.left / width;
@@ -183,15 +182,12 @@
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var left = $(this).position().left;
       var right = left + $(this).width() - 20;
-      $("#sectionStart").css({"position": "relative", "left": left});
-      $("#sectionEnd").css({"position": "relative", "left": left + $(this).width() - 20});
       var handle = document.getElementById("sectionEnd").getBoundingClientRect();
       secEnd = right / $("#seekbar").width();
       secStart = left / $("#seekbar").width();
       $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
       $("#grayLeft").css({"width": left});
-    })
-  });
+    });
     // TODO put vars in correct place
     var COUNTOFF_MIN=0;
     var COUNTOFF_MAX=30;
@@ -202,7 +198,7 @@
 
       // set countoff display
       document.getElementById("countoff").innerHTML = countoffToString();
-      
+
     })
 
     // returns the string representation of countoff which is just
@@ -262,7 +258,7 @@
                 Edit Dance
             </div>
         </button>    </div>
-  
+
     <div id ="search">
   <div class="ui-widget" id="searchWidget">
     <label for="codeSearch">Enter Code:</label>
@@ -297,7 +293,7 @@ Your browser does not support the video tag.
          <div id="grayRight" class="grey"></div>
       </div>
 
-      
+
 
       <div class="btn-group" id="toolbar">
         <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
