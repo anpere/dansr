@@ -124,14 +124,12 @@
     {
       var button  = document.getElementById("playPause") // maybe this instead?
       if (!isPlaying){
-        console.log("play:")
         var video = document.getElementById("videoBox");
         video.play();
         isPlaying = true;
         // set button to pause
         button.setAttribute("style", "background-image:url('images/pause.svg')")
       } else {
-        console.log("pause:")
         var video = document.getElementById("videoBox");
         video.pause();
         // set button to play
@@ -146,8 +144,6 @@
     var countoff = 0;
     $(document).on('mousemove', "#countoffBar", function(evt){
       // set countoff
-      console.log("countoffBar: " + this);
-      console.log(this.value);
       countoff = this.value;
 
       // set countoff display
@@ -172,7 +168,6 @@
     } );
 
     $(document).on('click', '#metronome', function(evt){
-      console.log("metronome:")
 
     });
 
