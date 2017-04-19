@@ -126,12 +126,14 @@
     {
       var button  = document.getElementById("playPause") // maybe this instead?
       if (!isPlaying){
+        console.log("play:")
         var video = document.getElementById("videoBox");
         video.play();
         isPlaying = true;
         // set button to pause
         button.setAttribute("style", "background-image:url('images/pause.svg')")
       } else {
+        console.log("pause:")
         var video = document.getElementById("videoBox");
         video.pause();
         // set button to play
@@ -146,6 +148,7 @@
     var countoff = 0;
     $(document).on('mousemove', "#countoffBar", function(evt){
       // set countoff
+      console.log("countoffBar: ");
       countoff = this.value;
 
       // set countoff display
@@ -169,8 +172,8 @@
       $( "#slider" ).slider();
     } );
 
-
     $(document).on('click', '#metronome', function (evt) {
+      console.log("metronome:")
         metronomeButton = document.getElementById("metronome");
         if (isMetronomeOn) {
             isMetronomeOn = false;
@@ -205,7 +208,7 @@
         </button>
         <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
         <button class="btn" id="editDance" onclick="location.href='choreo.html'">
-            <img src="images/edit.svg"> 
+            <img src="images/edit.svg">
             <div id="editDanceText">
                 Edit Dance
             </div>
