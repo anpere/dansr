@@ -1,10 +1,11 @@
-<head>
+﻿<head>
     <title>Dansr</title>
     <!--this is bootstrap if you want it-->
     <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
 
     <link rel="stylesheet" href="mainLayout.css">
-    <link rel='shortcut icon' href='images/dicon.ico'/>
+    <link rel='shortcut icon' href='images/dfavicon.png'/>
+    <meta charset="UTF-8">
 
 
   <!-- jQuery and jQueryUI -->
@@ -18,8 +19,11 @@
     var secEnd = 1;
     var secStart = 0;
     var loop = false;
+    var isLoopOn = false;
     var pause = false;
     var isPlaying = false;
+    var isMetronomeOn = false;
+
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = document.getElementById("sectionStart").getBoundingClientRect();
@@ -52,8 +56,13 @@
         } 
       }, Math.abs(secStart-secEnd)*30000 + 50);
     }
-    
-    $(document).ready(function() {
+      $(document).ready(function() {
+          //document.getElementById("countoffBar").value=0;
+          countoff = this.value;
+
+          // set countoff display
+          document.getElementById("countoff").innerHTML = "&nbsp15s";
+      });
       //Initialize auto-complete
       var availableCodes = [
         "chicken",
@@ -153,7 +162,6 @@
     {
       var button  = document.getElementById("playPause") // maybe this instead?
       if (!isPlaying){
-        console.log("play:")
         var video = document.getElementById("videoBox");
         video.play();
         isPlaying = true;
@@ -162,7 +170,6 @@
         // set button to pause
         button.setAttribute("style", "background-image:url('images/pause.svg')")
       } else {
-        console.log("pause:")
         var video = document.getElementById("videoBox");
         video.pause();
         $("#indicator").stop();
@@ -185,6 +192,58 @@
       $("#grayLeft").css({"width": left});
     })
   });
+    // TODO put vars in correct place
+    var COUNTOFF_MIN=0;
+    var COUNTOFF_MAX=30;
+    var countoff = 0;
+    $(document).on('mousemove', "#countoffBar", function(evt){
+        // set countoff
+      countoff = this.value;
+
+      // set countoff display
+      document.getElementById("countoff").innerHTML = countoffToString();
+      
+    })
+
+    // returns the string representation of countoff which is just
+    // " (number)s"
+    // note the preceding space
+    // length of string is padded to 4 characters with a space
+    countoffToString = function() {
+
+      var toString = '&nbsp' + countoff + "s";
+      if (countoff < 10){
+          toString = '&nbsp' + '   ' + countoff + "s";
+      }
+
+      return toString;
+    }
+    $( function() {
+      $( "#slider" ).slider();
+    } );
+
+    $(document).on('click', '#metronome', function (evt) {
+        metronomeButton = document.getElementById("metronome");
+        if (isMetronomeOn) {
+            isMetronomeOn = false;
+            metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:lightgray;");
+        }
+        else {
+            isMetronomeOn = true;
+            metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:#0275d8;border-color:#0275d8")
+        }
+    });
+    $(document).on('click', '#loop', function (evt) {
+        loopButton = document.getElementById("loop");
+        if (isLoopOn) {
+            isLoopOn = false;
+            loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:lightgray;");
+        }
+        else {
+            isLoopOn = true;
+            loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:#0275d8;border-color:#0275d8")
+        }
+    });
     </script>
 </head>
 
@@ -193,10 +252,17 @@
     <!-- <h1> This is an awesome Dancer interface</h1> -->
     <div id ="top">
         <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
-        <a href="homepage.html" id="logo">Dancer</a>
-        <a href="choreo.html" id="editDance">Edit Dance</a>
-    </div>
-
+        <button id="hamburger">
+            <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
+        </button>
+        <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
+        <button class="btn" id="editDance" onclick="location.href='choreo.html'">
+            <img src="images/edit.svg">
+            <div id="editDanceText">
+                Edit Dance
+            </div>
+        </button>    </div>
+  
     <div id ="search">
   <div class="ui-widget" id="searchWidget">
     <label for="codeSearch">Enter Code:</label>
@@ -205,7 +271,7 @@
     </div>
     </div>
 
-    <div id="content" style="width:80%; margin: 0 auto">
+    <div id="content" style="max-width:999px; margin: 0 auto">
     <div id="video">
       <!-- https://www.w3schools.com/html/html5_video.asp -->
       <video id="videoBox">
@@ -234,24 +300,34 @@ Your browser does not support the video tag.
       
 
       <div class="btn-group" id="toolbar">
-        <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')"/>
-
-        <button type="button" class="btn btn-primary tool-icon" id="replay" style="background-image:url('images/replay.svg')"/>
-        <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')"/>
-        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')"/>
-
+        <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
+        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
+        <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
+        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
+        </button>
         <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
-        <button type="button" class="btn btn-primary tool-icon" id="speed">1.0</button>
-        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')"/>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/gear.png')"/>
+          <form>
+              <div class="form-group form-inline">
+                  <label for="speed" id="speedLabel">Speed</label>
+                  <input class="form-control" id="speed" placeholder="x1.0">
+              </div>
+          </form>
+        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
+        </button>
 
-        <!-- TODO(AP) make not a button, but still look nice -->
-        <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg')">  </button>
+                <label id="countoffLabel">Countoff:</label>
+                <div id="countoff">&#160 15s</div>
 
-        <div id ="volumeBar">
-          <div id="volumeIndicator" class="ui-draggable ui-draggable-handle" style="zIndex:3;"></div>
-        </div>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/fullscreen.svg')"/>
+
+        <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
+
+        <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
+
+        <!-- TODO(AP) make not a button, but still look nice --->
+        <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
+
+        <input id ="volumeBar" type="range" min="0" max="100" step="1" style="margin-right:auto;"></input>
+        <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
 
       </div>
     </div>

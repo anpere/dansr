@@ -10,8 +10,11 @@ body {
 
 .tool-icon {
     height: 42;
-    width: 42;
-    margin: 0 auto;
+    width: 60 !important;
+    position:relative;
+    display:inline-block;
+    float:left;
+	border-right-color:gray !important;
 }
 
 .btn-primary {
@@ -19,31 +22,64 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    background-color: rgba(100,210,125,0);
-    border-color: rgba(100,210,125,0);
+    background-color: lightgray;
+	height: 42;
+	border-color:lightgray;
+	border-width:0;
+    //background-color: rgba(100,210,125,0);
+    //border-color: rgba(100,210,125,0);
+}
+
+.btn-primary:hover{
+    background-color:lightgray;
+    outline: none;
+    border-color: lightgray;
+	cursor:pointer;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
     color: #fff;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
-    background-color: #0F0;
-    border-color: rgba(100,255,125,0);
+    background-color:lightgray;
+    border-color: lightgray;
+    //background-size: contain;
+    //background-color: #0F0;
+    //border-color: rgba(100,255,125,0);
 }
 
 #toolbar {
-    width: 75%;
+    width: 100%;
     display: flex;
     margin: 0 auto;
-    background-color: rgba(75,205,100, .75)
+    position:fixed;
+}
+
+#countoffBar {
+	position: relative;
+	margin-top: 21px;
+	margin-left: -60px;
+}
+
+#addComment {
+	top: 415px;
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
 }
 
 #search {
   display: flex;
   overflow: hidden;
-  height: 8%;
-  max-height: 25px;
+  height: 60;
+  max-height: 28px;
+  align-self:center;
+  width: 1000;
+  max-height: 480px;
+  margin-top:10;
+  margin-left: auto;
+  margin-right: auto;
+  position:relative;
 }
 
 div#searchWidget {
@@ -65,25 +101,17 @@ input#codeSearch {
 
 #seekbar {
     display: flex;
-    width: 75%;
-    max-width: 640px;
-    border: 1px solid black;
-    margin: 0 auto;
-    position: relative;
-}
-
-#volumeBar {
-    display: flex;
-    width: 75%;
-    max-width: 100px;
+    width: 100%;
     border: 1px solid black;
     margin: 0 auto;
 }
 
 #toolbar {
-    display: flex;
-    max-width:640px;
-    width:75%;
+	display: flex;
+	width:100%;
+    position:relative;
+    background-color:lightgray;
+    height:42;
 }
 #indicator {
     background: #FF0000;
@@ -112,9 +140,9 @@ input#codeSearch {
 #video{
     display: flex;
     border-style: solid;
-    height: 75%;
-    width: 75%;
-    max-width: 640px;
+    width: 100%;
+    height: 70%;
+
     max-height: 480px;
     align-self: center;
     margin-top: 2%;
@@ -185,4 +213,80 @@ input#codeSearch {
     opacity: 0.5;
     z-index: 10;
     pointer-events: none;
+}
+#hamburger {
+  background:none;
+  position:relative;
+  top: 0;
+  left: 0;
+  line-height:45px;
+  padding:5px 15px 0px 5px;
+  color:#999;
+  border:0;
+  font-size:1.4em;
+  font-weight:bold;
+  cursor:pointer;
+  outline:none;
+  z-index:10000000000000;
+}
+
+#countoffLabel{
+	margin-left:10;
+}
+
+#countoffbar{
+	margin-left:-110;
+}
+
+#editDance{
+	display: inline-flex;
+	position: absolute;
+	text-align: center;
+	vertical-align: middle;
+	padding-left:19px;
+	padding-bottom:12px;
+}
+
+#editDanceText {
+	padding-top: 4px;
+	margin: 0px;
+	padding-left:8px;
+}
+
+#watchDance{
+	display: inline-flex;
+	position: absolute;
+	text-align: center;
+	vertical-align: middle;
+	padding-left:19px;
+	padding-bottom:12px;
+}
+
+#watchDanceText {
+	padding-top: 4px;
+	margin: 0px;
+	padding-left:8px;
+}
+
+#right{
+	margin-right:20;
+	border-right-width:2;
+}
+
+
+#left{
+	border-left-width:2;
+	border-left-color:gray;
+}
+
+#metronome{
+	margin-left:20;
+	border-left-width:2;
+	border-left-color:gray;
+	border-right-width:2;
+}
+
+#fullscreen{
+	border-left-width:2;
+	border-left-color:gray;
 }
