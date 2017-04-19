@@ -182,6 +182,13 @@ input#codeSearch {
     height: 33px;
 }
 
+#speed {
+    width: 60;
+    margin-left: 5;
+    margin-top: 2;
+    margin-right: 0;
+}
+
 #sections {
     width: 100%;
     display: inline-flex;
