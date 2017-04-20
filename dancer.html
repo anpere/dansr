@@ -32,6 +32,7 @@
       var video = document.getElementById("videoBox");
       video.currentTime = (percentage/100) * video.duration;
     }
+
     // sets the speed of the video
     // speed: a positive  floating point number that represents the speed of video
     // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
@@ -40,6 +41,19 @@
       var video = document.getElementById("videoBox");
       video.playbackRate = speed
     }
+
+    getVideoDuration = function(speed){
+      var video = document.getElementById("videoBox");
+      return video.duration;
+    }
+
+    getVideoTime = function(){
+      return document.getElementById("videoBox").currentTime;
+    }
+    getSeekbarWidth = function(){
+      return $('#seekbar').width();
+    }
+
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = document.getElementById("sectionStart");
@@ -61,7 +75,7 @@
         }
         $("#indicator").animate({
           "left": handleStart.style.left
-        }, (secStart-secEnd)*30000*(1/speed), "linear");
+        }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
       } else {
         console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
         if (!pause) {
@@ -71,14 +85,14 @@
         }
         $("#indicator").animate({
           "left": handleEnd.style.left
-        }, (secEnd-secStart)*30000*(1/speed), "linear");
+        }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
       }
       setTimeout(function() {
         console.log("here");
         if (loop) {
           playIndicator();
         }
-      }, Math.abs(secStart-secEnd)*30000*(1/speed) + 50);
+      }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()) + 50);
     }
       $(document).ready(function() {
           //document.getElementById("countoffBar").value=0;
