@@ -116,7 +116,7 @@ input#codeSearch {
 #indicator {
     background: #FF0000;
     height: 33px;
-    width: 6px;
+    width: 0px;
     align-self: flex-end;
     z-index: 5;
     position: relative;
@@ -318,4 +318,11 @@ input#codeSearch {
 	height:70 !important;
 	margin-left: -35;
 	margin-top:-55;
+}
+
+#indicatorBar{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-22;
 }
