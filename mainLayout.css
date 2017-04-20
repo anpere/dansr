@@ -116,7 +116,7 @@ input#codeSearch {
 #indicator {
     background: #FF0000;
     height: 33px;
-    width: 6px;
+    width: 0px;
     align-self: flex-end;
     z-index: 5;
     position: relative;
@@ -125,8 +125,8 @@ input#codeSearch {
 
 .handlebar {
     background: #000000;
-    height: 33px;
-    width: 6px;
+    height: 0;
+    width: 0px;
     align-self: flex-end;
     z-index: 6;
     position:relative;
@@ -400,4 +400,25 @@ div.toolbar-pane p {
 
 div.toolbar-pane p:hover {
 	cursor: default;
+}
+
+#handlebarright{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-55;
+}
+
+#handlebarleft{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-55;
+}
+
+#indicatorBar{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-22;
 }
