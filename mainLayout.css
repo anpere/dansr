@@ -24,6 +24,9 @@ body {
 }
 
 .btn-primary {
+    margin-right:0;
+    margin-left:0;
+    border-radius:0;
     color: #fff;
     background-position: center;
     background-repeat: no-repeat;
@@ -32,6 +35,7 @@ body {
 	height: 42;
 	border-color:lightgray;
 	border-width:0;
+
     //background-color: rgba(100,210,125,0);
     //border-color: rgba(100,210,125,0);
 }
@@ -41,11 +45,10 @@ body {
     outline: none;
     border-color: lightgray;
 	cursor:pointer;
+
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
-    color: #fff;
-
+.btn-primary:focus, .btn-primary:active, .btn-primary.active {
     background-position: center;
     background-repeat: no-repeat;
     background-color:lightgray;
@@ -74,7 +77,6 @@ body {
 	margin-right:auto;
 	position:relative;
 }
-
 #search {
   display: flex;
   overflow: hidden;
@@ -97,9 +99,9 @@ div#searchWidget {
 }
 
 input#codeSearch {
-    margin-left: 25px;
     width: 100%;
     font-size: 1.25em;
+
 }
 
 #searchWidget button {
@@ -126,20 +128,7 @@ input#codeSearch {
     height: 33px;
     width: 6px;
     align-self: flex-end;
-    z-index: 5;
-    position: relative;
-    left: -978.725px
 }
-
-.handlebar {
-    background: #000000;
-    height: 33px;
-    width: 6px;
-    align-self: flex-end;
-    z-index: 6;
-    position:relative;
-}
-
 
 #volumeIndicator {
     background: #FF0000;
@@ -156,35 +145,35 @@ input#codeSearch {
 
     max-height: 480px;
     align-self: center;
-    margin-top: 2%;
+    margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
-    position:relative;
+	position:relative;
 }
-#sectionStart{
-  position: relative;
-  left: -978.725px
-}
-#sectionEnd{
-  position: relative;
-  right: 0px;
-}
+
 #choreoTools{
-    position:absolute;
-    bottom:0;
-    right:0;
+	position:absolute;
+	bottom:0;
+	right:0;
 }
 
 #top{
-    position:relative;
+	position:relative;
 }
 #editDance{
-    position:absolute;
-    right:0;
+	position:absolute;
+	right:0;
 }
 #watchDance{
-    position:absolute;
-    right:0;
+	position:absolute;
+	right:0;
+}
+
+video {
+	height: 75%;
+	width: 75%;
+	max-width: 640px;
+	max-height: 480px;
 }
 
 #speed {
@@ -210,50 +199,11 @@ input#codeSearch {
 #addComment{
 	background-color: black;
 	opacity:0.5;
-
-.section {
-    z-index: 1;
-    height: 33px;
+}
+#addComment:hover{
+	background-color: gray !important;
 }
 
-#sections {
-    width: 100%;
-    display: inline-flex;
-}
-
-#section1 {
-    width: 15%;
-    position: relative;
-    top: 0px;
-    left: 50px;
-    background-color: #b067c6;
-}
-
-#section2 {
-    width: 25%;
-    position: relative;
-    top: 0px;
-    left: 100px;
-    background-color: #b1d83c;
-}
-
-
-#section3 {
-    width: 5%;
-    position: relative;
-    top: 0px;
-    left: 200px;
-    background-color: #dba55e;
-}
-
-.grey {
-    position: absolute;
-    background-color: rgb(169, 172, 178);
-    height: 33px;
-    opacity: 0.5;
-    z-index: 10;
-    pointer-events: none;
-}
 #hamburger {
   background:none;
   position:relative;
