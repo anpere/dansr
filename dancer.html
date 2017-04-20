@@ -42,35 +42,36 @@
     }
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
-      var handleStart = document.getElementById("sectionStart").getBoundingClientRect();
-      var handleEnd = document.getElementById("sectionEnd").getBoundingClientRect();
+      var handleStart = document.getElementById("sectionStart");
+      var handleEnd = document.getElementById("sectionEnd");
+      var speed = parseFloat($("#speed").val());
       if (secStart >= secEnd) {
         console.log("play with handles reversed: " + secEnd + "-" + secStart);
         if (!pause) {
           $("#indicator").css({
-            "left": handleEnd.left-rect.left-5
+            "left": handleEnd.style.left
           });
         }
         $("#indicator").animate({
-          "left": handleStart.left-rect.left-5
-        }, (secStart-secEnd)*30000, "linear");
+          "left": handleStart.style.left
+        }, (secStart-secEnd)*30000*(1/speed), "linear");
       } else {
         console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
         if (!pause) {
           $("#indicator").css({
-            "left": handleStart.left-rect.left-5
+            "left": handleStart.style.left
           });
         }
         $("#indicator").animate({
-          "left": handleEnd.left-rect.left-5
-        }, (secEnd-secStart)*30000, "linear");
+          "left": handleEnd.style.left
+        }, (secEnd-secStart)*30000*(1/speed), "linear");
       }
       setTimeout(function() {
         console.log("here");
         if (loop) {
           playIndicator();
         }
-      }, Math.abs(secStart-secEnd)*30000 + 50);
+      }, Math.abs(secStart-secEnd)*30000*(1/speed) + 50);
     }
       $(document).ready(function() {
           //document.getElementById("countoffBar").value=0;
