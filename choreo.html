@@ -25,9 +25,19 @@
         "nature",
       ];
 
-      $( "#codeSearch" ).autocomplete({
-          source: availableCodes
-      });
+      $('#codeSearch').keypress(function(e) {
+      //TODO: Prevent multiple entries from being added
+      	if(e.which == 13) {
+        	//Add entered code to auto-complete list:
+        	availableCodes.push($('#codeSearch').val());
+			
+        	$( "#codeSearch" ).val(""); //Uncomment to clear text field
+
+        	$( "#codeSearch" ).autocomplete({
+            	source: availableCodes
+        	});
+        } });
+	  });
 
       $('#codeSubmit').click(function() {
       //TODO: Prevent multiple entries from being added
