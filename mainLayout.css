@@ -119,6 +119,8 @@ input#codeSearch {
     width: 6px;
     align-self: flex-end;
     z-index: 5;
+    position: relative;
+    left: -978.725px
 }
 
 .handlebar {
