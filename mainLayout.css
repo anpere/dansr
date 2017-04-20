@@ -125,8 +125,8 @@ input#codeSearch {
 
 .handlebar {
     background: #000000;
-    height: 33px;
-    width: 6px;
+    height: 0;
+    width: 0px;
     align-self: flex-end;
     z-index: 6;
     position:relative;
@@ -304,4 +304,18 @@ input#codeSearch {
 #fullscreen{
 	border-left-width:2;
 	border-left-color:gray;
+}
+
+#handlebarright{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-55;
+}
+
+#handlebarleft{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-55;
 }
