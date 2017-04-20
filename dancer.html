@@ -75,7 +75,9 @@
       $(document).ready(function() {
           //document.getElementById("countoffBar").value=0;
           countoff = this.value;
-
+          $("#formations").css({position: "absolute", left: 30, top: 200});
+        	$("#comments").css({position: "absolute", left: 30, top: 300});
+          
           // set countoff display
           document.getElementById("countoff").innerHTML = "&nbsp15s";
           document.getElementById("videoBox").setAttribute("width", "100%")
@@ -89,6 +91,33 @@
       $( "#codeSearch" ).autocomplete({
           source: availableCodes
       });
+
+      $('#codeSearch').keypress(function(e) {
+//TODO: Prevent multiple entries from being added
+  if(e.which == 13) {
+    //Add entered code to auto-complete list:
+    availableCodes.push($('#codeSearch').val());
+
+    $( "#codeSearch" ).val(""); //Uncomment to clear text field
+    $( "#codeSearch" ).autocomplete({
+        source: availableCodes
+    });
+  } });
+
+      $('.draggable-wrapper').draggable({ containment: "body"});
+
+	  		$('#x_button_form').on('mousedown', function(event) {
+	  			//console.log($("#formations").height());
+	  			//$("#formations").slideToggle('slow', function() {}); //uncomment to close entire pane
+	  			$("#formation-image-wrapper").slideToggle('slow', function() {});
+	  		});
+	  		$('#x_button_comments').on('mousedown', function(event) {
+	  			$("#comments-pane").slideToggle('slow', function() {
+	  				//var toolbarHeight = $('#comments-toolbar').height();
+	  				//$('#comments').css({height: toolbarHeight});
+	  			});
+	  		});
+
       $('#codeSubmit').click(function() {
       //TODO: Prevent multiple entries from being added
         //Add entered code to auto-complete list:
@@ -131,7 +160,7 @@
           }
         });
       });
-      $("#seekbar").mousedown(function(event) {
+      $("#seekbar").on('mousedown', (function(event) {
         $("#indicator").stop();
         var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
         //Adjust to 0 if negative to avoid glitches:
@@ -142,7 +171,7 @@
           left: clickedPosX_centered });
         var indicator = $("#indicator");
         indicator.triggerHandler(event);
-        });
+      }));
       //Valume control
       //Draggable volumeIndicator:
       $(function() {
@@ -324,7 +353,7 @@
       	</div>
         </div>
 
-    <div id="content" style="max-width:999px; margin: 0 auto">
+    <div id="content" style="max-width:999px; margin: 10% auto">
     <div id="video">
       <!-- https://www.w3schools.com/html/html5_video.asp -->
       <video id="videoBox">
@@ -385,6 +414,23 @@ Your browser does not support the video tag.
 
       </div>
     </div>
+
+    <!-- Formation Diagram Pane-->
+  <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
+    <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><p id="x_button_form" class="x_button">[__]</p></div>
+    <div id="formation-image-wrapper" class="image-wrapper" style="z-index: 0">
+        <img src="images/form_dgm1.svg">
+    </div>
+  </div>
+
+
+  <!-- Comments Pane -->
+  <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
+    <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><p id="x_button_comments" class="x_button">[__]</p></div>
+    <div id="comments-pane">
+      <p class="comments-content">Comments appear here...</p>
+    </div>
+  </div>
 
 
 
