@@ -47,8 +47,11 @@
       var speed = $("#speed").val();
       if (speed.length < 1) {
         speed = 1.0;
+      } else {
+        speed = parseFloat(speed);
       }
-      speed = parseFloat(speed);
+      
+
       if (secStart >= secEnd) {
         console.log("play with handles reversed: " + secEnd + "-" + secStart);
         if (!pause) {
