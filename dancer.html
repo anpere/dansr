@@ -234,6 +234,12 @@
       }
     });
 
+    $(document).on('keypress', "#speed", function (e) {
+      if (e.charCode==13) {
+          return false;
+      }
+    });
+
   });
     </script>
 </head>
@@ -286,7 +292,7 @@ Your browser does not support the video tag.
           <form>
               <div class="form-group form-inline">
                   <label for="speed" id="speedLabel">Speed</label>
-                  <input class="form-control" id="speed" placeholder="1.0">
+                  <input class="form-control" id="speed" autocomplete="off" placeholder="1.0">
               </div>
           </form>
         <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
