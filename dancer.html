@@ -8,9 +8,9 @@
     <meta charset="UTF-8">
 
 
-	<!-- jQuery and jQueryUI -->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <!-- jQuery and jQueryUI -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -23,9 +23,54 @@
     var pause = false;
     var isPlaying = false;
     var isMetronomeOn = false;
-    var isLoopOn = false;
-    
 
+    var SECOND_CONVERTER = 1;
+    // function that plays the video starting at percentage
+    // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
+    // returns: null
+    loopVideoTo = function(percentage){
+      var video = document.getElementById("videoBox");
+      video.currentTime = (percentage/100) * video.duration;
+    }
+    // sets the speed of the video
+    // speed: a positive  floating point number that represents the speed of video
+    // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
+    setVideoSpeed = function(speed){
+      var video = document.getElementById("videoBox");
+      video.playbackRate = speed
+    }
+    this.playIndicator = function() {
+      var rect = document.getElementById("seekbar").getBoundingClientRect();
+      var handleStart = document.getElementById("sectionStart").getBoundingClientRect();
+      var handleEnd = document.getElementById("sectionEnd").getBoundingClientRect();
+      if (secStart >= secEnd) {
+        console.log("play with handles reversed: " + secEnd + "-" + secStart);
+        if (!pause) {
+          $("#indicator").css({
+            "left": handleEnd.left-rect.left-5
+          });
+        }
+        $("#indicator").animate({
+          "left": handleStart.left-rect.left-5
+        }, (secStart-secEnd)*30000, "linear");
+      } else {
+        console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
+        if (!pause) {
+          $("#indicator").css({
+            "left": handleStart.left-rect.left-5
+          });
+        }
+        $("#indicator").animate({
+          "left": handleEnd.left-rect.left-5
+        }, (secEnd-secStart)*30000, "linear");
+      }
+      setTimeout(function() {
+        console.log("here");
+        if (loop) {
+          playIndicator();
+        }
+      }, Math.abs(secStart-secEnd)*30000 + 50);
+    }
       $(document).ready(function() {
           //document.getElementById("countoffBar").value=0;
           countoff = this.value;
@@ -39,73 +84,64 @@
         "toffee",
         "nature",
       ];
-
-
       // TODO(ap) get rid of global variable
       $( "#codeSearch" ).autocomplete({
           source: availableCodes
       });
-
-      //TODO: change this to a function that is used when the user presses enter while focused on the textbox
       $('#codeSubmit').click(function() {
       //TODO: Prevent multiple entries from being added
-
         //Add entered code to auto-complete list:
         availableCodes.push($('#codeSearch').val());
-
         //$( "#codeSearch" ).val(""); //Uncomment to clear text field
-
         $( "#codeSearch" ).autocomplete({
             source: availableCodes
         });
-
-        //TODO:	 Advance to next screen after searching for dance code
+        //TODO:  Advance to next screen after searching for dance code
       });
-
       //Draggable Indicator:
       $(function() {
         $("#indicator").draggable({ axis: "x", containment: "parent"});
         $("#indicator").on("drag", function(event, ui) {
+          $("#indicator").stop();
           var width = $("#seekbar").width();
           var fractionalPosition = ui.position.left / width;
-
            //TODO: Trigger seek in video / audio
         });
       });
-
       //Draggable Handlebars
-
 
       $(".handlebar").mousedown(function(event) {
         event.stopPropagation();
       });
-
       $(function() {
         var rect = document.getElementById("seekbar").getBoundingClientRect();
         $(".handlebar").draggable({ axis: "x", containment: "parent"});
-        $("#sectionStart").css({"position": "absolute", "left": "" + (rect.left-3)});
-        $("#sectionEnd").css({"position": "absolute", "left": "" + (rect.right-3)});
+
         $(".handlebar").on("drag", function(event, ui) {
           var width = $("#seekbar").width();
           var fractionalPosition = ui.position.left / width;
+          if ($(this).attr("id") == "sectionEnd") {
+            var handle = document.getElementById("sectionEnd").getBoundingClientRect();
+            secEnd = fractionalPosition;
+            $("#grayRight").css({"left": ui.position.left+20, "width": rect.right-handle.left-10});
+          } else {
+            secStart = fractionalPosition;
+            $("#grayLeft").css({"width": ui.position.left});
+          }
         });
       });
-
       $("#seekbar").mousedown(function(event) {
+        $("#indicator").stop();
         var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
         //Adjust to 0 if negative to avoid glitches:
         if(clickedPosX_centered < 0) {
-  	     clickedPosX_centered = 0;
+         clickedPosX_centered = 0;
         }
         $("#indicator").css({ position: 'relative',
           left: clickedPosX_centered });
-
         var indicator = $("#indicator");
-
         indicator.triggerHandler(event);
-
         });
-
       //Valume control
       //Draggable volumeIndicator:
       $(function() {
@@ -113,11 +149,9 @@
         $("#volumeIndicator").on("drag", function(event, ui) {
           var width = $("#volumeBar").width();
           var fractionalPosition = ui.position.left / width;
-
            //TODO: Trigger seek in video / audio
         });
       });
-
       $("#volumeBar").mousedown(function(event) {
         var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
         //Adjust to 0 if negative to avoid glitches:
@@ -126,12 +160,18 @@
         }
         $("#volumeIndicator").css({ position: 'relative',
                               left: clickedPosX_centered });
-
         var volumeIndicator = $("#volumeIndicator");
-
         volumeIndicator.triggerHandler(event);
       });
-
+      $(document).on('click', "#loop", function(evt)
+      {
+        loop = !loop;
+      });
+      $(document).on('click', "#replay", function(evt)
+      {
+        $("#indicator").stop();
+        playIndicator();
+      });
     $(document).on('click', "#playPause", function(evt)
     {
       var button  = document.getElementById("playPause") // maybe this instead?
@@ -139,16 +179,29 @@
         var video = document.getElementById("videoBox");
         video.play();
         isPlaying = true;
+        playIndicator();
+        pause = false;
         // set button to pause
         button.setAttribute("style", "background-image:url('images/pause.svg')")
       } else {
         var video = document.getElementById("videoBox");
         video.pause();
+        $("#indicator").stop();
+        pause = true;
         // set button to play
         button.setAttribute("style", "background-image:url('images/play.svg')")
         isPlaying = false;
-
       }
+    });
+    $(document).on('dblclick', ".section", function(evt) {
+      var rect = document.getElementById("seekbar").getBoundingClientRect();
+      var left = $(this).position().left;
+      var right = left + $(this).width() - 20;
+      var handle = document.getElementById("sectionEnd").getBoundingClientRect();
+      secEnd = right / $("#seekbar").width();
+      secStart = left / $("#seekbar").width();
+      $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
+      $("#grayLeft").css({"width": left});
     });
     // TODO put vars in correct place
     var COUNTOFF_MIN=0;
@@ -161,6 +214,7 @@
 
       // set countoff display
       document.getElementById("countoff").innerHTML = countoffToString();
+
     })
 
     // returns the string representation of countoff which is just
@@ -253,6 +307,7 @@
             <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
         </button>
         <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
+
         <button class="btn" id="editDance" onclick="location.href='choreo.html'">
             <img src="images/edit.svg">
             <div id="editDanceText">
@@ -260,11 +315,11 @@
             </div>
         </button>    </div>
 
-    <div id ="search">
-	<div class="ui-widget" id="searchWidget">
-	  <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-  	</div>
-    </div>
+        <div id ="search">
+    	<div class="ui-widget" id="searchWidget">
+    	  <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
+      	</div>
+        </div>  
 
     <div id="content" style="max-width:999px; margin: 0 auto">
     <div id="video">
@@ -276,13 +331,25 @@ Your browser does not support the video tag.
     </div>
 
       <div id ="seekbar">
-         <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar"></div>
-	       <div id="indicator" class="ui-draggable ui-draggable-handle"></div>
-         <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar"></div>
+        <div id="sections">
+          <div id="section1" class="section"></div>
+          <div id="section2" class="section"></div>
+          <div id="section3" class="section"></div>
+        </div>
+         <div id="grayLeft" class="grey"></div>
+         <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
+           <!-- <img src="images/handlebarRight.svg"> -->
+         </div>
+         <div id="indicator" class="ui-draggable ui-draggable-handle"></div>
+         <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
+            <!-- <img src="images/handlebarLeft.svg"> -->
+         </div>
+         <div id="grayRight" class="grey"></div>
       </div>
 
-      <div class="btn-group" id="toolbar">
 
+
+      <div class="btn-group" id="toolbar">
         <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
         <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
         <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
