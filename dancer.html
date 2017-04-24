@@ -16,15 +16,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
+
+    // Global variables
+
     var secEnd = 1;
     var secStart = 0;
     var loop = false;
     var isLoopOn = false;
+
+    // TODO() replace pause with isPlaying
     var pause = false;
+
     var isPlaying = false;
     var isMetronomeOn = false;
 
-    var SECOND_CONVERTER = 1;
     // function that plays the video starting at percentage
     // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
     // returns: null
@@ -32,6 +37,7 @@
       var video = document.getElementById("videoBox");
       video.currentTime = (percentage/100) * video.duration;
     }
+
     // sets the speed of the video
     // speed: a positive  floating point number that represents the speed of video
     // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
@@ -40,6 +46,8 @@
       var video = document.getElementById("videoBox");
       video.playbackRate = speed
     }
+
+    // TODO: spec
     this.playIndicator = function() {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = document.getElementById("sectionStart");
@@ -52,6 +60,7 @@
       }
 
 
+      //TODO (comments)
       if (secStart >= secEnd) {
         console.log("play with handles reversed: " + secEnd + "-" + secStart);
         if (!pause) {
