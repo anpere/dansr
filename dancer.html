@@ -1,466 +1,489 @@
-﻿<head>
-    <title>Dansr</title>
-    <!--this is bootstrap if you want it-->
-    <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+<head>
+  <title>Dansr</title>
+  <!--this is bootstrap if you want it-->
+  <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
 
-    <link rel="stylesheet" href="mainLayout.css">
-    <link rel='shortcut icon' href='images/dfavicon.png'/>
-    <meta charset="UTF-8">
+  <link rel="stylesheet" href="mainLayout.css">
+  <link rel='shortcut icon' href='images/dfavicon.png'/>
+  <meta charset="UTF-8">
 
 
   <!-- jQuery and jQueryUI -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script>
+  <script>
+  /************************ Global Variables ********************/
+  // TODO() replace as many as possible with functions.
+  // i.e isLoopOn should be a function that reads the state of the loop button
+  // as opposed to something we trust ourselves to modify correctly and consistently
 
-    // Global variables
+  var secEnd = 1;
+  var secStart = 0;
+  var loop = false;
+  var isLoopOn = false;
 
-    var secEnd = 1;
-    var secStart = 0;
-    var loop = false;
-    var isLoopOn = false;
+  // TODO() replace pause with isPlaying
+  var pause = false;
 
-    // TODO() replace pause with isPlaying
-    var pause = false;
+  var isPlaying = false;
+  var isMetronomeOn = false;
 
-    var isPlaying = false;
-    var isMetronomeOn = false;
+  //Initialize auto-complete
+  var availableCodes = [
+    "chicken",
+    "toffee",
+    "nature",
+  ];
 
-    // function that plays the video starting at percentage
-    // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
-    // returns: null
-    loopVideoTo = function(percentage){
-      var video = document.getElementById("videoBox");
-      video.currentTime = (percentage/100) * video.duration;
+  var COUNTOFF_MIN=0;
+  var COUNTOFF_MAX=30;
+  var countoff = 0;
+
+  /************************ Helper Functions ********************/
+
+  // function that plays the video starting at percentage
+  // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
+  // returns: null
+  loopVideoTo = function(percentage){
+    var video = getVideo();
+    video.currentTime = (percentage/100) * video.duration;
+  }
+
+  // sets the speed of the video
+  // speed: a positive  floating point number that represents the speed of video
+  // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
+  setVideoSpeed = function(speed){
+    console.log("setVideoSpeed: ")
+    var video = getVideo();
+    video.playbackRate = speed
+  }
+
+  // gets the length of the video in seconds
+  getVideoDuration = function(){
+    return getVideo().duration;
+  }
+
+  // get the currentTime of the video
+  getVideoTime = function(){
+    return getVideo().currentTime;
+  }
+
+  // return the width of the seekbar
+  getSeekbarWidth = function(){
+    return $('#seekbar').width();
+  }
+
+  // get the video dom object
+  getVideo = function(){
+    return document.getElementById("videoBox");
+  }
+
+  // returns the string representation of countoff which is just
+  // " (number)s"
+  // note the preceding space
+  // length of string is padded to 4 characters with a space
+  countoffToString = function() {
+    var toString = '&nbsp' + countoff + "s";
+    if (countoff < 10){
+      toString = '&nbsp' + '   ' + countoff + "s";
+    }
+    return toString;
+  }
+  
+  /******************* Event Handlers *******************/
+  // TODO: spec
+  this.playIndicator = function() {
+    var rect = document.getElementById("seekbar").getBoundingClientRect();
+    var handleStart = document.getElementById("sectionStart");
+    var handleEnd = document.getElementById("sectionEnd");
+    var speed = $("#speed").val();
+    if (speed.length < 1) {
+      speed = 1.0;
+    } else {
+      speed = parseFloat(speed);
     }
 
-    // sets the speed of the video
-    // speed: a positive  floating point number that represents the speed of video
-    // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
-    setVideoSpeed = function(speed){
-      console.log("setVideoSpeed: ")
-      var video = document.getElementById("videoBox");
-      video.playbackRate = speed
-    }
-
-    getVideoDuration = function(speed){
-      var video = document.getElementById("videoBox");
-      return video.duration;
-    }
-
-    getVideoTime = function(){
-      return document.getElementById("videoBox").currentTime;
-    }
-    getSeekbarWidth = function(){
-      return $('#seekbar').width();
-    }
-
-    // TODO: spec
-    this.playIndicator = function() {
-      var rect = document.getElementById("seekbar").getBoundingClientRect();
-      var handleStart = document.getElementById("sectionStart");
-      var handleEnd = document.getElementById("sectionEnd");
-      var speed = $("#speed").val();
-      if (speed.length < 1) {
-        speed = 1.0;
-      } else {
-        speed = parseFloat(speed);
-      }
-
-
-      //TODO (comments)
-      if (secStart >= secEnd) {
-        console.log("play with handles reversed: " + secEnd + "-" + secStart);
-        if (!pause) {
-          $("#indicator").css({
-            "left": handleEnd.style.left
-          });
-        }
-        $("#indicator").animate({
-          "left": handleStart.style.left
-        }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
-      } else {
-        console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
-        if (!pause) {
-          $("#indicator").css({
-            "left": handleStart.style.left
-          });
-        }
-        $("#indicator").animate({
+    // TODO (comments)
+    // TODO () put these in helper functions to make body of code smaller
+    if (secStart >= secEnd) {
+      console.log("play with handles reversed: " + secEnd + "-" + secStart);
+      if (!pause) {
+        $("#indicator").css({
           "left": handleEnd.style.left
-        }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
+        });
       }
-      setTimeout(function() {
-        console.log("here");
-        if (loop) {
-          playIndicator();
-        }
-      }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()) + 50);
+      $("#indicator").animate({
+        "left": handleStart.style.left
+      }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
+    } else {
+      console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
+      if (!pause) {
+        $("#indicator").css({
+          "left": handleStart.style.left
+        });
+      }
+      $("#indicator").animate({
+        "left": handleEnd.style.left
+      }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
     }
-      $(document).ready(function() {
-          //document.getElementById("countoffBar").value=0;
-          countoff = this.value;
-          $("#formations").css({position: "absolute", left: 30, top: 200});
-        	$("#comments").css({position: "absolute", left: 30, top: 300});
+    setTimeout(function() {
+      console.log("here");
+      if (loop) {
+        playIndicator();
+      }
+    }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()) + 50);
+  }
 
-          // set countoff display
-          document.getElementById("countoff").innerHTML = "&nbsp15s";
-          document.getElementById("videoBox").setAttribute("width", "100%")
-      //Initialize auto-complete
-      var availableCodes = [
-        "chicken",
-        "toffee",
-        "nature",
-      ];
-      // TODO(ap) get rid of global variable
+  $(document).ready(function() {
+    countoff = this.value;
+    $("#formations").css({position: "absolute", left: 30, top: 200});
+    $("#comments").css({position: "absolute", left: 30, top: 300});
+
+    // set countoff display
+    document.getElementById("countoff").innerHTML = "&nbsp15s";
+    document.getElementById("videoBox").setAttribute("width", "100%")
+  });
+
+  $( "#codeSearch" ).autocomplete({
+    source: availableCodes
+  });
+
+  $('#codeSearch').keypress(function(e) {
+    //TODO: Prevent multiple entries from being added
+    if(e.which == 13) {
+      //Add entered code to auto-complete list:
+      availableCodes.push($('#codeSearch').val());
+
+      $( "#codeSearch" ).val(""); //Uncomment to clear text field
       $( "#codeSearch" ).autocomplete({
-          source: availableCodes
+        source: availableCodes
       });
+    }
+  });
 
-      $('#codeSearch').keypress(function(e) {
-//TODO: Prevent multiple entries from being added
-  if(e.which == 13) {
+  $('.draggable-wrapper').draggable({ containment: "body"});
+
+  $('#x_button_form').on('mousedown', function(event) {
+    $("#formation-image-wrapper").slideToggle('slow', function() {});
+  });
+
+  $('#x_button_comments').on('mousedown', function(event) {
+    $("#comments-pane").slideToggle('slow', function() {
+    });
+  });
+
+  $('#codeSubmit').click(function() {
+    //TODO: Prevent multiple entries from being added
     //Add entered code to auto-complete list:
     availableCodes.push($('#codeSearch').val());
-
-    $( "#codeSearch" ).val(""); //Uncomment to clear text field
     $( "#codeSearch" ).autocomplete({
-        source: availableCodes
+      source: availableCodes
     });
-  } });
+    //TODO:  Advance to next screen after searching for dance code
+  });
 
-      $('.draggable-wrapper').draggable({ containment: "body"});
+  //Draggable Indicator:
+  $(function() {
+    $("#indicator").draggable({ axis: "x", containment: "parent"});
+    $("#indicator").on("drag", function(event, ui) {
+      $("#indicator").stop();
+      var width = $("#seekbar").width();
+      var fractionalPosition = ui.position.left / width;
+      //TODO: Trigger seek in video / audio
+    });
+  });
 
-	  		$('#x_button_form').on('mousedown', function(event) {
-	  			//console.log($("#formations").height());
-	  			//$("#formations").slideToggle('slow', function() {}); //uncomment to close entire pane
-	  			$("#formation-image-wrapper").slideToggle('slow', function() {});
-	  		});
-	  		$('#x_button_comments').on('mousedown', function(event) {
-	  			$("#comments-pane").slideToggle('slow', function() {
-	  				//var toolbarHeight = $('#comments-toolbar').height();
-	  				//$('#comments').css({height: toolbarHeight});
-	  			});
-	  		});
+  //Draggable Handlebars
+  $(".handlebar").mousedown(function(event) {
+    event.stopPropagation();
+  });
 
-      $('#codeSubmit').click(function() {
-      //TODO: Prevent multiple entries from being added
-        //Add entered code to auto-complete list:
-        availableCodes.push($('#codeSearch').val());
-        //$( "#codeSearch" ).val(""); //Uncomment to clear text field
-        $( "#codeSearch" ).autocomplete({
-            source: availableCodes
-        });
-        //TODO:  Advance to next screen after searching for dance code
-      });
-      //Draggable Indicator:
-      $(function() {
-        $("#indicator").draggable({ axis: "x", containment: "parent"});
-        $("#indicator").on("drag", function(event, ui) {
-          $("#indicator").stop();
-          var width = $("#seekbar").width();
-          var fractionalPosition = ui.position.left / width;
-           //TODO: Trigger seek in video / audio
-        });
-      });
-      //Draggable Handlebars
+  $(function() {
+    var rect = document.getElementById("seekbar").getBoundingClientRect();
+    $(".handlebar").draggable({ axis: "x", containment: "parent"});
 
-      $(".handlebar").mousedown(function(event) {
-        event.stopPropagation();
-      });
-      $(function() {
-        var rect = document.getElementById("seekbar").getBoundingClientRect();
-        $(".handlebar").draggable({ axis: "x", containment: "parent"});
-
-        $(".handlebar").on("drag", function(event, ui) {
-          var width = $("#seekbar").width();
-          var fractionalPosition = ui.position.left / width;
-          if ($(this).attr("id") == "sectionEnd") {
-            var handle = document.getElementById("sectionEnd").getBoundingClientRect();
-            secEnd = fractionalPosition;
-            $("#grayRight").css({"left": ui.position.left+20, "width": rect.right-handle.left-10});
-          } else {
-            secStart = fractionalPosition;
-            $("#grayLeft").css({"width": ui.position.left});
-          }
-        });
-      });
-      $("#seekbar").on('mousedown', (function(event) {
-        $("#indicator").stop();
-        var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
-        //Adjust to 0 if negative to avoid glitches:
-        if(clickedPosX_centered < 0) {
-         clickedPosX_centered = 0;
-        }
-        $("#indicator").css({ position: 'relative',
-          left: clickedPosX_centered });
-        var indicator = $("#indicator");
-        indicator.triggerHandler(event);
-      }));
-      //Valume control
-      //Draggable volumeIndicator:
-      $(function() {
-        $("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
-        $("#volumeIndicator").on("drag", function(event, ui) {
-          var width = $("#volumeBar").width();
-          var fractionalPosition = ui.position.left / width;
-           //TODO: Trigger seek in video / audio
-        });
-      });
-      $("#volumeBar").mousedown(function(event) {
-        var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
-        //Adjust to 0 if negative to avoid glitches:
-        if(clickedPosX_centered < 0) {
-          clickedPosX_centered = 0;
-        }
-        $("#volumeIndicator").css({ position: 'relative',
-                              left: clickedPosX_centered });
-        var volumeIndicator = $("#volumeIndicator");
-        volumeIndicator.triggerHandler(event);
-      });
-      $(document).on('click', "#loop", function(evt)
-      {
-        loop = !loop;
-      });
-      $(document).on('click', "#replay", function(evt)
-      {
-        $("#indicator").stop();
-        playIndicator();
-      });
-    $(document).on('click', "#playPause", function(evt)
-    {
-      var button  = document.getElementById("playPause") // maybe this instead?
-      if (!isPlaying){
-        var video = document.getElementById("videoBox");
-        video.play();
-        isPlaying = true;
-        playIndicator();
-        pause = false;
-        // set button to pause
-        button.setAttribute("style", "background-image:url('images/pause.svg')")
+    $(".handlebar").on("drag", function(event, ui) {
+      var width = $("#seekbar").width();
+      var fractionalPosition = ui.position.left / width;
+      if ($(this).attr("id") == "sectionEnd") {
+        var handle = document.getElementById("sectionEnd").getBoundingClientRect();
+        secEnd = fractionalPosition;
+        $("#grayRight").css({"left": ui.position.left+20, "width": rect.right-handle.left-10});
       } else {
-        var video = document.getElementById("videoBox");
-        video.pause();
-        $("#indicator").stop();
-        pause = true;
-        // set button to play
-        button.setAttribute("style", "background-image:url('images/play.svg')")
-        isPlaying = false;
+        secStart = fractionalPosition;
+        $("#grayLeft").css({"width": ui.position.left});
       }
     });
-    $(document).on('dblclick', ".section", function(evt) {
-      var rect = document.getElementById("seekbar").getBoundingClientRect();
-      var left = $(this).position().left;
-      var right = left + $(this).width() - 20;
-      var handle = document.getElementById("sectionEnd").getBoundingClientRect();
-      secEnd = right / $("#seekbar").width();
-      secStart = left / $("#seekbar").width();
-      $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
-      $("#grayLeft").css({"width": left});
-    });
-    // TODO put vars in correct place
-    var COUNTOFF_MIN=0;
-    var COUNTOFF_MAX=30;
-    var countoff = 0;
-    $(document).on('mousemove', "#countoffBar", function(evt){
+  });
 
-        // set countoff
-      countoff = this.value;
-
-      // set countoff display
-      document.getElementById("countoff").innerHTML = countoffToString();
-
-    })
-
-    // returns the string representation of countoff which is just
-    // " (number)s"
-    // note the preceding space
-    // length of string is padded to 4 characters with a space
-    countoffToString = function() {
-
-      var toString = '&nbsp' + countoff + "s";
-      if (countoff < 10){
-          toString = '&nbsp' + '   ' + countoff + "s";
-      }
-
-      return toString;
+  $("#seekbar").on('mousedown', (function(event) {
+    $("#indicator").stop();
+    var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
+    //Adjust to 0 if negative to avoid glitches:
+    if(clickedPosX_centered < 0) {
+      clickedPosX_centered = 0;
     }
-    $( function() {
-      $( "#slider" ).slider();
-    } );
+    $("#indicator").css({ position: 'relative',
+    left: clickedPosX_centered });
+    var indicator = $("#indicator");
+    indicator.triggerHandler(event);
+    // TODO(ap) update video here:
+  }));
 
-    $(document).on('click', '#metronome', function (evt) {
-        metronomeButton = document.getElementById("metronome");
-        if (isMetronomeOn) {
-            isMetronomeOn = false;
-            metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:lightgray;");
-        }
-        else {
-            isMetronomeOn = true;
-            metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:#0275d8;border-color:#0275d8")
-        }
+  //Valume control
+  //Draggable volumeIndicator:
+  $(function() {
+    $("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
+    $("#volumeIndicator").on("drag", function(event, ui) {
+      var width = $("#volumeBar").width();
+      var fractionalPosition = ui.position.left / width;
+      //TODO: Trigger seek in video / audio
     });
-    $(document).on('click', '#loop', function (evt) {
-        loopButton = document.getElementById("loop");
-        if (isLoopOn) {
-            isLoopOn = false;
-            loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:lightgray;");
-        }
-        else {
-            isLoopOn = true;
-            loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:#0275d8;border-color:#0275d8")
-        }
-    });
+  });
+
+  $("#volumeBar").mousedown(function(event) {
+    var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
+    //Adjust to 0 if negative to avoid glitches:
+    if(clickedPosX_centered < 0) {
+      clickedPosX_centered = 0;
+    }
+    $("#volumeIndicator").css({ position: 'relative',
+    left: clickedPosX_centered });
+    var volumeIndicator = $("#volumeIndicator");
+    volumeIndicator.triggerHandler(event);
+  });
+
+  $(document).on('click', "#loop", function(evt)
+  {
+    loop = !loop;
+  });
+
+  $(document).on('click', "#replay", function(evt)
+  {
+    $("#indicator").stop();
+    playIndicator();
+  });
+
+  $(document).on('click', "#playPause", function(evt)
+  {
+    var button  = document.getElementById("playPause") // maybe this instead?
+    if (!isPlaying){
+      var video = document.getElementById("videoBox");
+      video.play();
+      isPlaying = true;
+      playIndicator();
+      pause = false;
+      // set button to pause
+      button.setAttribute("style", "background-image:url('images/pause.svg')")
+    } else {
+      var video = document.getElementById("videoBox");
+      video.pause();
+      $("#indicator").stop();
+      pause = true;
+      // set button to play
+      button.setAttribute("style", "background-image:url('images/play.svg')")
+      isPlaying = false;
+    }
+  });
+
+  $(document).on('dblclick', ".section", function(evt) {
+    var rect = document.getElementById("seekbar").getBoundingClientRect();
+    var left = $(this).position().left;
+    var right = left + $(this).width() - 20;
+    var handle = document.getElementById("sectionEnd").getBoundingClientRect();
+    secEnd = right / $("#seekbar").width();
+    secStart = left / $("#seekbar").width();
+    $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
+    $("#grayLeft").css({"width": left});
+  });
+
+  $(document).on('mousemove', "#countoffBar", function(evt){
+    // set countoff
+    countoff = this.value;
+
+    // set countoff display
+    document.getElementById("countoff").innerHTML = countoffToString();
+  })
+
+  $( function() {
+    $( "#slider" ).slider();
+  } );
+
+  $(document).on('click', '#metronome', function (evt) {
+    metronomeButton = document.getElementById("metronome");
+    if (isMetronomeOn) {
+      isMetronomeOn = false;
+      metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:lightgray;");
+    }
+    else {
+      isMetronomeOn = true;
+      metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:#0275d8;border-color:#0275d8")
+    }
+  });
+
+  $(document).on('click', '#loop', function (evt) {
+    loopButton = document.getElementById("loop");
+    if (isLoopOn) {
+      isLoopOn = false;
+      loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:lightgray;");
+    }
+    else {
+      isLoopOn = true;
+      loopButton.setAttribute("style", "background-image:url('images/loop.svg');background-color:#0275d8;border-color:#0275d8")
+    }
+  });
 
 
-    $(document).on('click', "#left", function(evt) {
-      var speed = $("#speed").val();
-      if (speed.length < 1) {
-        speed = 1.0;
-      }
-      speed = parseFloat(speed);
-      var newSpeed = speed - 0.1;
-      if (newSpeed <= 0) {
-        return;
-      }
-      $("#speed").val(newSpeed.toFixed(1));
-      setVideoSpeed(newSpeed);
-    });
+  $(document).on('click', "#left", function(evt) {
+    var speed = $("#speed").val();
+    if (speed.length < 1) {
+      speed = 1.0;
+    }
+    speed = parseFloat(speed);
+    var newSpeed = speed - 0.1;
+    if (newSpeed <= 0) {
+      return;
+    }
+    $("#speed").val(newSpeed.toFixed(1));
+    setVideoSpeed(newSpeed);
+  });
 
-    $(document).on('click', "#right", function(evt) {
-      var speed = $("#speed").val();
-      if (speed.length < 1) {
-        speed = 1.0;
-      }
-      speed = parseFloat(speed);
-      var newSpeed = speed + 0.1;
-      $("#speed").val(newSpeed.toFixed(1));
-      setVideoSpeed(newSpeed)
-    });
+  $(document).on('click', "#right", function(evt) {
+    var speed = $("#speed").val();
+    if (speed.length < 1) {
+      speed = 1.0;
+    }
+    speed = parseFloat(speed);
+    var newSpeed = speed + 0.1;
+    $("#speed").val(newSpeed.toFixed(1));
+    setVideoSpeed(newSpeed)
+  });
 
-    $(document).on('keyup', "#speed", function(evt) {
-      var speed = $("#speed").val();
-      if (isNaN(speed)) {
-        $("#speed").val("1.0");
-      }
-    });
-
-    $(document).on('keypress', "#speed", function (e) {
-      if (e.charCode==13) {
-          return false;
-      }
-    });
+  $(document).on('keyup', "#speed", function(evt) {
+    var speed = $("#speed").val();
+    // TODO() more text validation: set min speed to .5 and max speed to 4.0
+    if (isNaN(speed)) {
+      $("#speed").val("1.0");
+    }
+    setVideoSpeed(speed);
 
   });
-    </script>
+
+  $(document).on('keypress', "#speed", function (e) {
+    if (e.charCode==13) {
+      return false;
+    }
+  });
+
+  </script>
 </head>
 
 
 <body>
-    <!-- <h1> This is an awesome Dancer interface</h1> -->
-    <div id ="top">
-        <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
-        <button id="hamburger">
-            <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
-        </button>
-        <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
+  <!-- <h1> This is an awesome Dancer interface</h1> -->
+  <div id ="top">
+    <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
+    <button id="hamburger">
+      <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
+    </button>
+    <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
 
-        <button class="btn" id="editDance" onclick="location.href='choreo.html'">
-            <img src="images/edit.svg">
-            <div id="editDanceText">
-                Edit Dance
-            </div>
-        </button>    </div>
+    <button class="btn" id="editDance" onclick="location.href='choreo.html'">
+      <img src="images/edit.svg">
+      <div id="editDanceText">
+        Edit Dance
+      </div>
+    </button>    </div>
 
-        <div id ="search">
-    	<div class="ui-widget" id="searchWidget">
-    	  <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-      	</div>
-        </div>
+    <div id ="search">
+      <div class="ui-widget" id="searchWidget">
+        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
+      </div>
+    </div>
 
     <div id="content" style="max-width:999px; margin: 10% auto">
-    <div id="video">
-      <!-- https://www.w3schools.com/html/html5_video.asp -->
-      <video id="videoBox">
-  <source src="https://ia902606.us.archive.org/11/items/Exercise1949/Exercise1949_512kb.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
-    </div>
-
-      <div id ="seekbar">
-        <div id="sections">
-          <div id="section1" class="section"></div>
-          <div id="section2" class="section"></div>
-          <div id="section3" class="section"></div>
+      <div id="video">
+        <!-- https://www.w3schools.com/html/html5_video.asp -->
+        <video id="videoBox">
+          <source src="https://ia902606.us.archive.org/11/items/Exercise1949/Exercise1949_512kb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
-         <div id="grayLeft" class="grey"></div>
-         <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
-                         <img id="handlebarleft" src="images/handlebarright.svg">
 
-         </div>
-         <div id="indicator" class="ui-draggable ui-draggable-handle">
-             <img id="indicatorBar" src="images/seekbar.svg">
-         </div>
+        <div id ="seekbar">
+          <div id="sections">
+            <div id="section1" class="section"></div>
+            <div id="section2" class="section"></div>
+            <div id="section3" class="section"></div>
+          </div>
+          <div id="grayLeft" class="grey"></div>
+          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
+            <img id="handlebarleft" src="images/handlebarright.svg">
 
-         <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
+          </div>
+          <div id="indicator" class="ui-draggable ui-draggable-handle">
+            <img id="indicatorBar" src="images/seekbar.svg">
+          </div>
+
+          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
             <img id="handlebarright" src="images/handlebarleft.svg">
-         </div>
-         <div id="grayRight" class="grey"></div>
-      </div>
+          </div>
+          <div id="grayRight" class="grey"></div>
+        </div>
 
 
 
-      <div class="btn-group" id="toolbar">
-        <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
-        <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
-        <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-        <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
-        </button>
-        <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
+        <div class="btn-group" id="toolbar">
+          <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
+          <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
+          <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
+          <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
+          </button>
+          <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
           <form>
-              <div class="form-group form-inline">
-                  <label for="speed" id="speedLabel">Speed</label>
-                  <input class="form-control" id="speed" autocomplete="off" placeholder="1.0">
-              </div>
+            <div class="form-group form-inline">
+              <label for="speed" id="speedLabel">Speed</label>
+              <input class="form-control" id="speed" autocomplete="off" placeholder="1.0">
+            </div>
           </form>
-        <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
-        </button>
-                <label id="countoffLabel">Countoff:</label>
-                <div id="countoff">&#160 15s</div>
-        <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
+          <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
+          </button>
+          <label id="countoffLabel">Countoff:</label>
+          <div id="countoff">&#160 15s</div>
+          <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
 
-        <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
+          <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
 
-        <!-- TODO(AP) make not a button, but still look nice -->
-        <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
+          <!-- TODO(AP) make not a button, but still look nice -->
+          <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
 
-        <input id ="volumeBar" type="range" min="0" max="100" step="1" style="margin-right:auto;"></input>
-        <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
+          <input id ="volumeBar" type="range" min="0" max="100" step="1" style="margin-right:auto;"></input>
+          <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
 
+        </div>
       </div>
-    </div>
 
-    <!-- Formation Diagram Pane-->
-  <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
-    <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><p id="x_button_form" class="x_button">[__]</p></div>
-    <div id="formation-image-wrapper" class="image-wrapper" style="z-index: 0">
-        <img src="images/form_dgm1.svg">
-    </div>
-  </div>
-
-
-  <!-- Comments Pane -->
-  <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
-    <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><p id="x_button_comments" class="x_button">[__]</p></div>
-    <div id="comments-pane">
-      <p class="comments-content">Comments appear here...</p>
-    </div>
-  </div>
+      <!-- Formation Diagram Pane-->
+      <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
+        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><p id="x_button_form" class="x_button">[__]</p></div>
+        <div id="formation-image-wrapper" class="image-wrapper" style="z-index: 0">
+          <img src="images/form_dgm1.svg">
+        </div>
+      </div>
 
 
+      <!-- Comments Pane -->
+      <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
+        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><p id="x_button_comments" class="x_button">[__]</p></div>
+        <div id="comments-pane">
+          <p class="comments-content">Comments appear here...</p>
+        </div>
+      </div>
 
-</body>
+
+
+    </body>
