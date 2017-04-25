@@ -26,8 +26,6 @@ body {
 	height: 42;
 	border-color:lightgray;
 	border-width:0;
-    //background-color: rgba(100,210,125,0);
-    //border-color: rgba(100,210,125,0);
 }
 
 .btn-primary:hover{
@@ -43,9 +41,6 @@ body {
     background-repeat: no-repeat;
     background-color:lightgray;
     border-color: lightgray;
-    //background-size: contain;
-    //background-color: #0F0;
-    //border-color: rgba(100,255,125,0);
 }
 
 #toolbar {
