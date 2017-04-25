@@ -138,7 +138,9 @@
     // load all our html templates!
     $(function(){
       $("#search").load("searchbar.html");
+      $("#video").load("video.html");
     });
+
     countoff = this.value;
 
     // set initial positions of window panes
@@ -147,7 +149,7 @@
 
     // set countoff display
     document.getElementById("countoff").innerHTML = "&nbsp15s";
-    document.getElementById("videoBox").setAttribute("width", "100%")
+    $("#video").css("width", "100%");
   });
 
   // Set all instances of .draggable-wrapper to be draggable in the body
@@ -386,18 +388,13 @@
       <div id="editDanceText">
         Edit Dance
       </div>
-    </button>    </div>
-    <div id="search"></div>
-
-
+    </button> 
+    <script src="searchbar.js"></script>
+    <div id="search" class="ui-widget"></div>
+    </div>
     <div id="content" style="max-width:999px; margin: 10% auto">
-      <div id="video">
-        <!-- https://www.w3schools.com/html/html5_video.asp -->
-        <video id="videoBox">
-          <source src="https://ia902606.us.archive.org/11/items/Exercise1949/Exercise1949_512kb.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
+
+        <div id="video"></div>
 
         <div id ="seekbar">
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
