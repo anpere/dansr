@@ -1,0 +1,21 @@
+  <script>
+  $( "#codeSearch" ).autocomplete({
+    source: availableCodes
+  });
+
+  $('#codeSearch').keypress(function(e) {
+    //TODO: Prevent multiple entries from being added
+    if(e.which == 13) { // keycode of return is 13
+      //Add entered code to auto-complete list:
+      availableCodes.push($('#codeSearch').val());
+
+      $( "#codeSearch" ).val(""); //clear text field
+      $( "#codeSearch" ).autocomplete({
+        source: availableCodes
+      });
+    }
+  });
+  </script>
+    <div class="ui-widget" id="searchWidget">
+      <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
+    </div>

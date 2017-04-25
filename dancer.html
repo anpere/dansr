@@ -1,4 +1,4 @@
-﻿ad>
+﻿<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -93,7 +93,7 @@
     }
     return toString;
   }
-  
+
   /******************* Event Handlers *******************/
   // moves the indicator after pressing the play button
   this.playIndicator = function() {
@@ -130,6 +130,10 @@
   }
 
   $(document).ready(function() {
+    // load all our html templates!
+    $(function(){
+      $("#search").load("/searchbar.html");
+    });
     countoff = this.value;
 
     // set initial positions of window panes
@@ -139,23 +143,6 @@
     // set countoff display
     document.getElementById("countoff").innerHTML = "&nbsp15s";
     document.getElementById("videoBox").setAttribute("width", "100%")
-  });
-
-  $( "#codeSearch" ).autocomplete({
-    source: availableCodes
-  });
-
-  $('#codeSearch').keypress(function(e) {
-    //TODO: Prevent multiple entries from being added
-    if(e.which == 13) { // keycode of return is 13
-      //Add entered code to auto-complete list:
-      availableCodes.push($('#codeSearch').val());
-
-      $( "#codeSearch" ).val(""); //clear text field
-      $( "#codeSearch" ).autocomplete({
-        source: availableCodes
-      });
-    }
   });
 
   // Set all instances of .draggable-wrapper to be draggable in the body
@@ -395,12 +382,8 @@
         Edit Dance
       </div>
     </button>    </div>
+    <div id="search"></div>
 
-    <div id ="search">
-      <div class="ui-widget" id="searchWidget">
-        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-      </div>
-    </div>
 
     <div id="content" style="max-width:999px; margin: 10% auto">
       <div id="video">
@@ -415,7 +398,7 @@
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
             <img id="handlebarleft" src="images/handlebarright.svg">
           </div>
- 
+
           <div id="sections">
             <div id="section1" class="section"></div>
             <div id="section2" class="section"></div>
