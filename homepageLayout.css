@@ -1,35 +1,33 @@
-img {
-	opacity: 1;
-	display: inline;
-}
-
-
+/*Top div including hamburger menu and new dance button*/
 #top {
     position:relative;
 }
+
+/*Logo*/
+/*Logo div*/
 #title{
 	margin-top:10%;
 }
 
+/*Logo image*/
+#logo{
+	margin-left:auto;
+	margin-right:auto; 
+	margin-top:20;
+}
+
+
+/*Homepage specific searchbar*/
 #search {
 	text-align: center;
 	vertical-align: middle;
 	position: absolute;
 	top: 50%;
-	width: 100%;
-	margin-left:2;
+	width: 50%;
+	margin-left:25%;
 }
 
-label {
-	position: relative;
-	top: 7px;
-	left: 0px;
-}
-
-.body {
-	margin: 15px;
-}
-
+/*New Dance Button*/
 #newDance {
 	display: inline-flex;
 	position: absolute;
@@ -46,103 +44,5 @@ label {
 
 #newDance img {
 	margin: 2px 5px 2px 2px;
-}
-
-div#searchWidget {
-    display: inline-flex;
-    flex-grow: 1; 
-}
-
-input#codeSearch {
-	align-self:center;
-    font-size: 1.5em;
-	margin-left:auto;
-	margin-right:auto;
-	width:50%
-}
-
-
-#searchWidget button {
-    background: rgba(75,205,100,0.5)
-}
-
-#hamburger {
-  background:none;
-  position:absolute;
-  top: 10;
-  left: 25;
-  line-height:45px;
-  padding:5px 15px 0px 5px;
-  color:#999;
-  border:0;
-  font-size:1.4em;
-  font-weight:bold;
-  cursor:pointer;
-  outline:none;
-  z-index:10000000000000;
-}
-
-.menu {
-	z-index:1000000; 
-	font-weight:bold; 
-	width:13%; 
-	background:#f1f1f1;  
-	position:absolute; 
-	text-align:left; 
-	font-size:14px;
-
-	position: absolute;
-	top: 40px;
-	left: 0px;
-}
-
-.menu ul {
-	margin: 0;
-	padding: 0;
-	list-style-type: none; 
-	list-style-image: none;
-}
-
-.menu li {
-	display: block;   
-	padding: 7px 3px 5px 3px; 
-	border-bottom:#dddddd 1px solid;
-}
-
-.menu li:hover{
-	display: block;    
-	background: #9fc2f9; 
-	padding: 7px 3px 5px 3px; 
-	border-bottom:#dddddd 1px solid;
-}
-
-.menu ul li img {
-	margin: 5px;
-}
-.menu ul li a { 
-	text-decoration:none;  
-	margin: 0px; 
-	color:#666;
-}
-
-.menu ul li a:hover {  
-	color: #666; 
-	margin: 0px;
-	text-decoration:none;
-}
-
-.menu a{
-	text-decoration:none; 
-	color:#666;
-}
-
-.menu a:hover{ 
-	text-decoration:none; 
-	color:#666;
-}
-#logo{
-	margin-left:auto;
-	margin-right:auto; 
-	margin-top:20;
 }
 

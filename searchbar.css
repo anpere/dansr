@@ -1,0 +1,17 @@
+/*Search bar*/
+div#searchWidget {
+    display: inline-flex;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+input#codeSearch {
+    width: 100%;
+    font-size: 1.25em;
+
+}
+
+#searchWidget button {
+    background: rgba(75,205,100,0.5)
+}

@@ -1,0 +1,139 @@
+/*Seekbar*/
+#seekbar {
+    display: flex;
+    width: 100%;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+#handlebarright{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-55;
+}
+
+#handlebarleft{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-55;
+}
+
+#indicatorBar{
+	width:70 !important;
+	height:70 !important;
+	margin-left: -35;
+	margin-top:-22;
+}
+
+/*Red Indicator*/
+#indicator {
+    background: #FF0000;
+    height: 33px;
+    width: 6px;
+    align-self: flex-end;
+}
+
+
+
+/*Tool buttons general formatting*/
+.tool-icon {
+    height: 42;
+    width: 60 !important;
+    position:relative;
+    display:inline-block;
+    float:left;
+	border-right-color:gray !important;
+}
+
+.btn-primary {
+    margin-right:0;
+    margin-left:0;
+    border-radius:0;
+    color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: lightgray;
+	height: 42;
+	border-color:lightgray;
+	border-width:0;
+
+}
+
+.btn-primary:hover{
+    background-color:lightgray;
+    outline: none;
+    border-color: lightgray;
+	cursor:pointer;
+
+}
+
+.btn-primary:focus, .btn-primary:active, .btn-primary.active {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color:lightgray;
+    border-color: lightgray;
+}
+
+/*Toolbar*/
+#toolbar {
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    position:relative;
+    background-color:lightgray;
+    height:42;}
+
+/*Speed controls*/
+/*Speed textbox*/
+#speed{
+    width:60;
+    margin-left:5;
+    margin-top:2;
+    margin-right:0;
+}
+
+/*Speed text label*/
+#speedLabel{
+    margin-left:0;
+}
+
+/*Increase speed button*/
+#right{
+	margin-right:20;
+	border-right-width:2;
+}
+
+/*Decrease speed button*/
+#left{
+	border-left-width:2;
+	border-left-color:gray;
+}
+
+/*Countoff*/
+#countoffBar {
+	position: relative;
+	margin-top: 21px;
+	margin-left:-110;
+}
+
+#countoffLabel{
+	margin-left:10;
+}
+
+/*Metronome button*/
+#metronome{
+	margin-left:20;
+	border-left-width:2;
+	border-left-color:gray;
+	border-right-width:2;
+}
+
+/*Fullscreen button*/
+#fullscreen{
+	border-left-width:2;
+	border-left-color:gray;
+	
+}
