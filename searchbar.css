@@ -1,18 +1,4 @@
 /*Search bar*/
-#search {
-  display: flex;
-  overflow: hidden;
-  height: 60;
-  max-height: 28px;
-  align-self:center;
-  width: 1000;
-  max-height: 480px;
-  margin-top:10;
-  margin-left: auto;
-  margin-right: auto;
-  position:relative;
-}
-
 div#searchWidget {
     display: inline-flex;
     flex-grow: 1;
