@@ -50,7 +50,7 @@
   // returns: null
   loopVideoTo = function(percentage){
     var video = getVideo();
-    video.currentTime = (percentage/100) * video.duration;
+    video.currentTime = (percentage/100.) * video.duration;
   }
 
   // sets the speed of the video
@@ -131,6 +131,8 @@
 
   $(document).ready(function() {
     countoff = this.value;
+
+    // set initial positions of window panes
     $("#formations").css({position: "absolute", left: 30, top: 200});
     $("#comments").css({position: "absolute", left: 30, top: 300});
 
@@ -145,46 +147,39 @@
 
   $('#codeSearch').keypress(function(e) {
     //TODO: Prevent multiple entries from being added
-    if(e.which == 13) {
+    if(e.which == 13) { // keycode of return is 13
       //Add entered code to auto-complete list:
       availableCodes.push($('#codeSearch').val());
 
-      $( "#codeSearch" ).val(""); //Uncomment to clear text field
+      $( "#codeSearch" ).val(""); //clear text field
       $( "#codeSearch" ).autocomplete({
         source: availableCodes
       });
     }
   });
 
+  // Set all instances of .draggable-wrapper to be draggable in the body
   $('.draggable-wrapper').draggable({ containment: "body"});
 
+  // Collapse / Expand window panes:
+  // TODO: Merge into one listener?
   $('#x_button_form').on('mousedown', function(event) {
     $("#formation-image-wrapper").slideToggle('slow', function() {});
   });
 
   $('#x_button_comments').on('mousedown', function(event) {
-    $("#comments-pane").slideToggle('slow', function() {
-    });
-  });
-
-  $('#codeSubmit').click(function() {
-    //TODO: Prevent multiple entries from being added
-    //Add entered code to auto-complete list:
-    availableCodes.push($('#codeSearch').val());
-    $( "#codeSearch" ).autocomplete({
-      source: availableCodes
-    });
-    //TODO:  Advance to next screen after searching for dance code
+    $("#comments-pane").slideToggle('slow', function() {});
   });
 
   //Draggable Indicator:
   $(function() {
+    $("#indicator").css({right: 0});
     $("#indicator").draggable({ axis: "x", containment: "parent"});
     $("#indicator").on("drag", function(event, ui) {
       $("#indicator").stop();
       var width = $("#seekbar").width();
-      var fractionalPosition = ui.position.left / width;
-      //TODO: Trigger seek in video / audio
+      var fractionalPosition = Math.abs(ui.position.left / width);
+      loopVideoTo(fractionalPosition * 100.);
     });
   });
 
@@ -213,31 +208,28 @@
         secStart = fractionalPosition;
         $("#grayLeft").css({"width": ui.position.left});
       }
+      event.stopPropagation();
+    });
+
+    $("#seekbar").on("mousedown", function(event) {
+      $("#indicator").stop();
+      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
+      //Adjust to 0 if negative to avoid glitches:
+      if(clickedPosX_centered < 0) {
+        clickedPosX_centered = 0;
+      }
+      $("#indicator").css({ left: -($("#seekbar").width() - clickedPosX_centered) });
+      loopVideoTo( clickedPosX_centered/$("#seekbar").width() * 100.);
     });
   });
 
-  $("#seekbar").on('mousedown', (function(event) {
-    $("#indicator").stop();
-    var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width();
-    //Adjust to 0 if negative to avoid glitches:
-    if(clickedPosX_centered < 0) {
-      clickedPosX_centered = 0;
-    }
-    $("#indicator").css({ position: 'relative',
-    left: clickedPosX_centered });
-    var indicator = $("#indicator");
-    indicator.triggerHandler(event);
-    // TODO(ap) update video here:
-  }));
-
-  //Valume control
+  //Volume control
   //Draggable volumeIndicator:
   $(function() {
     $("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
     $("#volumeIndicator").on("drag", function(event, ui) {
       var width = $("#volumeBar").width();
-      var fractionalPosition = ui.position.left / width;
-      //TODO: Trigger seek in video / audio
+      var fractionalPosition = ui.position.left / (width*1.0);
     });
   });
 
@@ -420,16 +412,16 @@
         </div>
 
         <div id ="seekbar">
+          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
+            <img id="handlebarleft" src="images/handlebarright.svg">
+          </div>
+ 
           <div id="sections">
             <div id="section1" class="section"></div>
             <div id="section2" class="section"></div>
             <div id="section3" class="section"></div>
           </div>
-          <div id="grayLeft" class="grey"></div>
-          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
-            <img id="handlebarleft" src="images/handlebarright.svg">
 
-          </div>
           <div id="indicator" class="ui-draggable ui-draggable-handle">
             <img id="indicatorBar" src="images/seekbar.svg">
           </div>
@@ -437,7 +429,6 @@
           <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
             <img id="handlebarright" src="images/handlebarleft.svg">
           </div>
-          <div id="grayRight" class="grey"></div>
         </div>
 
 
