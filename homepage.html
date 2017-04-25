@@ -22,8 +22,10 @@
         "nature",
         ];
 
+        // hides the menu after the page is loaded
         $( ".menu" ).hide();
         
+        // shows/hides the menu after pressing the hamburger button
         $("#hamburger").click(function() {
             $( ".menu" ).slideToggle("slow");
         });

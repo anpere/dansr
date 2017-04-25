@@ -1,4 +1,4 @@
-<head>
+﻿ad>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -95,7 +95,7 @@
   }
   
   /******************* Event Handlers *******************/
-  // TODO: spec
+  // moves the indicator after pressing the play button
   this.playIndicator = function() {
     var rect = document.getElementById("seekbar").getBoundingClientRect();
     var handleStart = document.getElementById("sectionStart");
@@ -107,29 +107,20 @@
       speed = parseFloat(speed);
     }
 
-    // TODO (comments)
-    // TODO () put these in helper functions to make body of code smaller
-    if (secStart >= secEnd) {
-      console.log("play with handles reversed: " + secEnd + "-" + secStart);
-      if (!pause) {
-        $("#indicator").css({
-          "left": handleEnd.style.left
-        });
-      }
-      $("#indicator").animate({
+    // TODO: fix the handlebars so that they cannot cross each other
+    console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
+    // if the video has not been paused, set the indicator to be at the left handlebar
+    if (!pause) {
+      $("#indicator").css({
         "left": handleStart.style.left
-      }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
-    } else {
-      console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
-      if (!pause) {
-        $("#indicator").css({
-          "left": handleStart.style.left
-        });
-      }
-      $("#indicator").animate({
-        "left": handleEnd.style.left
-      }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
+      });
     }
+    // animate the indicator across the section
+    $("#indicator").animate({
+      "left": handleEnd.style.left
+    }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
+
+    // at the end of the section, play it again if the loop is on
     setTimeout(function() {
       console.log("here");
       if (loop) {
@@ -198,14 +189,19 @@
   });
 
   //Draggable Handlebars
+
+  // prevents the movement of the indicator when dragging the handlebar
   $(".handlebar").mousedown(function(event) {
     event.stopPropagation();
   });
 
+  // creates the handler for dragging handlebars
   $(function() {
     var rect = document.getElementById("seekbar").getBoundingClientRect();
     $(".handlebar").draggable({ axis: "x", containment: "parent"});
 
+    // updates the grey rectangles on the sides of the handlebar
+    // DISCUSS: inverting the greyed out section?
     $(".handlebar").on("drag", function(event, ui) {
       var width = $("#seekbar").width();
       var fractionalPosition = ui.position.left / width;
@@ -257,11 +253,13 @@
     volumeIndicator.triggerHandler(event);
   });
 
+  // toggles the loop variable depending on the state of the button
   $(document).on('click', "#loop", function(evt)
   {
     loop = !loop;
   });
 
+  // back to beginning button - stops the indicator movement and plays again
   $(document).on('click', "#replay", function(evt)
   {
     $("#indicator").stop();
@@ -290,6 +288,7 @@
     }
   });
 
+  // snaps the handlebars to the section boundaries
   $(document).on('dblclick', ".section", function(evt) {
     var rect = document.getElementById("seekbar").getBoundingClientRect();
     var left = $(this).position().left;
@@ -340,6 +339,7 @@
   });
 
 
+  // decrements speed by 0.1
   $(document).on('click', "#left", function(evt) {
     var speed = $("#speed").val();
     if (speed.length < 1) {
@@ -354,6 +354,7 @@
     setVideoSpeed(newSpeed);
   });
 
+  // increments speed by 0.1
   $(document).on('click', "#right", function(evt) {
     var speed = $("#speed").val();
     if (speed.length < 1) {
@@ -365,6 +366,7 @@
     setVideoSpeed(newSpeed)
   });
 
+  // allow user to type into speed textbox
   $(document).on('keyup', "#speed", function(evt) {
     var speed = $("#speed").val();
     // TODO() more text validation: set min speed to .5 and max speed to 4.0
@@ -375,6 +377,7 @@
 
   });
 
+  // stops enter from submitting the page when focused on the speed textbox
   $(document).on('keypress', "#speed", function (e) {
     if (e.charCode==13) {
       return false;
