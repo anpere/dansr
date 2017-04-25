@@ -1,221 +1,11 @@
-body {
-    margin: 10px;
-}
-
-.padding {
-    width: 20%
-    background: #FFF;
-    display: inline-flex;
-}
-
-.tool-icon {
-    height: 42;
-    width: 60 !important;
-    position:relative;
-    display:inline-block;
-    float:left;
-	border-right-color:gray !important;
-
-
-}
-
-.btn-primary {
-    margin-right:0;
-    margin-left:0;
-    border-radius:0;
-    color: #fff;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: lightgray;
-	height: 42;
-	border-color:lightgray;
-	border-width:0;
-
-    //background-color: rgba(100,210,125,0);
-    //border-color: rgba(100,210,125,0);
-}
-
-.btn-primary:hover{
-    background-color:lightgray;
-    outline: none;
-    border-color: lightgray;
-	cursor:pointer;
-
-}
-
-
-
-.btn-primary:focus, .btn-primary:active, .btn-primary.active {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color:lightgray;
-    border-color: lightgray;
-    //background-size: contain;
-    //background-color: #0F0;
-    //border-color: rgba(100,255,125,0);
-}
-
-#toolbar {
-    width: 100%;
-    display: flex;
-    margin: 0 auto;
-    position:fixed;
-}
-
-#countoffBar {
-	position: relative;
-	margin-top: 21px;
-	margin-left: -60px;
-}
-
-#addComment {
-	top: 415px;
-	margin-left:auto;
-	margin-right:auto;
-	position:relative;
-}
-#search {
-  display: flex;
-  overflow: hidden;
-  height: 60;
-  max-height: 28px;
-  align-self:center;
-  width: 1000;
-  max-height: 480px;
-  margin-top:10;
-  margin-left: auto;
-  margin-right: auto;
-  position:relative;
-}
-
-div#searchWidget {
-    display: inline-flex;
-    flex-grow: 1;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-input#codeSearch {
-    width: 100%;
-    font-size: 1.25em;
-
-}
-
-#searchWidget button {
-    background: rgba(75,205,100,0.5)
-}
-
-#seekbar {
-    display: flex;
-    width: 100%;
-    border: 1px solid black;
-    margin: 0 auto;
-}
-
-#toolbar {
-	display: flex;
-	width:100%;
-    position:relative;
-    background-color:lightgray;
-    height:42;
-}
-#indicator {
-    background: #FF0000;
-    height: 33px;
-    width: 6px;
-    align-self: flex-end;
-}
-
-#volumeIndicator {
-    background: #FF0000;
-    height: 33px;
-    width: 6px;
-    align-self: flex-end;
-}
-
-#video{
-    display: flex;
-    border-style: solid;
-    width: 100%;
-    height: 70%;
-
-    max-height: 480px;
-    align-self: center;
-    margin-top: 1%;
-    margin-left: auto;
-    margin-right: auto;
-	position:relative;
-}
-
-#choreoTools{
-	position:absolute;
-	bottom:0;
-	right:0;
-}
-
+/*Top div including hamburger menu, logo, search bar, edit/watch dance button*/
 #top{
 	position:relative;
 }
+
+/*Edit dance button for dancer*/
 #editDance{
-	position:absolute;
 	right:0;
-}
-#watchDance{
-	position:absolute;
-	right:0;
-}
-
-video{
-	height: 75%;
-	width: 75%;
-	max-width: 640px;
-	max-height: 480px;
-}
-
-
-#speed{
-    width:60;
-    margin-left:5;
-    margin-top:2;
-    margin-right:0;
-}
-#speedLabel{
-    margin-left:0;
-}
-#addComment{
-	background-color: black;
-	opacity:0.5;
-}
-#addComment:hover{
-	background-color: gray !important;
-}
-
-#hamburger {
-  background:none;
-  position:relative;
-  top: 0;
-  left: 0;
-  line-height:45px;
-  padding:5px 15px 0px 5px;
-  color:#999;
-  border:0;
-  font-size:1.4em;
-  font-weight:bold;
-  cursor:pointer;
-  outline:none;
-  z-index:10000000000000;
-}
-
-#countoffLabel{
-	margin-left:10;
-}
-
-#countoffbar{
-	margin-left:-110;
-}
-
-#editDance{
 	display: inline-flex;
 	position: absolute;
 	text-align: center;
@@ -230,7 +20,9 @@ video{
 	padding-left:8px;
 }
 
+/*Watch dance button for choreos*/
 #watchDance{
+	right:0;
 	display: inline-flex;
 	position: absolute;
 	text-align: center;
@@ -243,28 +35,4 @@ video{
 	padding-top: 4px;
 	margin: 0px;
 	padding-left:8px;
-}
-
-#right{
-	margin-right:20;
-	border-right-width:2;
-}
-
-
-#left{
-	border-left-width:2;
-	border-left-color:gray;
-}
-
-#metronome{
-	margin-left:20;
-	border-left-width:2;
-	border-left-color:gray;
-	border-right-width:2;
-}
-
-#fullscreen{
-	border-left-width:2;
-	border-left-color:gray;
-	
 }

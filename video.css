@@ -1,0 +1,36 @@
+/*Video container*/
+#video{
+    display: flex;
+    border-style: solid;
+    width: 100%;
+    height: 70%;
+
+    max-height: 480px;
+    align-self: center;
+    margin-top: 1%;
+    margin-left: auto;
+    margin-right: auto;
+	position:relative;
+}
+
+/*Video file player*/
+video{
+	height: 75%;
+	width: 75%;
+	max-width: 640px;
+	max-height: 480px;
+}
+
+/*Add comment box*/
+#addComment {
+	top: 415px;
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+    background-color: black;
+	opacity:0.5;
+}
+
+#addComment:hover{
+	background-color: gray !important;
+}
