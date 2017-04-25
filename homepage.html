@@ -37,18 +37,6 @@
         $("#hamburger").click(function() {
             $( ".menu" ).slideToggle("slow");
         });
-
-        $( "#codeSearch" ).autocomplete({
-          source: availableCodes
-        });
-
-        $('#codeSubmit').click(function() {
-          //TODO: Prevent multiple entries from being added
-          //Add entered code to auto-complete list:
-          availableCodes.push($('#codeSearch').val());
-
-          //$( "#codeSearch" ).val(""); //Uncomment to clear text field
-        });
 	});
     </script>
 
