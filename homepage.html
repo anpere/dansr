@@ -4,6 +4,7 @@
 
     <link rel="stylesheet" href="homepageLayout.css">
     <link rel='shortcut icon' href='images/dfavicon.png'/>
+    <meta charset="UTF-8">
 
 
 	<!-- jQuery and jQueryUI -->
@@ -13,23 +14,27 @@
     <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
+    var availableCodes = [
+    "chicken",
+    "toffee",
+    "nature",
+    ];
     $(document).ready(function() {
-
+      // load all our html templates!
+      $(function(){
+        $("#search").load("searchbar.html");
+      });
         //Initialize auto-complete
-        var availableCodes = [
-        "chicken",
-        "toffee",
-        "nature",
-        ];
+
 
         // hides the menu after the page is loaded
         $( ".menu" ).hide();
-        
+
         // shows/hides the menu after pressing the hamburger button
         $("#hamburger").click(function() {
             $( ".menu" ).slideToggle("slow");
         });
-        
+
         $( "#codeSearch" ).autocomplete({
           source: availableCodes
         });
@@ -47,16 +52,16 @@
       	if(e.which == 13) {
         	//Add entered code to auto-complete list:
         	availableCodes.push($('#codeSearch').val());
-			
+
         	$( "#codeSearch" ).val(""); //Uncomment to clear text field
 
         	$( "#codeSearch" ).autocomplete({
             	source: availableCodes
         	});
-        	
+
         	console.log("h");
         	location.href = "http://web.mit.edu/anpere/www/dansr/dancer.html";
-	}
+        }
   });
 
 	});
@@ -84,7 +89,7 @@
     </div>
         <!--For now, this buton links directly to the choreographer interface-->
         <button class="btn" id="newDance" onclick="location.href='choreo.html'">
-            <img src="images/plus.svg"> 
+            <img src="images/plus.svg">
             <div id="newDanceText">
                 Create New Dance
             </div>
@@ -97,8 +102,5 @@
     </div>
 
     <div class="row" id="search">
-        <div class="ui-widget" id="searchWidget">
-          <input id="codeSearch" class="ui-autocomplete-input" placeholder="Enter Dance Code:">
-        </div>
     </div>
 </body>
