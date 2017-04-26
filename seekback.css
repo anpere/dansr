@@ -7,19 +7,36 @@
 }
 
 .handlebar {
-  width:20px;
+  height: 0px;
+  width: 0px;
+  align-self: flex-end;
+  z-index: 6;
+  position: relative;
+}
+
+#sections {
+  width: 100%;
+  display: inline-flex;
+}
+
+#sectionStart {
+  position: relative;
+}
+
+#sectionEnd {
+  position: relative;
 }
 
 #handlebarright{
-	width:50%;
-	height:auto;
+	width:70px;
+	height:70px;
 	margin-left: -35;
 	margin-top:-55;
 }
 
 #handlebarleft{
-	width:50%;
-	height:auto;
+	width: 70px;
+	height: 70px;
 	margin-left: -35;
 	margin-top:-55;
 }
@@ -33,10 +50,13 @@
 
 /*Red Indicator*/
 #indicator {
-    background: #FF0000;
-    height: 33px;
-    width: 6px;
-    align-self: flex-end;
+  position: relative;
+  background: #FF0000;
+  height: 33px;
+  width: 0px;
+  align-self: flex-end;
+  z-index: 5;
+  left: 0px;
 }
 
 /*Tool buttons general formatting*/
@@ -77,6 +97,30 @@
     background-repeat: no-repeat;
     background-color:lightgray;
     border-color: lightgray;
+}
+
+#section1 {
+  width: 15%;
+  position: relative;;
+  top: 0px;
+  left: 50px;
+  background-color: #b067c6;
+}
+
+#section2 {
+  width: 25%;
+  position: relative;
+  top: 0px;
+  left: 100px;
+  background-color: #b1d83c;
+}
+
+#section3 {
+  width: 5%;
+  position: relative;
+  top: 0px;
+  left: 200px;
+  background-color: #dba55e;
 }
 
 /*Toolbar*/
