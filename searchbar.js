@@ -1,3 +1,10 @@
+//Initialize auto-complete
+var availableCodes = [
+  "chicken",
+  "toffee",
+  "nature",
+];
+
 $( "#codeSearch" ).autocomplete({
   source: availableCodes
 });

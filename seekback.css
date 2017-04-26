@@ -6,16 +6,20 @@
     margin: 0 auto;
 }
 
+.handlebar {
+  width:20px;
+}
+
 #handlebarright{
-	width:70 !important;
-	height:70 !important;
+	width:50%;
+	height:auto;
 	margin-left: -35;
 	margin-top:-55;
 }
 
 #handlebarleft{
-	width:70 !important;
-	height:70 !important;
+	width:50%;
+	height:auto;
 	margin-left: -35;
 	margin-top:-55;
 }
@@ -34,8 +38,6 @@
     width: 6px;
     align-self: flex-end;
 }
-
-
 
 /*Tool buttons general formatting*/
 .tool-icon {

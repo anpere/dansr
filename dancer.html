@@ -19,7 +19,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
 
+  <script src="searchbar.js"></script>
   <script>
   /************************ Global Variables ********************/
   // TODO() replace as many as possible with functions.
@@ -37,13 +39,6 @@
   var isPlaying = false;
   var isMetronomeOn = false;
 
-  //Initialize auto-complete
-  var availableCodes = [
-    "chicken",
-    "toffee",
-    "nature",
-  ];
-
   var COUNTOFF_MIN=0;
   var COUNTOFF_MAX=30;
   var countoff = 0;
@@ -55,7 +50,8 @@
   // returns: null
   loopVideoTo = function(percentage){
     var video = getVideo();
-    video.currentTime = (percentage/100.) * video.duration;
+    console.log("looping video to " + percentage + "%... [video.duration = " + video.duration+"]");
+    video.currentTime = (Math.abs(percentage)/100.) * video.duration;
   }
 
   // sets the speed of the video
@@ -79,7 +75,7 @@
 
   // return the width of the seekbar
   getSeekbarWidth = function(){
-    return $('#seekbar').width();
+    return $('#seekback').width();
   }
 
   // get the video dom object
@@ -136,10 +132,9 @@
 
   $(document).ready(function() {
     // load all our html templates!
-    $(function(){
-      $("#search").load("searchbar.html");
-      $("#video").load("video.html");
-    });
+    $("#search").load("searchbar.html");
+    $("#video").load("video.html");
+    $("#seekback").load("seekback.html");
 
     countoff = this.value;
 
@@ -148,49 +143,53 @@
     $("#comments").css({position: "absolute", left: 30, top: 300});
 
     // set countoff display
-    document.getElementById("countoff").innerHTML = "&nbsp15s";
-  });
+    //document.getElementById("countoff").innerHTML = "&nbsp15s";
+    $("#countoff").innerHTML = "&nbsp15s";
+    
+    ////////////////// TODO: Figure out what this is supposed to do \\\\\\\\\\\\\\\\\\
+    //var rect = document.getElementById("seekbar").getBoundingClientRect();
+    //var rect = $("#seekbar")[0].getBoundingClientRect();
+    //console.log("Bounding Client Rect: " + JSON.stringify(rect, null, 4));
+    
+    // Set all instances of .draggable-wrapper to be draggable in the body
+    $('.draggable-wrapper').draggable({ containment: "body"});
 
-  // Set all instances of .draggable-wrapper to be draggable in the body
-  $('.draggable-wrapper').draggable({ containment: "body"});
-
-  // Collapse / Expand window panes:
-  // TODO: Merge into one listener?
-  $('#x_button_form').on('mousedown', function(event) {
-    $("#formation-image-wrapper").slideToggle('slow', function() {});
-  });
-
-  $('#x_button_comments').on('mousedown', function(event) {
-    $("#comments-pane").slideToggle('slow', function() {});
-  });
-
-  //Draggable Indicator:
-  $(function() {
-    $("#indicator").css({right: 0});
-    $("#indicator").draggable({ axis: "x", containment: "parent"});
-    $("#indicator").on("drag", function(event, ui) {
-      $("#indicator").stop();
-      var width = $("#seekbar").width();
-      var fractionalPosition = Math.abs(ui.position.left / width);
-      loopVideoTo(fractionalPosition * 100.);
+    // Collapse / Expand window panes:
+    // TODO: Merge into one listener?
+    $('#x_button_form').on('mousedown', function(event) {
+      $("#formation-image-wrapper").slideToggle('slow', function() {});
     });
-  });
 
-  //Draggable Handlebars
+    $('#x_button_comments').on('mousedown', function(event) {
+      $("#comments-pane").slideToggle('slow', function() {});
+    });
 
-  // prevents the movement of the indicator when dragging the handlebar
-  $(".handlebar").mousedown(function(event) {
-    event.stopPropagation();
-  });
+    //Draggable Indicator:
+    //$(function() {
+      $("#indicator").css({right: 0});
+      $("#indicator").draggable({ axis: "x", containment: "parent"});
+      $(document).on("drag", "#indicator", function(event, ui) {
+        $("#indicator").stop();
+        var width = $("#seekbar").width();
+        var fractionalPosition = Math.abs(ui.position.left / width);
+        loopVideoTo(fractionalPosition * 100.);
+      });
+    //});
+  
+    //Draggable Handlebars
 
-  // creates the handler for dragging handlebars
-  $(function() {
-    var rect = document.getElementById("seekbar").getBoundingClientRect();
-    $(".handlebar").draggable({ axis: "x", containment: "parent"});
+    // prevents the movement of the indicator when dragging the handlebar
+    $(document).on("mousedown", ".handlebar", function(event) {
+      event.stopPropagation();
+    });
 
+    // creates the handler for dragging handlebars
+    $("#handlebarleft").draggable({ axis: "x", containment: "parent"});
+});
     // updates the grey rectangles on the sides of the handlebar
     // DISCUSS: inverting the greyed out section?
-    $(".handlebar").on("drag", function(event, ui) {
+    $(document).on("drag", ".handlebar", function(event, ui) {
+    console.log("handlebar drag");
       var width = $("#seekbar").width();
       var fractionalPosition = ui.position.left / width;
       if ($(this).attr("id") == "sectionEnd") {
@@ -203,8 +202,9 @@
       }
       event.stopPropagation();
     });
-
-    $("#seekbar").on("mousedown", function(event) {
+    
+    $(document).on("mousedown", "#seekbar", function(event) {
+      console.log("seekbar on mousedown()");
       $("#indicator").stop();
       var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
       //Adjust to 0 if negative to avoid glitches:
@@ -214,30 +214,35 @@
       $("#indicator").css({ left: -($("#seekbar").width() - clickedPosX_centered) });
       loopVideoTo( clickedPosX_centered/$("#seekbar").width() * 100.);
     });
-  });
+
+  //});
 
   //Volume control
   //Draggable volumeIndicator:
   $(function() {
-    $("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
+
+    /*$("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
     $("#volumeIndicator").on("drag", function(event, ui) {
+    console.log("volume");
       var width = $("#volumeBar").width();
       var fractionalPosition = ui.position.left / (width*1.0);
     });
-  });
+//  });*/
 
-  $("#volumeBar").mousedown(function(event) {
-    var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
-    //Adjust to 0 if negative to avoid glitches:
-    if(clickedPosX_centered < 0) {
-      clickedPosX_centered = 0;
-    }
-    $("#volumeIndicator").css({ position: 'relative',
-    left: clickedPosX_centered });
-    var volumeIndicator = $("#volumeIndicator");
-    volumeIndicator.triggerHandler(event);
+    $("#volumeBar").mousedown(function(event) {
+      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
+      //Adjust to 0 if negative to avoid glitches:
+      if(clickedPosX_centered < 0) {
+        clickedPosX_centered = 0;
+      }
+      /*$("#volumeIndicator").css({ position: 'relative',
+      left: clickedPosX_centered });
+      var volumeIndicator = $("#volumeIndicator");
+      volumeIndicator.triggerHandler(event);
+    });*/
   });
-
+  });
+  
   // toggles the loop variable depending on the state of the button
   $(document).on('click', "#loop", function(evt)
   {
@@ -368,7 +373,6 @@
       return false;
     }
   });
-
   </script>
 </head>
 
@@ -388,7 +392,6 @@
         Edit Dance
       </div>
     </button>
-    <script src="searchbar.js"></script>
     <div id="search" class="ui-widget"></div>
   </div>
 
@@ -396,57 +399,8 @@
 
     <div id="video"></div>
 
-    <div id ="seekbar">
-    <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
-      <img id="handlebarleft" src="images/handlebarright.svg">
-    </div>
-
-    <div id="sections">
-      <div id="section1" class="section"></div>
-      <div id="section2" class="section"></div>
-      <div id="section3" class="section"></div>
-    </div>
-
-    <div id="indicator" class="ui-draggable ui-draggable-handle">
-      <img id="indicatorBar" src="images/seekbar.svg">
-    </div>
-
-    <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
-      <img id="handlebarright" src="images/handlebarleft.svg">
-    </div>
-  </div>
-
-
-    <!--The toolbar controlling playback controls-->
-    <div class="btn-group" id="toolbar">
-      <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
-      <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
-      <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-      <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
-      </button>
-      <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
-      <!--The speed controller-->
-      <form>
-        <div class="form-group form-inline">
-          <label for="speed" id="speedLabel">Speed</label>
-          <input class="form-control" id="speed" autocomplete="off" placeholder="1.0">
-        </div>
-      </form>
-      <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
-      </button>
-      <label id="countoffLabel">Countoff:</label>
-      <div id="countoff">&#160 15s</div>
-      <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
-
-      <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
-
-      <!-- TODO(AP) make not a button, but still look nice -->
-      <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
-
-      <input id ="volumeBar" type="range" min="0" max="100" step="1" style="margin-right:auto;"></input>
-      <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
-
-    </div>
+    <div id ="seekback"></div>
+    
   </div>
 
   <!-- Formation Diagram Pane-->
