@@ -1,27 +1,25 @@
 <head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
-  <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+  <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css"/>
 
-  <link rel="stylesheet" href="mainLayout.css">
-  <link rel="stylesheet" href="video.css">
-  <link rel="stylesheet" href="searchbar.css">
-  <link rel="stylesheet" href="hamburger.css">
-  <link rel="stylesheet" href="seekback.css">
+  <link rel="stylesheet" href="mainLayout.css"/>
+  <link rel="stylesheet" href="video.css"/>
+  <link rel="stylesheet" href="searchbar.css"/>
+  <link rel="stylesheet" href="hamburger.css"/>
+  <link rel="stylesheet" href="seekback.css"/>
 
   <link rel='shortcut icon' href='images/dfavicon.png'/>
   <meta charset="UTF-8">
 
 
   <!-- jQuery and jQueryUI -->
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   
-
-  <script src="searchbar.js"></script>
   <script>
   /************************ Global Variables ********************/
   // TODO() replace as many as possible with functions.
@@ -35,7 +33,8 @@
 
   // TODO() replace pause with isPlaying
   var pause = false;
-
+	var hasBeenPaused = false;
+	
   var isPlaying = false;
   var isMetronomeOn = false;
 
@@ -109,21 +108,19 @@
     }
 
     // TODO: fix the handlebars so that they cannot cross each other
-    console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
+    console.log("play: " + secStart + "-" + secEnd + " " + handleStart.style.left);
     // if the video has not been paused, set the indicator to be at the left handlebar
-    if (!pause) {
+    if (!hasBeenPaused && !isPlaying) {
       $("#indicator").css({
         "left": handleStart.style.left
       });
     }
+    
     // animate the indicator across the section
-    $("#indicator").animate({
-      "left": handleEnd.style.left
-    }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
+    $("#indicator").animate({ "left": getSeekbarWidth() }, (getVideoDuration() - getVideoTime())*1000., "linear");
 
     // at the end of the section, play it again if the loop is on
     setTimeout(function() {
-      console.log("here");
       if (loop) {
         playIndicator();
       }
@@ -163,111 +160,7 @@
     $('#x_button_comments').on('mousedown', function(event) {
       $("#comments-pane").slideToggle('slow', function() {});
     });
-
-    //Draggable Indicator:
-    //$(function() {
-      $("#indicator").css({right: 0});
-      $("#indicator").draggable({ axis: "x", containment: "parent", drag: function() {
-          $("#indicator").stop();
-          var width = $("#seekbar").width();
-          console.log("event ", JSON.stringify($(this).offset(), null, 2));
-        }
-      });
     });
-   /*   $(document).on("drag", "#indicator", function(event, ui) {
-        $("#indicator").stop();
-        var width = $("#seekbar").width();
-        console.log("event ", JSON.stringify($(this).offset(), null, 2));
-        //var fractionalPosition = Math.abs(ui.position.left / width);
-        //loopVideoTo(fractionalPosition * 100.);
-      });*/
-    //});
-  
-    //Draggable Handlebars
-
-    // prevents the movement of the indicator when dragging the handlebar
-    $(document).on("mousedown", "#handlebarleft", function(event) {
-      event.stopPropagation();
-    });
-
-    // creates the handler for dragging handlebars
-    $("#handlebarleft").draggable({ axis: "x", containment: "parent"});
-//});
-    // updates the grey rectangles on the sides of the handlebar
-    // DISCUSS: inverting the greyed out section?
-    $(document).on("drag", "#handlebarleft", function(event, ui) {
-    console.log("handlebarleft drag");
-        console.log("event ", JSON.stringify(event, null, 2));
-      var width = $("#seekbar").width();
-      //var fractionalPosition = ui.position.left / width;
-      if ($(this).attr("id") == "sectionEnd") {
-        var handle = document.getElementById("sectionEnd").getBoundingClientRect();
-        secEnd = fractionalPosition;
-        $("#grayRight").css({"left": ui.position.left+20, "width": rect.right-handle.left-10});
-      } else {
-        secStart = fractionalPosition;
-        $("#grayLeft").css({"width": ui.position.left});
-      }
-      event.stopPropagation();
-    });
-    
-    seen = [];
-    $(document).on("mousedown", "#seekbar", function(event) {
-      JSON.stringify(event.delegateTarget, function(key, val) {
-        if(val != null && typeof val == "object") {
-          if(seen.indexOf(val) >= 0) {
-            return;
-          }
-          seen.push(val);
-        }
-        return val;
-      });
-      
-      var seekbarWidth = $("#seekbar").width();
-      
-      $("#indicator").stop();
-      var clickedPosX_centered = event.clientX - $('#indicator').width()*1.0 - $("#seekback").offset().left;
-      
-      //Adjust to avoid glitches:
-      if(clickedPosX_centered < 0) {
-        clickedPosX_centered = 0;
-      }
-      else if(clickedPosX_centered > seekbarWidth) {
-        clickedPosX_centered = seekbarWidth;
-      }
-      
-      console.log("clickedPosX " + clickedPosX_centered + " seekbar width: " + $("#seekbar").width());
-      $("#indicator").css({ left: /*-(seekbarWidth() -*/ clickedPosX_centered });
-      loopVideoTo( clickedPosX_centered/seekbarWidth * 100.);
-    });
-
-  //});
-
-  //Volume control
-  //Draggable volumeIndicator:
-  $(function() {
-
-    /*$("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
-    $("#volumeIndicator").on("drag", function(event, ui) {
-    console.log("volume");
-      var width = $("#volumeBar").width();
-      var fractionalPosition = ui.position.left / (width*1.0);
-    });
-//  });*/
-
-    $("#volumeBar").mousedown(function(event) {
-      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
-      //Adjust to 0 if negative to avoid glitches:
-      if(clickedPosX_centered < 0) {
-        clickedPosX_centered = 0;
-      }
-      /*$("#volumeIndicator").css({ position: 'relative',
-      left: clickedPosX_centered });
-      var volumeIndicator = $("#volumeIndicator");
-      volumeIndicator.triggerHandler(event);
-    });*/
-  });
-  });
   
   // toggles the loop variable depending on the state of the button
   $(document).on('click', "#loop", function(evt)
@@ -298,6 +191,7 @@
       video.pause();
       $("#indicator").stop();
       pause = true;
+      hasBeenPaused = true;
       // set button to play
       button.setAttribute("style", "background-image:url('images/play.svg')")
       isPlaying = false;
@@ -400,6 +294,7 @@
     }
   });
   </script>
+  
 </head>
 
 
