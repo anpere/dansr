@@ -48,8 +48,15 @@
   // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
   // returns: null
   loopVideoTo = function(percentage){
+    console.log(percentage);
     var video = getVideo();
     video.currentTime = (percentage/100.) * video.duration;
+
+    // check if we need to play the video
+    // this is needed when we end the video, and then move the indicator back.
+    if (isPlayOn && video.paused) {
+      video.play()
+    }
   }
 
   // sets the speed of the video
@@ -171,7 +178,15 @@
       var handleStart = getHandleStartPosition();
       var handleEnd = getHandleEndPositon();
       var current = getIndicatorPosition();
-      setIndicatorPosition(getNextPosition(current, handleStart, handleEnd));
+      var nextCurrent = getNextPosition(current, handleStart, handleEnd)
+      setIndicatorPosition(nextCurrent);
+      // only happnens when we loop back...
+      // so change video
+      // we only want to update video in this case, because if we always update
+      // video to match, video will look jumpy
+      if (nextCurrent < current ) {
+        loopVideoTo(100*nextCurrent/getSeekbarWidth())
+      }
 
       // TODO: fix the handlebars so that they cannot cross each other
     }
@@ -308,10 +323,10 @@
   });
 
   // back to beginning button - stops the indicator movement and plays again
-  $(document).on('click', "#replay", function(evt)
+  $(document).on('click', "#goBack", function(evt)
   {
-    $("#indicator").stop();
-    playIndicator();
+    setIndicatorPosition(getHandleStartPosition());
+    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth())
   });
 
   $(document).on('click', "#playPause", function(evt)
@@ -491,7 +506,7 @@
         <!--The toolbar controlling playback controls-->
         <div class="btn-group" id="toolbar">
           <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
-          <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
+          <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
           <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
           <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
           </button>
