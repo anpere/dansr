@@ -25,7 +25,9 @@
   var isLoopOn = false;
   var isPlayOn = false;
   var isMetronomeOn = false;
-  var debugOn = true;
+
+  // to turn of debugging statements
+  var debugOn = false;
 
   //Initialize auto-complete
   var availableCodes = [
@@ -48,7 +50,6 @@
   // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
   // returns: null
   loopVideoTo = function(percentage){
-    console.log(percentage);
     var video = getVideo();
     video.currentTime = (percentage/100.) * video.duration;
 
@@ -63,7 +64,6 @@
   // speed: a positive  floating point number that represents the speed of video
   // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
   setVideoSpeed = function(speed){
-    console.log("setVideoSpeed: ")
     var video = getVideo();
     video.playbackRate = speed
   }
