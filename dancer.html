@@ -21,16 +21,13 @@
   // i.e isLoopOn should be a function that reads the state of the loop button
   // as opposed to something we trust ourselves to modify correctly and consistently
 
-  var secEnd = 1;
-  var secStart = 0;
-  var loop = false;
+
   var isLoopOn = false;
-
-  // TODO() replace pause with isPlaying
-  var pause = false;
-
-  var isPlaying = false;
+  var isPlayOn = false;
   var isMetronomeOn = false;
+
+  // to turn of debugging statements
+  var debugOn = false;
 
   //Initialize auto-complete
   var availableCodes = [
@@ -43,6 +40,10 @@
   var COUNTOFF_MAX=30;
   var countoff = 0;
 
+  // play indicator global Variables
+  var indicatorTimeout = 100;
+
+
   /************************ Helper Functions ********************/
 
   // function that plays the video starting at percentage
@@ -51,15 +52,27 @@
   loopVideoTo = function(percentage){
     var video = getVideo();
     video.currentTime = (percentage/100.) * video.duration;
+
+    // check if we need to play the video
+    // this is needed when we end the video, and then move the indicator back.
+    if (isPlayOn && video.paused) {
+      video.play()
+    }
   }
 
   // sets the speed of the video
   // speed: a positive  floating point number that represents the speed of video
   // i.e speed=.5 plays the video at half times speed, speed=2 plays at twice the speed
   setVideoSpeed = function(speed){
-    console.log("setVideoSpeed: ")
     var video = getVideo();
     video.playbackRate = speed
+  }
+
+  // may or may not actually correspond to the actual video speed,
+  // isn't life wonderful?
+  getSpeed = function(){
+    var speed = $("#speed").val();
+    return speed;
   }
 
   // gets the length of the video in seconds
@@ -93,40 +106,90 @@
     }
     return toString;
   }
-  
+
+  pixelToFloat = function(left){
+    return parseFloat(left.substring(0, left.length - 2));
+  }
+
+  // TODO: positons of everything isn't consistent, some have to be offset with seekbarWidth
+  // sad!
+  // get left position of the play Indicator
+  getIndicatorPosition = function() {
+    var left = document.getElementById("indicator").style.left;
+    return pixelToFloat(left) + getSeekbarWidth();
+  }
+  // set left position of the play Indicator to left
+  setIndicatorPosition = function(left) {
+    var indicator = document.getElementById("indicator").style;
+    indicator.left = left - getSeekbarWidth();
+    debug("value is here: " + indicator.left);
+  }
+  // get left position of the start handle
+  getHandleStartPosition = function() {
+    // TODO call sectionStart a better name...
+    var left = document.getElementById("sectionStart").style.left;
+    return pixelToFloat(left);
+  }
+  setHandleStartPosition = function(left) {
+    document.getElementById("sectionStart").style.left = left;
+  }
+  // get left position of the end handle
+  getHandleEndPositon = function() {
+    var left = document.getElementById("sectionEnd").style.left;
+    return getSeekbarWidth() + pixelToFloat(left);
+  }
+
+  setHandleEndPosition = function(left) {
+    document.getElementById("sectionEnd").style.left = left - getSeekbarWidth();
+  }
+
+  getNextPosition = function(current, handleStart, handleEnd) {
+    // 1000 because videoDuration is in seconds, and we work in milliseconds
+    var steps = 1000*getVideoDuration()/ indicatorTimeout;
+    var delta = getSpeed() * getSeekbarWidth() / steps;
+    debug(delta);
+    var nextJump = current + delta;
+    // this controls whether or not we want to start in the beggining or not
+    if (nextJump > handleEnd && isLoopOn) {
+      return handleStart;
+    } else if (nextJump > getSeekbarWidth()) {
+      return getSeekbarWidth;
+    } else {
+      return nextJump;
+    }
+  }
+
+  // debugger
+  debug = function(string){
+    if (debugOn) {
+      console.log(string)
+    }
+  }
   /******************* Event Handlers *******************/
+
   // moves the indicator after pressing the play button
   this.playIndicator = function() {
-    var rect = document.getElementById("seekbar").getBoundingClientRect();
-    var handleStart = document.getElementById("sectionStart");
-    var handleEnd = document.getElementById("sectionEnd");
-    var speed = $("#speed").val();
-    if (speed.length < 1) {
-      speed = 1.0;
+    // check if we are playing.
+    debug("playIndicator")
+    if (!isPlayOn) {
+      return;
     } else {
-      speed = parseFloat(speed);
-    }
-
-    // TODO: fix the handlebars so that they cannot cross each other
-    console.log("play: " + secStart + "-" + secEnd + " " + handleStart.left);
-    // if the video has not been paused, set the indicator to be at the left handlebar
-    if (!pause) {
-      $("#indicator").css({
-        "left": handleStart.style.left
-      });
-    }
-    // animate the indicator across the section
-    $("#indicator").animate({
-      "left": handleEnd.style.left
-    }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()), "linear");
-
-    // at the end of the section, play it again if the loop is on
-    setTimeout(function() {
-      console.log("here");
-      if (loop) {
-        playIndicator();
+      var rect = document.getElementById("seekbar").getBoundingClientRect();
+      var handleStart = getHandleStartPosition();
+      var handleEnd = getHandleEndPositon();
+      var current = getIndicatorPosition();
+      var nextCurrent = getNextPosition(current, handleStart, handleEnd)
+      setIndicatorPosition(nextCurrent);
+      // only happnens when we loop back...
+      // so change video
+      // we only want to update video in this case, because if we always update
+      // video to match, video will look jumpy
+      if (nextCurrent < current ) {
+        loopVideoTo(100*nextCurrent/getSeekbarWidth())
       }
-    }, getSeekbarWidth()*(getVideoTime()/getVideoDuration()) + 50);
+
+      // TODO: fix the handlebars so that they cannot cross each other
+    }
   }
 
   $(document).ready(function() {
@@ -139,6 +202,14 @@
     // set countoff display
     document.getElementById("countoff").innerHTML = "&nbsp15s";
     document.getElementById("videoBox").setAttribute("width", "100%")
+
+    /// set the left of the indicator because things are sketchy
+    setIndicatorPosition(0);
+    setHandleStartPosition(0);
+    setHandleEndPosition(getSeekbarWidth());
+    // set indicator driver loop
+    setInterval(playIndicator, indicatorTimeout);
+
   });
 
   $( "#codeSearch" ).autocomplete({
@@ -252,19 +323,19 @@
   });
 
   // back to beginning button - stops the indicator movement and plays again
-  $(document).on('click', "#replay", function(evt)
+  $(document).on('click', "#goBack", function(evt)
   {
-    $("#indicator").stop();
-    playIndicator();
+    setIndicatorPosition(getHandleStartPosition());
+    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth())
   });
 
   $(document).on('click', "#playPause", function(evt)
   {
     var button  = document.getElementById("playPause") // maybe this instead?
-    if (!isPlaying){
+    if (!isPlayOn){
       var video = document.getElementById("videoBox");
       video.play();
-      isPlaying = true;
+      isPlayOn = true;
       playIndicator();
       pause = false;
       // set button to pause
@@ -276,7 +347,7 @@
       pause = true;
       // set button to play
       button.setAttribute("style", "background-image:url('images/play.svg')")
-      isPlaying = false;
+      isPlayOn = false;
     }
   });
 
@@ -415,7 +486,7 @@
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
             <img id="handlebarleft" src="images/handlebarright.svg">
           </div>
- 
+
           <div id="sections">
             <div id="section1" class="section"></div>
             <div id="section2" class="section"></div>
@@ -435,7 +506,7 @@
         <!--The toolbar controlling playback controls-->
         <div class="btn-group" id="toolbar">
           <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
-          <button type="button" class="btn btn-primary tool-icon" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
+          <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
           <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
           <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
           </button>
@@ -444,7 +515,7 @@
           <form>
             <div class="form-group form-inline">
               <label for="speed" id="speedLabel">Speed</label>
-              <input class="form-control" id="speed" autocomplete="off" placeholder="1.0">
+              <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
           </form>
           <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
