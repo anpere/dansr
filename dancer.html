@@ -116,12 +116,12 @@
   // get left position of the play Indicator
   getIndicatorPosition = function() {
     var left = document.getElementById("indicator").style.left;
-    return pixelToFloat(left) + getSeekbarWidth();
+    return pixelToFloat(left);
   }
   // set left position of the play Indicator to left
   setIndicatorPosition = function(left) {
     var indicator = document.getElementById("indicator").style;
-    indicator.left = left - getSeekbarWidth();
+    indicator.left = left;
     debug("value is here: " + indicator.left);
   }
   // get left position of the start handle
@@ -170,7 +170,7 @@
   // moves the indicator after pressing the play button
   this.playIndicator = function() {
     // check if we are playing.
-    debug("playIndicator")
+    debug("in playIndicator")
     if (!isPlayOn) {
       return;
     } else {
@@ -232,7 +232,7 @@
 
   //Draggable Indicator:
   $(function() {
-  
+
     // Set all instances of .draggable-wrapper to be draggable in the body
   	$('.draggable-wrapper').draggable({ containment: "parent" });
 
@@ -243,7 +243,7 @@
     }, function() {
     	$(this).css('cursor','auto');
 		});
-		
+
 		$('.pane').on('mousedown', function(event) {
     	$(this).css({cursor: "-webkit-grabbing"});
     	$(this).css({cursor: "-moz-grabbing"});
@@ -253,19 +253,19 @@
     	$(this).css({cursor: "-webkit-grab"});
     	$(this).css({cursor: "-moz-grab"});
   	});
-  	
+
   	$("#indicatorBar").hover(function() {
     	$(this).css('cursor','col-resize');
 		}, function() {
     	$(this).css('cursor','auto');
 		});
-		
+
 		$(".handlebar").hover(function() {
     	$(this).css('cursor','col-resize');
 		}, function() {
     	$(this).css('cursor','auto');
 		});
-  	
+
   	// Collapse / Expand window panes:
   	// TODO: Merge into one listener?
 		$('#x_button_form').on('mousedown', function(event) {
@@ -275,7 +275,7 @@
   	$('#x_button_comments').on('mousedown', function(event) {
     	$("#comments-pane").slideToggle('slow', function() {});
   	});
-  	
+
     //$("#indicator").css({right: 0});
     $("#indicator").draggable({ axis: "x", containment: "parent"});
     $("#indicator").on("drag", function(event, ui) {
@@ -317,7 +317,7 @@
     $("#seekbar").on("mousedown", function(event) {
       $("#indicator").stop();
       var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
-      
+
       //Keep in bounds:
       if(clickedPosX_centered < 0) {
         clickedPosX_centered = 0;
@@ -325,13 +325,13 @@
       else if(clickedPosX_centered > $("#seekbar").width()) {
       	clickedPosX_centered = $("#seekbar").width();
       }
-      
+
       //Make sure indicator doesn't jump if handlebar is clicked:
       if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
         $("#indicator").css({ left: clickedPosX_centered });
         loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
       }
-      
+
     });
   });
 
@@ -524,14 +524,14 @@
         </div>
 
         <div id ="seekbar">
-          
+
           <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
             <img id="indicatorBar" src="images/seekbar.svg">
           </div>
-          
+
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
             <img id="handlebarleft" src="images/handlebarright.svg">
-          </div>      
+          </div>
 
           <div id="sections">
             <div id="section1" class="section"></div>
@@ -557,7 +557,7 @@
           <form>
             <div class="form-group form-inline">
               <label for="speed" id="speedLabel" class="disable-selection">Speed</label>
-              <input class="form-control" id="speed" autocomplete="off" placeholder="1.0">
+              <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
           </form>
           <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
