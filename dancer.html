@@ -555,23 +555,28 @@
           <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
           <!--The speed controller-->
           <form>
-            <div class="form-group form-inline">
-              <label for="speed" id="speedLabel" class="disable-selection">Speed</label>
+            <div class="form-group form-inline" style="display:inline-block">
+              <label for="speed" id="speedLabel" class="disable-selection" style="line-height:1.1">Speed</label>
               <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
           </form>
           <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
           </button>
-          <label id="countoffLabel" class="disable-selection">Countoff:</label>
-          <div id="countoff">&#160 15s</div>
-          <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
-
+          
+          <div style="display: inline-block">
+            <div style="display: flex; margin-bottom: -3px">
+              <label id="countoffLabel" class="disable-selection">Countoff:&#160;</label>
+              <div id="countoff">&#160 15s</div>
+            </div>
+            <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
+          </div>
+          
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
 
           <!-- TODO(AP) make not a button, but still look nice -->
           <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
 
-          <input id ="volumeBar" type="range" min="0" max="100" step="1" style="margin-right:auto;"></input>
+          <input id ="volumeBar" type="range" min="0" max="100" step="1"></input>
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
 
         </div>
