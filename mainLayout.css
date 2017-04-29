@@ -115,7 +115,7 @@ input#codeSearch {
     align-self: flex-end;
     z-index: 5;
     position: relative;
-    left: -978.725px
+    left: 0px;
 }
 
 .handlebar {
@@ -415,4 +415,15 @@ div.toolbar-pane p:hover {
 	height:70 !important;
 	margin-left: -35;
 	margin-top:-22;
+}
+
+#handlebarright:hover {
+    cursor: col-resize; 
+}
+
+.disable-selection {
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
 }

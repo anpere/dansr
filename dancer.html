@@ -163,12 +163,7 @@
   $(function() {
   
     // Set all instances of .draggable-wrapper to be draggable in the body
-  	$('.draggable-wrapper').draggable({ containment: "parent", start: function(event, ui) {
-  			//$(this).css({cursor: "grabbing"});
-  		}, stop: function(event, ui) {
-  			//$(this).css({cursor: "grab"});
-  		}
-  	});
+  	$('.draggable-wrapper').draggable({ containment: "parent" });
 
 		$('.pane').on('mousedown', function(event) {
     	$(this).css({cursor: "grabbing"});
@@ -177,6 +172,18 @@
 		$('.pane').on('mouseup', function(event) {
     	$(this).css({cursor: "grab"});
   	});
+  	
+  	$("#indicatorBar").hover(function() {
+    	$(this).css('cursor','col-resize');
+		}, function() {
+    	$(this).css('cursor','auto');
+		});
+		
+		$(".handlebar").hover(function() {
+    	$(this).css('cursor','col-resize');
+		}, function() {
+    	$(this).css('cursor','auto');
+		});
   	
   	// Collapse / Expand window panes:
   	// TODO: Merge into one listener?
@@ -188,7 +195,7 @@
     	$("#comments-pane").slideToggle('slow', function() {});
   	});
   	
-    $("#indicator").css({right: 0});
+    //$("#indicator").css({right: 0});
     $("#indicator").draggable({ axis: "x", containment: "parent"});
     $("#indicator").on("drag", function(event, ui) {
       $("#indicator").stop();
@@ -229,12 +236,21 @@
     $("#seekbar").on("mousedown", function(event) {
       $("#indicator").stop();
       var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
-      //Adjust to 0 if negative to avoid glitches:
+      
+      //Keep in bounds:
       if(clickedPosX_centered < 0) {
         clickedPosX_centered = 0;
       }
-      $("#indicator").css({ left: -($("#seekbar").width() - clickedPosX_centered) });
-      loopVideoTo( clickedPosX_centered/$("#seekbar").width() * 100.);
+      else if(clickedPosX_centered > $("#seekbar").width()) {
+      	clickedPosX_centered = $("#seekbar").width();
+      }
+      
+      //Make sure indicator doesn't jump if handlebar is clicked:
+      if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
+        $("#indicator").css({ left: clickedPosX_centered });
+        loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
+      }
+      
     });
   });
 
@@ -427,21 +443,22 @@
         </div>
 
         <div id ="seekbar">
-          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar">
-            <img id="handlebarleft" src="images/handlebarright.svg">
+          
+          <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
+            <img id="indicatorBar" src="images/seekbar.svg">
           </div>
- 
+          
+          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
+            <img id="handlebarleft" src="images/handlebarright.svg">
+          </div>      
+              
           <div id="sections">
             <div id="section1" class="section"></div>
             <div id="section2" class="section"></div>
             <div id="section3" class="section"></div>
           </div>
 
-          <div id="indicator" class="ui-draggable ui-draggable-handle">
-            <img id="indicatorBar" src="images/seekbar.svg">
-          </div>
-
-          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar">
+          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar disable-selection">
             <img id="handlebarright" src="images/handlebarleft.svg">
           </div>
         </div>
@@ -458,13 +475,13 @@
           <!--The speed controller-->
           <form>
             <div class="form-group form-inline">
-              <label for="speed" id="speedLabel">Speed</label>
+              <label for="speed" id="speedLabel" class="disable-selection">Speed</label>
               <input class="form-control" id="speed" autocomplete="off" placeholder="1.0">
             </div>
           </form>
           <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
           </button>
-          <label id="countoffLabel">Countoff:</label>
+          <label id="countoffLabel" class="disable-selection">Countoff:</label>
           <div id="countoff">&#160 15s</div>
           <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
 
