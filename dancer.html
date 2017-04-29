@@ -275,6 +275,19 @@
   	$('#x_button_comments').on('mousedown', function(event) {
     	$("#comments-pane").slideToggle('slow', function() {});
   	});
+  	
+  	$('.x_button').on('mousedown', function(event) {
+    	currentSrc = document.getElementById(event.target.id).src;
+  		
+    	//$(this).attr("src");
+    
+    	if(currentSrc.indexOf("eye_open.svg") != -1) { //currently visible
+    	  //$(this).attr("src", "/images/eye_closed.svg");
+    	}
+    	else {
+    	  //$(this).attr("src", "/images/eye_epen.svg");
+    	}	
+  	});
 
     //$("#indicator").css({right: 0});
     $("#indicator").draggable({ axis: "x", containment: "parent"});
@@ -390,8 +403,8 @@
       button.setAttribute("style", "background-image:url('images/play.svg')")
       isPlayOn = false;
     }
-  });
-
+  }); 
+  
   // snaps the handlebars to the section boundaries
   $(document).on('dblclick', ".section", function(evt) {
     var rect = document.getElementById("seekbar").getBoundingClientRect();
@@ -584,7 +597,7 @@
 
       <!-- Formation Diagram Pane-->
       <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><p id="x_button_form" class="x_button">[__]</p></div>
+        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/play.svg"/></div>
         <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
           <img src="images/form_dgm1.svg">
         </div>
@@ -593,7 +606,7 @@
 
       <!-- Comments Pane -->
       <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><p id="x_button_comments" class="x_button">[__]</p></div>
+        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/play.svg"/></div>
         <div id="comments-pane" class="pane">
           <p class="comments-content">Comments appear here...</p>
         </div>
