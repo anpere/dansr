@@ -115,7 +115,7 @@ input#codeSearch {
     align-self: flex-end;
     z-index: 5;
     position: relative;
-    left: -978.725px
+    left: 0px;
 }
 
 .handlebar {
@@ -298,6 +298,7 @@ input#codeSearch {
 	border-left-width:2;
 	border-left-color:gray;
 }
+
 div.draggable-wrapper {
 	position: relative;
     background: #ededed;
@@ -313,10 +314,11 @@ div.draggable-wrapper {
     align-items: left;
     overflow: hidden;
     font-size: 1em;
+    margin-bottom:0px;
 }
 
-.comments-content:hover {
-	cursor: default;
+.pane:hover {
+	cursor: grab;
 }
 
 #comments-pane {
@@ -414,4 +416,15 @@ div.toolbar-pane p:hover {
 	height:70 !important;
 	margin-left: -35;
 	margin-top:-22;
+}
+
+#handlebarright:hover {
+    cursor: col-resize; 
+}
+
+.disable-selection {
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
 }
