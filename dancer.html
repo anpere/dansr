@@ -165,12 +165,22 @@
     // Set all instances of .draggable-wrapper to be draggable in the body
   	$('.draggable-wrapper').draggable({ containment: "parent" });
 
+
+		$(".pane").hover(function() {
+      $(this).css('cursor','-webkit-grab');
+      $(this).css('cursor','-moz-grab');
+    }, function() {
+    	$(this).css('cursor','auto');
+		});
+		
 		$('.pane').on('mousedown', function(event) {
-    	$(this).css({cursor: "grabbing"});
+    	$(this).css({cursor: "-webkit-grabbing"});
+    	$(this).css({cursor: "-moz-grabbing"});
   	});
 
 		$('.pane').on('mouseup', function(event) {
-    	$(this).css({cursor: "grab"});
+    	$(this).css({cursor: "-webkit-grab"});
+    	$(this).css({cursor: "-moz-grab"});
   	});
   	
   	$("#indicatorBar").hover(function() {

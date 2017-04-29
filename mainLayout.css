@@ -314,6 +314,7 @@ div.draggable-wrapper {
     align-items: left;
     overflow: hidden;
     font-size: 1em;
+    margin-bottom:0px;
 }
 
 .pane:hover {
