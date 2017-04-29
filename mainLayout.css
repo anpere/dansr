@@ -298,6 +298,7 @@ input#codeSearch {
 	border-left-width:2;
 	border-left-color:gray;
 }
+
 div.draggable-wrapper {
 	position: relative;
     background: #ededed;
@@ -315,8 +316,8 @@ div.draggable-wrapper {
     font-size: 1em;
 }
 
-.comments-content:hover {
-	cursor: default;
+.pane:hover {
+	cursor: grab;
 }
 
 #comments-pane {

@@ -1,4 +1,4 @@
-﻿<head>
+<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -158,21 +158,36 @@
     }
   });
 
-  // Set all instances of .draggable-wrapper to be draggable in the body
-  $('.draggable-wrapper').draggable({ containment: "body"});
-
-  // Collapse / Expand window panes:
-  // TODO: Merge into one listener?
-  $('#x_button_form').on('mousedown', function(event) {
-    $("#formation-image-wrapper").slideToggle('slow', function() {});
-  });
-
-  $('#x_button_comments').on('mousedown', function(event) {
-    $("#comments-pane").slideToggle('slow', function() {});
-  });
 
   //Draggable Indicator:
   $(function() {
+  
+    // Set all instances of .draggable-wrapper to be draggable in the body
+  	$('.draggable-wrapper').draggable({ containment: "parent", start: function(event, ui) {
+  			//$(this).css({cursor: "grabbing"});
+  		}, stop: function(event, ui) {
+  			//$(this).css({cursor: "grab"});
+  		}
+  	});
+
+		$('.pane').on('mousedown', function(event) {
+    	$(this).css({cursor: "grabbing"});
+  	});
+
+		$('.pane').on('mouseup', function(event) {
+    	$(this).css({cursor: "grab"});
+  	});
+  	
+  	// Collapse / Expand window panes:
+  	// TODO: Merge into one listener?
+		$('#x_button_form').on('mousedown', function(event) {
+    	$("#formation-image-wrapper").slideToggle('slow', function() {});
+  	});
+
+  	$('#x_button_comments').on('mousedown', function(event) {
+    	$("#comments-pane").slideToggle('slow', function() {});
+  	});
+  	
     $("#indicator").css({right: 0});
     $("#indicator").draggable({ axis: "x", containment: "parent"});
     $("#indicator").on("drag", function(event, ui) {
@@ -467,7 +482,7 @@
       <!-- Formation Diagram Pane-->
       <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
         <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><p id="x_button_form" class="x_button">[__]</p></div>
-        <div id="formation-image-wrapper" class="image-wrapper" style="z-index: 0">
+        <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
           <img src="images/form_dgm1.svg">
         </div>
       </div>
@@ -476,7 +491,7 @@
       <!-- Comments Pane -->
       <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
         <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><p id="x_button_comments" class="x_button">[__]</p></div>
-        <div id="comments-pane">
+        <div id="comments-pane" class="pane">
           <p class="comments-content">Comments appear here...</p>
         </div>
       </div>
