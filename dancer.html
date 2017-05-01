@@ -165,6 +165,12 @@
     console.log("countoff: " + countoff.value);
     return countoff.value; 
   }
+  
+  // gets the volume from the volume slider
+  setVolume = function() {
+    var volume = document.getElementById("volumeBar");
+    getVideo().volume = volume.value / 100;
+  }
 
   // debugger
   debug = function(string){
@@ -225,8 +231,8 @@
     countoff = this.value;
 
     // set initial positions of window panes
-    $("#formations").css({position: "absolute", left: 30, top: 200});
-    $("#comments").css({position: "absolute", left: 30, top: 300});
+    $("#formations").css({position: "absolute", left: "70%", top: 170});
+    $("#comments").css({position: "absolute", left: "47%", top: 520});
 
     // set countoff display
     document.getElementById("countoff").innerHTML = "&nbsp15s";
@@ -240,6 +246,10 @@
     setInterval(playIndicator, indicatorTimeout);
     setInterval(checkCountOff, indicatorTimeout);
 
+    setVolume();
+    
+    $(".cross").hide();
+    $(".menu").hide();
   });
 
   $( "#codeSearch" ).autocomplete({
@@ -380,25 +390,8 @@
   });
 
   //Volume control
-  //Draggable volumeIndicator:
-  $(function() {
-    $("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
-    $("#volumeIndicator").on("drag", function(event, ui) {
-      var width = $("#volumeBar").width();
-      var fractionalPosition = ui.position.left / (width*1.0);
-    });
-  });
-
-  $("#volumeBar").mousedown(function(event) {
-    var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
-    //Adjust to 0 if negative to avoid glitches:
-    if(clickedPosX_centered < 0) {
-      clickedPosX_centered = 0;
-    }
-    $("#volumeIndicator").css({ position: 'relative',
-    left: clickedPosX_centered });
-    var volumeIndicator = $("#volumeIndicator");
-    volumeIndicator.triggerHandler(event);
+  $(document).on('input', "#volumeBar", function(event) {
+    setVolume();
   });
 
   // toggles the loop variable depending on the state of the button
@@ -534,6 +527,12 @@
       return false;
     }
   });
+  //Hamburger menu code
+
+  $(document).on('click', '#hamburger', function (evt) {
+      $(".menu").slideToggle("fast", function () {
+      });
+  });
 
   </script>
 </head>
@@ -554,14 +553,21 @@
         Edit Dance
       </div>
     </button>    </div>
-
+    <!--Hamburger menu dropdown-->
+    <div class="menu">
+        <ul>
+            <a href="#"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
+            <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
+            <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
+        </ul>
+    </div> 
     <div id ="search">
       <div class="ui-widget" id="searchWidget">
         <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
       </div>
     </div>
 
-    <div id="content" style="max-width:999px; margin: 10% auto">
+    <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
         <video id="videoBox">
@@ -645,7 +651,5 @@
           <p class="comments-content">Comments appear here...</p>
         </div>
       </div>
-
-
 
     </body>
