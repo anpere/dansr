@@ -188,7 +188,7 @@
   // pauses the video while the countoff happens
   this.checkCountOff = function() {
     var video = getVideo();
-    if (startLoop && !video.paused) {
+    if (startLoop) {
       video.pause();
     } else if (isPlayOn && video.paused) {
       video.play();
@@ -434,6 +434,7 @@
   
   // snaps the handlebars to the section boundaries
   $(document).on('dblclick', ".section", function(evt) {
+    startLoop = false;
     var rect = document.getElementById("seekbar").getBoundingClientRect();
     var left = $(this).position().left;
     var right = left + $(this).width() - 20;
