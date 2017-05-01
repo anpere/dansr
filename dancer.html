@@ -1,4 +1,4 @@
-<head>
+﻿ad>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -42,7 +42,8 @@
 
   // play indicator global Variables
   var indicatorTimeout = 100;
-
+  var timerID;
+  var startLoop = false;
 
   /************************ Helper Functions ********************/
 
@@ -159,6 +160,12 @@
     }
   }
 
+  getCountOff = function() {
+    var countoff = document.getElementById("countoffBar");
+    console.log(countoff.value);
+    return countoff.value; 
+  }
+
   // debugger
   debug = function(string){
     if (debugOn) {
@@ -167,11 +174,21 @@
   }
   /******************* Event Handlers *******************/
 
+  // pauses the video while the countoff happens
+  this.checkCountOff = function() {
+    var video = getVideo();
+    if (startLoop && !video.paused) {
+      video.pause();
+    } else if (isPlayOn && video.paused) {
+      video.play();
+    }
+  }
+
   // moves the indicator after pressing the play button
   this.playIndicator = function() {
     // check if we are playing.
     debug("in playIndicator")
-    if (!isPlayOn) {
+    if (!isPlayOn || startLoop) {
       return;
     } else {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
@@ -184,8 +201,16 @@
       // so change video
       // we only want to update video in this case, because if we always update
       // video to match, video will look jumpy
-      if (nextCurrent < current ) {
-        loopVideoTo(100*nextCurrent/getSeekbarWidth())
+
+      // TODO: make the video pause for countoff
+      if (nextCurrent < current) {
+        loopVideoTo(100*nextCurrent/getSeekbarWidth());
+        startLoop = true;
+        setTimeout(function() {
+          startLoop = false;
+        }, getCountOff()*1000);
+
+        
       }
 
       // TODO: fix the handlebars so that they cannot cross each other
@@ -209,6 +234,7 @@
     setHandleEndPosition(getSeekbarWidth());
     // set indicator driver loop
     setInterval(playIndicator, indicatorTimeout);
+    setInterval(checkCountOff, indicatorTimeout);
 
   });
 
@@ -328,6 +354,7 @@
     });
 
     $("#seekbar").on("mousedown", function(event) {
+      startLoop = false;
       $("#indicator").stop();
       var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
 
@@ -379,12 +406,14 @@
   // back to beginning button - stops the indicator movement and plays again
   $(document).on('click', "#goBack", function(evt)
   {
+    startLoop = false;
     setIndicatorPosition(getHandleStartPosition());
     loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth())
   });
 
   $(document).on('click', "#playPause", function(evt)
   {
+    startLoop = false;
     var button  = document.getElementById("playPause") // maybe this instead?
     if (!isPlayOn){
       var video = document.getElementById("videoBox");
