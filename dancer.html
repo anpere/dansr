@@ -184,7 +184,8 @@
   this.checkCountOff = function() {
     var video = getVideo();
     if (startLoop) {
-      video.pause();    } else if (isPlayOn && video.paused) {
+      video.pause();    
+    } else if (isPlayOn && video.paused) {
       video.play();
     }
   }
@@ -220,7 +221,9 @@
       // video to match, video will look jumpy
 
       if (nextCurrent < current) {
-        startLoop = true;
+        if (getCountOff() > 0) {
+          startLoop = true;
+        }
         loopVideoTo(100*nextCurrent/getSeekbarWidth());
         startCountOff();
       }
