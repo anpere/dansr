@@ -26,7 +26,7 @@
   var isMetronomeOn = false;
 
   // to turn of debugging statements
-  var debugOn = false;
+  var debugOn = true;
 
   //Initialize auto-complete
   var availableCodes = [
@@ -163,7 +163,6 @@
     // 1000 because videoDuration is in seconds, and we work in milliseconds
     var steps = 1000*getVideoDuration()/ indicatorTimeout;
     var delta = getSpeed() * getSeekbarWidth() / steps;
-    debug(delta);
     var nextJump = current + delta;
     // this controls whether or not we want to start in the beggining or not
     if (nextJump > handleEnd && isLoopOn) {
@@ -383,10 +382,8 @@
       toggleXIcon(event.target.id)
   	});
 
-    //$("#indicator").css({right: 0});
     $("#indicator").draggable({ axis: "x", containment: "parent"});
     $("#indicator").on("drag", function(event, ui) {
-      $("#indicator").stop();
       var width = $("#seekbar").width();
       var fractionalPosition = Math.abs(ui.position.left / width);
       loopVideoTo(fractionalPosition * 100.);
@@ -402,6 +399,7 @@
 
   // creates the handler for dragging handlebars
   $(function() {
+    console.log()
     var rect = document.getElementById("seekbar").getBoundingClientRect();
     $(".handlebar").draggable({ axis: "x", containment: "parent"});
 
@@ -424,6 +422,25 @@
     $("#seekbar").on("mousedown", function(event) {
       startLoop = false;
       $("#indicator").stop();
+    }
+
+    $(".section").on("dblclick", function(event) {
+      debug("dblclick: target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
+      var section = $(event.target)
+      debug(section.position().left - section.width())
+      setHandleStartPosition(section.position().left - section.width());
+      setHandleEndPosition(section.position().left);
+    });
+
+    $("#seekbar").on("click", function(event) {
+
+      // a double click is waiting for us!
+      if(event.detail > 1){
+        debug("click registered a doubleclick");
+        return;
+      }
+      debug("seekbar click");
+      debug("target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
       var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
 
       //Keep in bounds:
@@ -436,8 +453,14 @@
 
       //Make sure indicator doesn't jump if handlebar is clicked:
       if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-        $("#indicator").css({ left: clickedPosX_centered });
-        loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
+        var clickTimeout = 200;
+        setTimeout(function(){
+          loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
+          setIndicatorPosition(clickedPosX_centered);
+        }, clickTimeout)
+      }
+      if(event.target.class === "section") {
+        console.log("foo")
       }
 
     });
