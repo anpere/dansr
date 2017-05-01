@@ -168,6 +168,12 @@
     }
   }
 
+  getCountOff = function() {
+    var countoff = document.getElementById("countoffBar");
+    console.log("countoff: " + countoff.value);
+    return countoff.value;
+  }
+
   // gets the volume from the volume slider
   setVolume = function() {
     var volume = document.getElementById("volumeBar");
@@ -192,7 +198,7 @@
   this.checkCountOff = function() {
     var video = getVideo();
     if (startLoop) {
-      video.pause();    
+      video.pause();
     } else if (isPlayOn && video.paused) {
       video.play();
     }
@@ -201,7 +207,7 @@
   //starts the countoff procedure
   this.startCountOff = function() {
     global_counter = 0;
-    var timerID = setInterval(function(){ 
+    var timerID = setInterval(function(){
       global_counter++;
       if (global_counter >= getCountOff()) {
         startLoop = false;
@@ -260,6 +266,10 @@
     setVolume();
     setInterval(checkCountOff, indicatorTimeout);
 
+<<<<<<< HEAD
+=======
+    setVolume();
+>>>>>>> Carolyn's 30 seconds of fame
 
     $(".cross").hide();
     $(".menu").hide();
@@ -328,18 +338,18 @@
   	$('#x_button_comments').on('mousedown', function(event) {
     	$("#comments-pane").slideToggle('slow', function() {});
   	});
-  	
+
   	$('.x_button').on('mousedown', function(event) {
     	currentSrc = document.getElementById(event.target.id).src;
-  		
+
     	//$(this).attr("src");
-    
+
     	if(currentSrc.indexOf("eye_open.svg") != -1) { //currently visible
     	  //$(this).attr("src", "/images/eye_closed.svg");
     	}
     	else {
     	  //$(this).attr("src", "/images/eye_epen.svg");
-    	}	
+    	}
   	});
 
     //$("#indicator").css({right: 0});
@@ -446,8 +456,8 @@
       button.setAttribute("style", "background-image:url('images/play.svg')")
       isPlayOn = false;
     }
-  }); 
-  
+  });
+
   // snaps the handlebars to the section boundaries
   $(document).on('dblclick', ".section", function(evt) {
     startLoop = false;
@@ -577,7 +587,7 @@
             <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
             <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
         </ul>
-    </div> 
+    </div>
     <div id ="search">
       <div class="ui-widget" id="searchWidget">
         <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
@@ -588,7 +598,7 @@
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
         <video id="videoBox">
-          <source src="https://ia902606.us.archive.org/11/items/Exercise1949/Exercise1949_512kb.mp4" type="video/mp4">
+          <source src="images/chicken.MOV">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -632,7 +642,7 @@
           </form>
           <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
           </button>
-          
+
           <div style="display: inline-block">
             <div style="display: flex; margin-bottom: -3px">
               <label id="countoffLabel" class="disable-selection">Countoff:&#160;</label>
@@ -640,7 +650,7 @@
             </div>
             <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
           </div>
-          
+
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
 
           <!-- TODO(AP) make not a button, but still look nice -->
