@@ -184,10 +184,21 @@
   this.checkCountOff = function() {
     var video = getVideo();
     if (startLoop) {
-      video.pause();
-    } else if (isPlayOn && video.paused) {
+      video.pause();    } else if (isPlayOn && video.paused) {
       video.play();
     }
+  }
+
+  //starts the countoff procedure
+  this.startCountOff = function() {
+    global_counter = 0;
+    var timerID = setInterval(function(){ 
+      global_counter++;
+      if (global_counter >= getCountOff()) {
+        startLoop = false;
+        clearInterval(timerID);
+      }
+    }, 1000);
   }
 
   // moves the indicator after pressing the play button
@@ -209,18 +220,9 @@
       // video to match, video will look jumpy
 
       if (nextCurrent < current) {
-        global_counter = 0;
         startLoop = true;
         loopVideoTo(100*nextCurrent/getSeekbarWidth());
-
-        //increments the global counter and checks if the video should be played
-        var timerID = setInterval(function(){ 
-          global_counter++;
-          if (global_counter >= getCountOff()) {
-            startLoop = false;
-            clearInterval(timerID);
-          }
-        }, 1000);
+        startCountOff();
       }
 
       // TODO: fix the handlebars so that they cannot cross each other
@@ -403,9 +405,13 @@
   // back to beginning button - stops the indicator movement and plays again
   $(document).on('click', "#goBack", function(evt)
   {
-    startLoop = false;
     setIndicatorPosition(getHandleStartPosition());
-    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth())
+    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
+
+    if (isLoopOn) {
+      startLoop = true;
+      startCountOff();
+    }
   });
 
   $(document).on('click', "#playPause", function(evt)
