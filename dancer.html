@@ -209,7 +209,8 @@
     setHandleEndPosition(getSeekbarWidth());
     // set indicator driver loop
     setInterval(playIndicator, indicatorTimeout);
-
+    $(".cross").hide();
+    $(".menu").hide();
   });
 
   $( "#codeSearch" ).autocomplete({
@@ -500,6 +501,12 @@
       return false;
     }
   });
+  //Hamburger menu code
+
+  $(document).on('click', '#hamburger', function (evt) {
+      $(".menu").slideToggle("fast", function () {
+      });
+  });
 
   </script>
 </head>
@@ -520,7 +527,16 @@
         Edit Dance
       </div>
     </button>    </div>
-
+    <!--Hamburger menu dropdown-->
+    <div class="menu">
+        <ul>
+            <a href="#"><li>LINK ONE</li></a>
+            <a href="#"><li>LINK TWO</li></a>
+            <a href="#"><li>LINK THREE</li></a>
+            <a href="#"><li>LINK FOUR</li></a>
+            <a href="#"><li>LINK FIVE</li></a>
+        </ul>
+    </div> 
     <div id ="search">
       <div class="ui-widget" id="searchWidget">
         <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
