@@ -436,7 +436,7 @@
 
       // a double click is waiting for us!
       if(event.detail > 1){
-        debug("click registered a doubleclick");
+        debug(event.target.id + " registered a doubleclick");
         return;
       }
       debug("seekbar click");
@@ -453,10 +453,12 @@
 
       //Make sure indicator doesn't jump if handlebar is clicked:
       if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-        var clickTimeout = 200;
+        var clickTimeout = 400;
+        loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
+        setIndicatorPosition(clickedPosX_centered);
+        document.getElementById("indicatorBar").style.pointerEvents="none"
         setTimeout(function(){
-          loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
-          setIndicatorPosition(clickedPosX_centered);
+          document.getElementById("indicatorBar").style.pointerEvents="auto"
         }, clickTimeout)
       }
       if(event.target.class === "section") {
