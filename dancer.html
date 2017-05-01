@@ -46,7 +46,7 @@
 
   // play indicator global Variables
   var indicatorTimeout = 100;
-  var timerID;
+  var global_counter;
   var startLoop = false;
 
   /************************ Helper Functions ********************/
@@ -172,7 +172,7 @@
 =======
   getCountOff = function() {
     var countoff = document.getElementById("countoffBar");
-    console.log(countoff.value);
+    console.log("countoff: " + countoff.value);
     return countoff.value; 
 >>>>>>> count off works, possible issue when loop is on
   }
@@ -213,15 +213,19 @@
       // we only want to update video in this case, because if we always update
       // video to match, video will look jumpy
 
-      // TODO: make the video pause for countoff
       if (nextCurrent < current) {
-        loopVideoTo(100*nextCurrent/getSeekbarWidth());
+        global_counter = 0;
         startLoop = true;
-        setTimeout(function() {
-          startLoop = false;
-        }, getCountOff()*1000);
+        loopVideoTo(100*nextCurrent/getSeekbarWidth());
 
-        
+        //increments the global counter and checks if the video should be played
+        var timerID = setInterval(function(){ 
+          global_counter++;
+          if (global_counter >= getCountOff()) {
+            startLoop = false;
+            clearInterval(timerID);
+          }
+        }, 1000);
       }
 
       // TODO: fix the handlebars so that they cannot cross each other
