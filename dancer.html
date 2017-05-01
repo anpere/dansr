@@ -202,8 +202,8 @@
     countoff = this.value;
 
     // set initial positions of window panes
-    $("#formations").css({position: "absolute", left: 30, top: 200});
-    $("#comments").css({position: "absolute", left: 30, top: 300});
+    $("#formations").css({position: "absolute", left: "70%", top: 170});
+    $("#comments").css({position: "absolute", left: "47%", top: 520});
 
     // set countoff display
     document.getElementById("countoff").innerHTML = "&nbsp15s";
@@ -215,8 +215,11 @@
     setHandleEndPosition(getSeekbarWidth());
     // set indicator driver loop
     setInterval(playIndicator, indicatorTimeout);
+    
     setVolume();
-
+    
+    $(".cross").hide();
+    $(".menu").hide();
   });
 
   $( "#codeSearch" ).autocomplete({
@@ -490,6 +493,12 @@
       return false;
     }
   });
+  //Hamburger menu code
+
+  $(document).on('click', '#hamburger', function (evt) {
+      $(".menu").slideToggle("fast", function () {
+      });
+  });
 
   </script>
 </head>
@@ -510,14 +519,21 @@
         Edit Dance
       </div>
     </button>    </div>
-
+    <!--Hamburger menu dropdown-->
+    <div class="menu">
+        <ul>
+            <a href="#"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
+            <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
+            <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
+        </ul>
+    </div> 
     <div id ="search">
       <div class="ui-widget" id="searchWidget">
         <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
       </div>
     </div>
 
-    <div id="content" style="max-width:999px; margin: 10% auto">
+    <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
         <video id="videoBox">
@@ -601,7 +617,5 @@
           <p class="comments-content">Comments appear here...</p>
         </div>
       </div>
-
-
 
     </body>
