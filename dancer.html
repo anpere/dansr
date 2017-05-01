@@ -1,4 +1,4 @@
-<head>
+﻿<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -159,6 +159,12 @@
     }
   }
 
+  // gets the volume from the volume slider
+  setVolume = function() {
+    var volume = document.getElementById("volumeBar");
+    getVideo().volume = volume.value / 100;
+  }
+
   // debugger
   debug = function(string){
     if (debugOn) {
@@ -209,6 +215,9 @@
     setHandleEndPosition(getSeekbarWidth());
     // set indicator driver loop
     setInterval(playIndicator, indicatorTimeout);
+    
+    setVolume();
+    
     $(".cross").hide();
     $(".menu").hide();
   });
@@ -350,25 +359,8 @@
   });
 
   //Volume control
-  //Draggable volumeIndicator:
-  $(function() {
-    $("#volumeIndicator").draggable({ axis: "x", containment: "parent"});
-    $("#volumeIndicator").on("drag", function(event, ui) {
-      var width = $("#volumeBar").width();
-      var fractionalPosition = ui.position.left / (width*1.0);
-    });
-  });
-
-  $("#volumeBar").mousedown(function(event) {
-    var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#volumeIndicator').width();
-    //Adjust to 0 if negative to avoid glitches:
-    if(clickedPosX_centered < 0) {
-      clickedPosX_centered = 0;
-    }
-    $("#volumeIndicator").css({ position: 'relative',
-    left: clickedPosX_centered });
-    var volumeIndicator = $("#volumeIndicator");
-    volumeIndicator.triggerHandler(event);
+  $(document).on('input', "#volumeBar", function(event) {
+    setVolume();
   });
 
   // toggles the loop variable depending on the state of the button
@@ -625,7 +617,5 @@
           <p class="comments-content">Comments appear here...</p>
         </div>
       </div>
-
-
 
     </body>
