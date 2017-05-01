@@ -42,7 +42,8 @@
 
   // play indicator global Variables
   var indicatorTimeout = 100;
-
+  var global_counter;
+  var startLoop = false;
 
   /************************ Helper Functions ********************/
 
@@ -159,6 +160,12 @@
     }
   }
 
+  getCountOff = function() {
+    var countoff = document.getElementById("countoffBar");
+    console.log("countoff: " + countoff.value);
+    return countoff.value; 
+  }
+  
   // gets the volume from the volume slider
   setVolume = function() {
     var volume = document.getElementById("volumeBar");
@@ -173,11 +180,33 @@
   }
   /******************* Event Handlers *******************/
 
+  // pauses the video while the countoff happens
+  this.checkCountOff = function() {
+    var video = getVideo();
+    if (startLoop) {
+      video.pause();    
+    } else if (isPlayOn && video.paused) {
+      video.play();
+    }
+  }
+
+  //starts the countoff procedure
+  this.startCountOff = function() {
+    global_counter = 0;
+    var timerID = setInterval(function(){ 
+      global_counter++;
+      if (global_counter >= getCountOff()) {
+        startLoop = false;
+        clearInterval(timerID);
+      }
+    }, 1000);
+  }
+
   // moves the indicator after pressing the play button
   this.playIndicator = function() {
     // check if we are playing.
     debug("in playIndicator")
-    if (!isPlayOn) {
+    if (!isPlayOn || startLoop) {
       return;
     } else {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
@@ -190,8 +219,13 @@
       // so change video
       // we only want to update video in this case, because if we always update
       // video to match, video will look jumpy
-      if (nextCurrent < current ) {
-        loopVideoTo(100*nextCurrent/getSeekbarWidth())
+
+      if (nextCurrent < current) {
+        if (getCountOff() > 0) {
+          startLoop = true;
+        }
+        loopVideoTo(100*nextCurrent/getSeekbarWidth());
+        startCountOff();
       }
 
       // TODO: fix the handlebars so that they cannot cross each other
@@ -215,7 +249,8 @@
     setHandleEndPosition(getSeekbarWidth());
     // set indicator driver loop
     setInterval(playIndicator, indicatorTimeout);
-    
+    setInterval(checkCountOff, indicatorTimeout);
+
     setVolume();
     
     $(".cross").hide();
@@ -338,6 +373,7 @@
     });
 
     $("#seekbar").on("mousedown", function(event) {
+      startLoop = false;
       $("#indicator").stop();
       var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
 
@@ -373,11 +409,17 @@
   $(document).on('click', "#goBack", function(evt)
   {
     setIndicatorPosition(getHandleStartPosition());
-    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth())
+    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
+
+    if (isLoopOn) {
+      startLoop = true;
+      startCountOff();
+    }
   });
 
   $(document).on('click', "#playPause", function(evt)
   {
+    startLoop = false;
     var button  = document.getElementById("playPause") // maybe this instead?
     if (!isPlayOn){
       var video = document.getElementById("videoBox");
@@ -400,6 +442,7 @@
   
   // snaps the handlebars to the section boundaries
   $(document).on('dblclick', ".section", function(evt) {
+    startLoop = false;
     var rect = document.getElementById("seekbar").getBoundingClientRect();
     var left = $(this).position().left;
     var right = left + $(this).width() - 20;
