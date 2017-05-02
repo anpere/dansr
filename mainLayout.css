@@ -135,6 +135,7 @@ input#codeSearch {
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  background: black;
 }
 #sectionStart {
   position: relative;
@@ -165,7 +166,7 @@ input#codeSearch {
 #speed {
   padding-top: 1px;
   padding-bottom: 0px;
-  text-align: center; 
+  text-align: center;
   width: 60;
 }
 #sections {
@@ -290,7 +291,7 @@ div.draggable-wrapper {
 div.image-wrapper {
   margin-top: 12px;
   /* toolbar height */
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
