@@ -429,7 +429,7 @@
     setIndicatorPosition(getHandleStartPosition());
     loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
 
-    if (isLoopOn) {
+    if (getCountOff() > 0) {
       startLoop = true;
       startCountOff();
     }
@@ -447,6 +447,10 @@
       pause = false;
       // set button to pause
       button.setAttribute("style", "background-image:url('images/pause.svg')")
+      if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17) {
+        startLoop = true;
+        startCountOff();
+      }
     } else {
       var video = document.getElementById("videoBox");
       video.pause();
