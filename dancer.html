@@ -48,6 +48,9 @@
   var global_counter;
   var startLoop = false;
 
+  var isMuteOn = false;
+  var prevVol = 0.5;
+
   /************************ Helper Functions ********************/
 
   // function that plays the video starting at percentage
@@ -172,7 +175,15 @@
   // gets the volume from the volume slider
   setVolume = function() {
     var volume = document.getElementById("volumeBar");
+    var button = document.getElementById("volume");
     getVideo().volume = volume.value / 100;
+    if (volume.value == 0) {
+      button.setAttribute("style", "background-image:url('images/volume_off.svg')")
+      isMuteOn = true;
+    } else {
+      button.setAttribute("style", "background-image:url('images/volume_on.svg')")
+      isMuteOn = false;
+    }
   }
 
   getCountOff = function() {
@@ -406,10 +417,17 @@
     setVolume();
   });
 
-  // toggles the loop variable depending on the state of the button
-  $(document).on('click', "#loop", function(evt)
-  {
-    loop = !loop;
+  $(document).on('click', "#volume", function(event) {
+    console.log("mute");
+    var volume = document.getElementById("volumeBar");
+    isMuteOn = !isMuteOn;
+    if (isMuteOn) {
+      prevVol = volume.value / 100;
+      volume.value = 0;
+    } else {
+      volume.value = prevVol * 100;
+    }
+    setVolume();
   });
 
   // back to beginning button - stops the indicator movement and plays again
