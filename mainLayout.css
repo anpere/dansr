@@ -136,6 +136,7 @@ input#codeSearch {
   margin-right: auto;
   position: relative;
   background: black;
+  border-color:black;
 }
 #sectionStart {
   position: relative;
