@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-﻿<head>
-=======
-﻿ad>
->>>>>>> count off works, possible issue when loop is on
-=======
-﻿<head>
->>>>>>> fixed syntax error
+<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -47,7 +39,10 @@
   var COUNTOFF_MIN=0;
   var COUNTOFF_MAX=30;
   var countoff = 0;
-
+  
+  var SPEED_MIN=0.5;
+  var SPEED_MAX=4.0;
+  
   // play indicator global Variables
   var indicatorTimeout = 100;
   var global_counter;
@@ -264,12 +259,6 @@
     // set indicator driver loop
     setInterval(playIndicator, indicatorTimeout);
     setVolume();
-    setInterval(checkCountOff, indicatorTimeout);
-
-<<<<<<< HEAD
-=======
-    setVolume();
->>>>>>> Carolyn's 30 seconds of fame
 
     $(".cross").hide();
     $(".menu").hide();
@@ -513,44 +502,96 @@
     }
   });
 
+  // SPEED:
+  var last_valid_speed = "1.0";
 
+  var clicking = false; //true while either button is held down
+  
   // decrements speed by 0.1
   $(document).on('click', "#left", function(evt) {
     var speed = $("#speed").val();
-    if (speed.length < 1) {
-      speed = 1.0;
+    var re = /\d?\.?\d+x?/;
+    
+    if(re.test(speed)) { //valid speed string 
+			speed = parseFloat(speed) - 0.1;
+			speed = Math.max(speed, SPEED_MIN);
+			speed = Math.min(speed, SPEED_MAX);
+			last_valid_speed = speed;
+    } 
+    
+    $("#speed").val(last_valid_speed.toFixed(1.));
+      
+    setVideoSpeed(last_valid_speed);
+    
+    if(clicking) {
+      setTimeout(function() {
+    	  $("#left").click();
+    	}, 275);
     }
-    speed = parseFloat(speed);
-    var newSpeed = speed - 0.1;
-    if (newSpeed <= 0) {
-      return;
-    }
-    $("#speed").val(newSpeed.toFixed(1));
-    setVideoSpeed(newSpeed);
+  });
+  
+  $(document).on('mousedown', "#left", function(evt) {
+  		clicking = true;
+  		setTimeout(function() {
+  			if(clicking) {
+    		  $("#left").click();
+    		}
+    	}, 275);
+  });
+  $(document).on('mouseup', "#left", function(evt) {
+      clicking = false;
   });
 
   // increments speed by 0.1
   $(document).on('click', "#right", function(evt) {
     var speed = $("#speed").val();
-    if (speed.length < 1) {
-      speed = 1.0;
+    var re = /\d?\.?\d+x?/;
+    
+    if(re.test(speed)) { //valid speed string 
+			speed = parseFloat(speed) + 0.1;
+			speed = Math.max(speed, SPEED_MIN);
+			speed = Math.min(speed, SPEED_MAX);
+			last_valid_speed = speed;
+    } 
+    
+    $("#speed").val(last_valid_speed.toFixed(1.));
+      
+    setVideoSpeed(last_valid_speed);
+    
+    if(clicking) {
+      setTimeout(function() {
+    		$("#right").click();
+    	}, 275);
     }
-    speed = parseFloat(speed);
-    var newSpeed = speed + 0.1;
-    $("#speed").val(newSpeed.toFixed(1));
-    setVideoSpeed(newSpeed)
+  });
+  
+    $(document).on('mousedown', "#right", function(evt) {
+  		clicking = true;
+  		setTimeout(function() {
+  			if(clicking) {
+    		  $("#right").click();
+    		}
+    	}, 275);
+  });
+  $(document).on('mouseup', "#right", function(evt) {
+      clicking = false;
   });
 
-  // allow user to type into speed textbox
   $(document).on('keyup', "#speed", function(evt) {
     var speed = $("#speed").val();
-    // TODO() more text validation: set min speed to .5 and max speed to 4.0
-    if (isNaN(speed)) {
-      $("#speed").val("1.0");
-    }
-    setVideoSpeed(speed);
+    
+    var re = /\d?\.?\d+x?/;
+    
+    if(re.test(speed)) { //valid speed string 
+			speed = parseFloat(speed);
+			speed = Math.max(speed, SPEED_MIN);
+			speed = Math.min(speed, SPEED_MAX);
+			last_valid_speed = speed;
+    } 
 
+    setVideoSpeed(last_valid_speed);
   });
+  
 
   // stops enter from submitting the page when focused on the speed textbox
   $(document).on('keypress', "#speed", function (e) {
@@ -558,8 +599,8 @@
       return false;
     }
   });
+  
   //Hamburger menu code
-
   $(document).on('click', '#hamburger', function (evt) {
       $(".menu").slideToggle("fast", function () {
       });
