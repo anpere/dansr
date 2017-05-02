@@ -113,7 +113,7 @@ input#codeSearch {
   height: 0;
   width: 0px;
   align-self: flex-end;
-  z-index: 6;
+  z-index: 4;
   position: relative;
 }
 #volumeIndicator {
