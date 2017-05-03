@@ -1,4 +1,4 @@
-<head>
+﻿ad>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -522,7 +522,7 @@
   var clicking = false; //true while either button is held down
   
   // decrements speed by 0.1
-  $(document).on('click', "#left", function(evt) {
+  $(document).on('click', "#speedMinus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
     
@@ -539,25 +539,25 @@
     
     if(clicking) {
       setTimeout(function() {
-    	  $("#left").click();
+    	  $("#speedMinus").click();
     	}, 275);
     }
   });
   
-  $(document).on('mousedown', "#left", function(evt) {
+  $(document).on('mousedown', "#speedMinus", function(evt) {
   		clicking = true;
   		setTimeout(function() {
   			if(clicking) {
-    		  $("#left").click();
+    		  $("#speedMinus").click();
     		}
     	}, 275);
   });
-  $(document).on('mouseup', "#left", function(evt) {
+  $(document).on('mouseup', "#speedMinus", function(evt) {
       clicking = false;
   });
 
   // increments speed by 0.1
-  $(document).on('click', "#right", function(evt) {
+  $(document).on('click', "#speedPlus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
     
@@ -574,20 +574,20 @@
     
     if(clicking) {
       setTimeout(function() {
-    		$("#right").click();
+    		$("#speedPlus").click();
     	}, 275);
     }
   });
   
-    $(document).on('mousedown', "#right", function(evt) {
+    $(document).on('mousedown', "#speedPlus", function(evt) {
   		clicking = true;
   		setTimeout(function() {
   			if(clicking) {
-    		  $("#right").click();
+    		  $("#speedPlus").click();
     		}
     	}, 275);
   });
-  $(document).on('mouseup', "#right", function(evt) {
+  $(document).on('mouseup', "#speedPlus", function(evt) {
       clicking = false;
   });
 
@@ -689,7 +689,7 @@
           <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
           <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
           <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-          <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
+          <button type="button" class="btn btn-primary tool-icon" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
           </button>
           <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
           <!--The speed controller-->
@@ -699,7 +699,7 @@
               <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
           </form>
-          <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
+          <button type="button" class="btn btn-primary tool-icon" id="speedPlus" style="background-image:url('images/plus.svg')">
           </button>
 
           <div style="display: inline-block">
