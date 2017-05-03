@@ -224,8 +224,11 @@
   }
   /******************* Event Handlers *******************/
 
+	var continueCountoffIndicator; //prevents infinite loop of checkCountOff()
+
   // pauses the video while the countoff happens
   this.checkCountOff = function() {
+    clearInterval(continueCountoffIndicator);
     var video = getVideo();
     if (startLoop) {
       video.pause();
@@ -236,6 +239,7 @@
 
   //starts the countoff procedure
   this.startCountOff = function() {
+    continueCountoffIndicator = setInterval(checkCountOff, indicatorTimeout);
     global_counter = 0;
     var timerID = setInterval(function(){
       global_counter++;
@@ -295,14 +299,6 @@
     setIndicatorPosition(0);
     setHandleStartPosition(0);
     setHandleEndPosition(getSeekbarWidth());
-    // set indicator driver loop
-<<<<<<< HEAD
-    setInterval(playIndicator, indicatorTimeout);
-=======
-    //setInterval(playIndicator, indicatorTimeout);
-    setInterval(checkCountOff, indicatorTimeout);
-
->>>>>>> Moved playIndicator interval to turn on/off
     setVolume();
 
     $(".cross").hide();
