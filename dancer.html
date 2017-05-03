@@ -101,7 +101,6 @@
     return document.getElementById("videoBox");
   }
 
-  //
   pauseVideo = function(){
     var video = getVideo();
     video.pause();
@@ -197,14 +196,18 @@
     }
   }
 
+  var continuePlayIndicator; //to enable cancelling of the interval
+  
   // does all the side effects associated with pausing
   pause = function() {
+  	clearInterval(continuePlayIndicator);
     pauseVideo();
     document.getElementById("playPause").setAttribute("style", "background-image:url('images/play.svg')")
   }
 
   // does all the side effects associated with playing a video
   play = function() {
+    continuePlayIndicator = setInterval(playIndicator, indicatorTimeout);
     playVideo();
     document.getElementById("playPause").setAttribute("style", "background-image:url('images/pause.svg')")
   }
@@ -292,7 +295,7 @@
     setHandleStartPosition(0);
     setHandleEndPosition(getSeekbarWidth());
     // set indicator driver loop
-    setInterval(playIndicator, indicatorTimeout);
+    //setInterval(playIndicator, indicatorTimeout);
     setInterval(checkCountOff, indicatorTimeout);
 
     setVolume();
