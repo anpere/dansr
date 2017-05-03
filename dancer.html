@@ -171,6 +171,8 @@
       return handleStart;
     } else if (nextJump > handleEnd && !isLoopOn) {
       return handleEnd;
+    } else if (nextJump < handleStart) {
+      return handleStart;
     } else {
       return nextJump;
     }
@@ -262,14 +264,13 @@
         pause();
         return;
       }
-      if (nextCurrent < current) {
+      if (nextCurrent == handleStart){
         if (getCountOff() > 0) {
           startLoop = true;
         }
         loopVideoTo(100*nextCurrent/getSeekbarWidth());
         startCountOff();
       }
-
 
       // TODO: fix the handlebars so that they cannot cross each other
     }
@@ -283,7 +284,7 @@
     $("#comments").css({position: "absolute", left: "47%", top: 520});
 
     // set countoff display
-    document.getElementById("countoff").innerHTML = "&nbsp15s";
+    document.getElementById("countoff").innerHTML = "&nbsp0s";
     document.getElementById("videoBox").setAttribute("width", "100%")
 
     /// set the left of the indicator because things are sketchy
@@ -723,9 +724,9 @@
           <div style="display: inline-block">
             <div style="display: flex; margin-bottom: -3px">
               <label id="countoffLabel" class="disable-selection">Start delay:&#160;</label>
-              <div id="countoff">&#160 15s</div>
+              <div id="countoff">&#160 0s</div>
             </div>
-            <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
+            <input id="countoffBar" type="range" min="0" max="30" step="1" value="0"></input>
           </div>
 
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
