@@ -247,11 +247,11 @@ input#codeSearch {
   margin: 0px;
   padding-left: 8px;
 }
-#right {
+#speedPlus {
   margin-right: 20;
   border-right-width: 2;
 }
-#left {
+#speedMinus {
   border-left-width: 2;
   border-left-color: gray;
 }
