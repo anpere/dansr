@@ -269,7 +269,7 @@
 
     $(".cross").hide();
     $(".menu").hide();
-  });
+  //});
 
   $( "#codeSearch" ).autocomplete({
     source: availableCodes
@@ -288,7 +288,7 @@
     }
   });
 
-
+});
   //Draggable Indicator:
   $(function() {
 
@@ -418,7 +418,7 @@
     var volume = document.getElementById("volumeBar");
     isMuteOn = !isMuteOn;
     if (isMuteOn) {
-      prevVol = volume.value / 100;
+      prevVol = volume.value / 100.;
       volume.value = 0;
     } else {
       volume.value = prevVol * 100;
@@ -430,7 +430,7 @@
   $(document).on('click', "#goBack", function(evt)
   {
     setIndicatorPosition(getHandleStartPosition());
-    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
+    loopVideoTo(100.*getHandleStartPosition()/getSeekbarWidth());
 
     if (getCountOff() > 0) {
       startLoop = true;
@@ -648,7 +648,10 @@
         </ul>
     </div>
     <div id ="search">
-      <div class="ui-widget" id="searchWidget">
+      <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
+        <span class="btnSearch ui-state-default" title="search">
+        	<img src="images/search.png"/>
+        </span>
         <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
       </div>
     </div>
