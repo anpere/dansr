@@ -23,7 +23,6 @@
 
 
   var isLoopOn = false;
-  var isPlayOn = false;
   var isMetronomeOn = false;
 
   // to turn of debugging statements
@@ -39,10 +38,10 @@
   var COUNTOFF_MIN=0;
   var COUNTOFF_MAX=30;
   var countoff = 0;
-  
+
   var SPEED_MIN=0.5;
   var SPEED_MAX=4.0;
-  
+
   // play indicator global Variables
   var indicatorTimeout = 100;
   var global_counter;
@@ -62,7 +61,7 @@
 
     // check if we need to play the video
     // this is needed when we end the video, and then move the indicator back.
-    if (isPlayOn && video.paused) {
+    if (isPlayOn() && video.paused) {
       video.play()
     }
   }
@@ -100,6 +99,16 @@
   // get the video dom object
   getVideo = function(){
     return document.getElementById("videoBox");
+  }
+
+  pauseVideo = function(){
+    var video = getVideo();
+    video.pause();
+  }
+
+  playVideo = function(){
+    var video = getVideo();
+    video.play();
   }
 
   // returns the string representation of countoff which is just
@@ -159,8 +168,10 @@
     // this controls whether or not we want to start in the beggining or not
     if (nextJump > handleEnd && isLoopOn) {
       return handleStart;
-    } else if (nextJump > getSeekbarWidth()) {
-      return getSeekbarWidth;
+    } else if (nextJump > handleEnd && !isLoopOn) {
+      return handleEnd;
+    } else if (nextJump < handleStart) {
+      return handleStart;
     } else {
       return nextJump;
     }
@@ -168,7 +179,6 @@
 
   getCountOff = function() {
     var countoff = document.getElementById("countoffBar");
-    console.log("countoff: " + countoff.value);
     return countoff.value;
   }
 
@@ -186,6 +196,25 @@
     }
   }
 
+  var continuePlayIndicator; //to enable cancelling of the interval
+  
+  // does all the side effects associated with pausing
+  pause = function() {
+  	clearInterval(continuePlayIndicator);
+    pauseVideo();
+    document.getElementById("playPause").setAttribute("style", "background-image:url('images/play.svg')")
+  }
+
+  // does all the side effects associated with playing a video
+  play = function() {
+    continuePlayIndicator = setInterval(playIndicator, indicatorTimeout);
+    playVideo();
+    document.getElementById("playPause").setAttribute("style", "background-image:url('images/pause.svg')")
+  }
+
+  isPlayOn = function() {
+    return document.getElementById("playPause").getAttribute("style") == "background-image:url('images/pause.svg')";
+  }
   // debugger
   debug = function(string){
     if (debugOn) {
@@ -194,18 +223,22 @@
   }
   /******************* Event Handlers *******************/
 
+	var continueCountoffIndicator; //prevents infinite loop of checkCountOff()
+
   // pauses the video while the countoff happens
   this.checkCountOff = function() {
+    clearInterval(continueCountoffIndicator);
     var video = getVideo();
     if (startLoop) {
       video.pause();
-    } else if (isPlayOn && video.paused) {
+    } else if (isPlayOn() && video.paused) {
       video.play();
     }
   }
 
   //starts the countoff procedure
   this.startCountOff = function() {
+    continueCountoffIndicator = setInterval(checkCountOff, indicatorTimeout);
     global_counter = 0;
     var timerID = setInterval(function(){
       global_counter++;
@@ -217,10 +250,11 @@
   }
 
   // moves the indicator after pressing the play button
-  this.playIndicator = function() {
+  playIndicator = function() {
     // check if we are playing.
-    debug("in playIndicator")
-    if (!isPlayOn || startLoop) {
+    console.log("in playIndicator")
+    if (!isPlayOn() || startLoop) {
+      console.log("play is off")
       return;
     } else {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
@@ -233,8 +267,11 @@
       // so change video
       // we only want to update video in this case, because if we always update
       // video to match, video will look jumpy
-
-      if (nextCurrent < current) {
+      if (nextCurrent == handleEnd){
+        pause();
+        return;
+      }
+      if (nextCurrent == handleStart){
         if (getCountOff() > 0) {
           startLoop = true;
         }
@@ -254,16 +291,13 @@
     $("#comments").css({position: "absolute", left: "47%", top: 520});
 
     // set countoff display
-    document.getElementById("countoff").innerHTML = "&nbsp15s";
+    document.getElementById("countoff").innerHTML = "&nbsp0s";
     document.getElementById("videoBox").setAttribute("width", "100%")
 
     /// set the left of the indicator because things are sketchy
     setIndicatorPosition(0);
     setHandleStartPosition(0);
     setHandleEndPosition(getSeekbarWidth());
-    // set indicator driver loop
-    setInterval(playIndicator, indicatorTimeout);
-    setInterval(checkCountOff, indicatorTimeout);
 
     setVolume();
 
@@ -441,27 +475,16 @@
   $(document).on('click', "#playPause", function(evt)
   {
     startLoop = false;
-    var button  = document.getElementById("playPause") // maybe this instead?
-    if (!isPlayOn){
-      var video = document.getElementById("videoBox");
-      video.play();
-      isPlayOn = true;
-      playIndicator();
-      pause = false;
-      // set button to pause
-      button.setAttribute("style", "background-image:url('images/pause.svg')")
+    console.log("playon: " + isPlayOn);
+    if (!isPlayOn()){
+      play();
       if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17) {
         startLoop = true;
         startCountOff();
       }
     } else {
-      var video = document.getElementById("videoBox");
-      video.pause();
+      pause();
       $("#indicator").stop();
-      pause = true;
-      // set button to play
-      button.setAttribute("style", "background-image:url('images/play.svg')")
-      isPlayOn = false;
     }
   });
 
@@ -520,30 +543,29 @@
   var last_valid_speed = "1.0";
 
   var clicking = false; //true while either button is held down
-  
+
   // decrements speed by 0.1
   $(document).on('click', "#speedMinus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
-    
-    if(re.test(speed)) { //valid speed string 
+
+    if(re.test(speed)) { //valid speed string
 			speed = parseFloat(speed) - 0.1;
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
-    } 
-    
+    }
+
     $("#speed").val(last_valid_speed.toFixed(1.));
-      
+
     setVideoSpeed(last_valid_speed);
-    
+
     if(clicking) {
       setTimeout(function() {
     	  $("#speedMinus").click();
     	}, 275);
     }
   });
-  
   $(document).on('mousedown', "#speedMinus", function(evt) {
   		clicking = true;
   		setTimeout(function() {
@@ -560,18 +582,18 @@
   $(document).on('click', "#speedPlus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
-    
-    if(re.test(speed)) { //valid speed string 
+
+    if(re.test(speed)) { //valid speed string
 			speed = parseFloat(speed) + 0.1;
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
-    } 
-    
+    }
+
     $("#speed").val(last_valid_speed.toFixed(1.));
-      
+
     setVideoSpeed(last_valid_speed);
-    
+
     if(clicking) {
       setTimeout(function() {
     		$("#speedPlus").click();
@@ -593,19 +615,19 @@
 
   $(document).on('keyup', "#speed", function(evt) {
     var speed = $("#speed").val();
-    
+
     var re = /\d?\.?\d+x?/;
-    
-    if(re.test(speed)) { //valid speed string 
+
+    if(re.test(speed)) { //valid speed string
 			speed = parseFloat(speed);
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
-    } 
+    }
 
     setVideoSpeed(last_valid_speed);
   });
-  
+
 
   // stops enter from submitting the page when focused on the speed textbox
   $(document).on('keypress', "#speed", function (e) {
@@ -613,7 +635,7 @@
       return false;
     }
   });
-  
+
   //Hamburger menu code
   $(document).on('click', '#hamburger', function (evt) {
       $(".menu").slideToggle("fast", function () {
@@ -705,9 +727,9 @@
           <div style="display: inline-block">
             <div style="display: flex; margin-bottom: -3px">
               <label id="countoffLabel" class="disable-selection">Start delay:&#160;</label>
-              <div id="countoff">&#160 15s</div>
+              <div id="countoff">&#160 0s</div>
             </div>
-            <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
+            <input id="countoffBar" type="range" min="0" max="30" step="1" value="0"></input>
           </div>
 
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
