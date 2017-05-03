@@ -39,10 +39,10 @@
   var COUNTOFF_MIN=0;
   var COUNTOFF_MAX=30;
   var countoff = 0;
-  
+
   var SPEED_MIN=0.5;
   var SPEED_MAX=4.0;
-  
+
   // play indicator global Variables
   var indicatorTimeout = 100;
   var global_counter;
@@ -325,10 +325,20 @@
     	$(this).css('cursor','auto');
 		});
 
+    toggleXIcon = function(documentId) {
+      var xIcon = document.getElementById(documentId);
+      if (xIcon.getAttribute("src") == "images/visibility_on.svg") {
+        var off = "off"
+      } else {
+        var off = "on"
+      }
+      xIcon.setAttribute("src", "images/visibility_" + off + ".svg")
+    }
   	// Collapse / Expand window panes:
   	// TODO: Merge into one listener?
 		$('#x_button_form').on('mousedown', function(event) {
-    	$("#formation-image-wrapper").slideToggle('slow', function() {});
+    	$("#formation-image-wrapper").slideToggle('slow', function() {})
+      //toggleXIcon("x_button_form")
   	});
 
   	$('#x_button_comments').on('mousedown', function(event) {
@@ -336,16 +346,7 @@
   	});
 
   	$('.x_button').on('mousedown', function(event) {
-    	currentSrc = document.getElementById(event.target.id).src;
-
-    	//$(this).attr("src");
-
-    	if(currentSrc.indexOf("eye_open.svg") != -1) { //currently visible
-    	  //$(this).attr("src", "/images/eye_closed.svg");
-    	}
-    	else {
-    	  //$(this).attr("src", "/images/eye_epen.svg");
-    	}
+      toggleXIcon(event.target.id)
   	});
 
     //$("#indicator").css({right: 0});
@@ -520,30 +521,30 @@
   var last_valid_speed = "1.0";
 
   var clicking = false; //true while either button is held down
-  
+
   // decrements speed by 0.1
   $(document).on('click', "#left", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
-    
-    if(re.test(speed)) { //valid speed string 
+
+    if(re.test(speed)) { //valid speed string
 			speed = parseFloat(speed) - 0.1;
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
-    } 
-    
+    }
+
     $("#speed").val(last_valid_speed.toFixed(1.));
-      
+
     setVideoSpeed(last_valid_speed);
-    
+
     if(clicking) {
       setTimeout(function() {
     	  $("#left").click();
     	}, 275);
     }
   });
-  
+
   $(document).on('mousedown', "#left", function(evt) {
   		clicking = true;
   		setTimeout(function() {
@@ -560,25 +561,25 @@
   $(document).on('click', "#right", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
-    
-    if(re.test(speed)) { //valid speed string 
+
+    if(re.test(speed)) { //valid speed string
 			speed = parseFloat(speed) + 0.1;
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
-    } 
-    
+    }
+
     $("#speed").val(last_valid_speed.toFixed(1.));
-      
+
     setVideoSpeed(last_valid_speed);
-    
+
     if(clicking) {
       setTimeout(function() {
     		$("#right").click();
     	}, 275);
     }
   });
-  
+
     $(document).on('mousedown', "#right", function(evt) {
   		clicking = true;
   		setTimeout(function() {
@@ -593,19 +594,19 @@
 
   $(document).on('keyup', "#speed", function(evt) {
     var speed = $("#speed").val();
-    
+
     var re = /\d?\.?\d+x?/;
-    
-    if(re.test(speed)) { //valid speed string 
+
+    if(re.test(speed)) { //valid speed string
 			speed = parseFloat(speed);
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
-    } 
+    }
 
     setVideoSpeed(last_valid_speed);
   });
-  
+
 
   // stops enter from submitting the page when focused on the speed textbox
   $(document).on('keypress', "#speed", function (e) {
@@ -613,7 +614,7 @@
       return false;
     }
   });
-  
+
   //Hamburger menu code
   $(document).on('click', '#hamburger', function (evt) {
       $(".menu").slideToggle("fast", function () {
@@ -723,7 +724,7 @@
 
       <!-- Formation Diagram Pane-->
       <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/play.svg"/></div>
+        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/visibility_on.svg"/></div>
         <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
           <img src="images/form_dgm1.svg">
         </div>
@@ -732,7 +733,7 @@
 
       <!-- Comments Pane -->
       <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/play.svg"/></div>
+        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/visibility_on.svg"/></div>
         <div id="comments-pane" class="pane">
           <p class="comments-content">Comments appear here...</p>
         </div>
