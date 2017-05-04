@@ -228,12 +228,15 @@
 
   // pauses the video while the countoff happens
   this.checkCountOff = function() {
-    clearInterval(continueCountoffIndicator);
     var video = getVideo();
     if (startLoop) {
       video.pause();
     } else if (isPlayOn() && video.paused) {
+      clearInterval(continueCountoffIndicator);
+      $("#countoffVisual").text("");
       video.play();
+    } else if (!startLoop) {
+      $("#countoffVisual").text("");
     }
   }
 
@@ -241,11 +244,15 @@
   this.startCountOff = function() {
     continueCountoffIndicator = setInterval(checkCountOff, indicatorTimeout);
     global_counter = 0;
+    var visual = $("#countoffVisual");
+    visual.text(getCountOff()-global_counter);
     var timerID = setInterval(function(){
       global_counter++;
-      if (global_counter >= getCountOff()) {
+      if (global_counter >= getCountOff() || !startLoop) {
         startLoop = false;
         clearInterval(timerID);
+      } else {
+        visual.text(getCountOff()-global_counter);
       }
     }, 1000);
   }
@@ -684,6 +691,7 @@
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
+        <div id="countoffVisual"></div>
         <video id="videoBox">
           <source src="images/chicken.MOV">
             Your browser does not support the video tag.
