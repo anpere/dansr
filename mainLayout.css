@@ -173,26 +173,27 @@ input#codeSearch {
 #sections {
   width: 100%;
   display: inline-flex;
+  position: relative;
 }
 #section1 {
-  width: 15%;
-  position: relative;
+  position: absolute;
   top: 0px;
-  left: 50px;
+  left: 0%;
+  right:85%;
   background-color: #b067c6;
 }
 #section2 {
-  width: 25%;
-  position: relative;
+  right: 75%;
+  position: absolute;
   top: 0px;
-  left: 100px;
+  left: 15%;
   background-color: #b1d83c;
 }
 #section3 {
-  width: 5%;
-  position: relative;
+  right: 0%;
+  position: absolute;
   top: 0px;
-  left: 200px;
+  left: 25%;
   background-color: #dba55e;
 }
 .grey {
