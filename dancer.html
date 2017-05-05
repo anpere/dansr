@@ -713,22 +713,22 @@
           <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
           <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
           <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-          <button type="button" class="btn btn-primary tool-icon" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
+          <button type="button" class="btn btn-primary tool-icon" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed by 0.1">
           </button>
           <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
           <!--The speed controller-->
           <form>
             <div class="form-group form-inline" style="display:inline-block">
-              <label for="speed" id="speedLabel" class="disable-selection" style="line-height:1.1">Speed</label>
+              <label for="speed" id="speedLabel" class="disable-selection" style="line-height:1.1" data-toggle="tooltip" data-placement="bottom" title="Video Playback Speed">Speed</label>
               <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
           </form>
-          <button type="button" class="btn btn-primary tool-icon" id="speedPlus" style="background-image:url('images/plus.svg')">
+          <button type="button" class="btn btn-primary tool-icon" id="speedPlus" style="background-image:url('images/plus.svg')" data-toggle="tooltip" data-placement="bottom" title="Increase Speed by 0.1">
           </button>
 
           <div style="display: inline-block">
             <div style="display: flex; margin-bottom: -3px">
-              <label id="countoffLabel" class="disable-selection">Start delay:&#160;</label>
+              <label id="countoffLabel" class="disable-selection" data-toggle="tooltip" data-placement="bottom" title="Time delay before the video starts">Start delay:&#160;</label>
               <div id="countoff">&#160 0s</div>
             </div>
             <input id="countoffBar" type="range" min="0" max="30" step="1" value="0"></input>
@@ -747,7 +747,7 @@
 
       <!-- Formation Diagram Pane-->
       <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/visibility_on.svg"/></div>
+        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Formation Diagram"/></div>
         <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
           <img src="images/form_dgm1.svg">
         </div>
@@ -756,7 +756,7 @@
 
       <!-- Comments Pane -->
       <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/visibility_on.svg"/></div>
+        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Comments"/></div>
         <div id="comments-pane" class="pane">
           <p class="comments-content">Comments appear here...</p>
         </div>
