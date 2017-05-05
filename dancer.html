@@ -1,4 +1,4 @@
-<head>
+﻿<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -130,17 +130,23 @@
     var left = document.getElementById("sectionStart").style.left;
     return pixelToFloat(left);
   }
-  setHandleStartPosition = function(left) {
-    document.getElementById("sectionStart").style.left = left;
-  }
+
   // get left position of the end handle
-  getHandleEndPositon = function() {
-    var left = document.getElementById("sectionEnd").style.left;
-    return getSeekbarWidth() + pixelToFloat(left);
+  getHandleEndPositon = function () {
+      var left = document.getElementById("sectionEnd").style.left;
+      return getSeekbarWidth() + pixelToFloat(left);
+  }
+  setHandleStartPosition = function (left) {
+      console.log(left)
+      document.getElementById("sectionStart").style.left = left+"%";
   }
 
-  setHandleEndPosition = function(left) {
-    document.getElementById("sectionEnd").style.left = left - getSeekbarWidth();
+
+
+
+  setHandleEndPosition = function(right) {
+      document.getElementById("sectionEnd").style.right = right+"%";
+      console.log(right+"zzzz");
   }
 
   getNextPosition = function(current, handleStart, handleEnd) {
@@ -204,7 +210,7 @@
     /// set the left of the indicator because things are sketchy
     setIndicatorPosition(0);
     setHandleStartPosition(0);
-    setHandleEndPosition(getSeekbarWidth());
+    setHandleEndPosition(0);
     // set indicator driver loop
     setInterval(playIndicator, indicatorTimeout);
 
@@ -313,10 +319,11 @@
 
     $(".section").on("dblclick", function(event) {
       debug("dblclick: target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
-      var section = $(event.target)
-      debug(section.position().left - section.width())
-      setHandleStartPosition(section.position().left - section.width());
-      setHandleEndPosition(section.position().left);
+      var section = $(event.target);
+      var seekbar = $("#seekbar");
+      debug(section.position().left - section.width());
+      setHandleStartPosition(section.data("left"));
+      setHandleEndPosition(section.data("right"));
 });
     $("#seekbar").on("click", function(event) {
 
@@ -540,9 +547,9 @@
           </div>
 
           <div id="sections">
-            <div id="section1" class="section"></div>
-            <div id="section2" class="section"></div>
-            <div id="section3" class="section"></div>
+            <div id="section1" class="section" data-left="0" data-right="85"></div>
+            <div id="section2" class="section" data-left ="15" data-right="75"></div>
+            <div id="section3" class="section" data-left ="25" data-right="0"></div>
           </div>
 
           <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar disable-selection">
