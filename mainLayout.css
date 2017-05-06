@@ -59,17 +59,21 @@ body {
   margin-right: auto;
   position: relative;
 }
+#title {
+    margin-top: 25;
+}
 #search {
-  display: flex;
+  display: inline-flex;
   overflow: hidden;
-  max-height: 28px;
-  align-self: center;
-  width: 1000;
-  max-height: 480px;
+  height: 50px;
+  min-height: 28px;
+  width: 66%;
+  /*max-height: 480px;*/
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  left: 7%;
 }
 div#searchWidget {
   display: inline-flex;
@@ -115,7 +119,7 @@ input#codeSearch {
   height: 0;
   width: 0px;
   align-self: flex-end;
-  z-index: 6;
+  z-index: 4;
   position: relative;
 }
 #volumeIndicator {
@@ -153,6 +157,9 @@ input#codeSearch {
 }
 #top {
   position: relative;
+  margin-top: 10;
+  margin-left: 10;
+  margin-right: 10;
 }
 #editDance {
   position: absolute;
@@ -175,26 +182,27 @@ input#codeSearch {
 #sections {
   width: 100%;
   display: inline-flex;
+  position: relative;
 }
 #section1 {
-  width: 15%;
-  position: relative;
+  position: absolute;
   top: 0px;
-  left: 50px;
+  left: 0%;
+  right:85%;
   background-color: #b067c6;
 }
 #section2 {
-  width: 25%;
-  position: relative;
+  right: 75%;
+  position: absolute;
   top: 0px;
-  left: 100px;
+  left: 15%;
   background-color: #b1d83c;
 }
 #section3 {
-  width: 5%;
-  position: relative;
+  right: 0%;
+  position: absolute;
   top: 0px;
-  left: 200px;
+  left: 25%;
   background-color: #dba55e;
 }
 .grey {
@@ -211,7 +219,6 @@ input#codeSearch {
   top: 0;
   left: 0;
   line-height: 45px;
-  padding: 5px 15px 0px 5px;
   color: #999;
   border: 0;
   font-size: 2em;
@@ -219,6 +226,10 @@ input#codeSearch {
   cursor: pointer;
   outline: none;
   z-index: 10000000000000;
+}
+#logo {
+    position: relative;
+    top: -5;
 }
 #countoff {
   width: 40px;
@@ -249,11 +260,11 @@ input#codeSearch {
   margin: 0px;
   padding-left: 8px;
 }
-#right {
+#speedPlus {
   margin-right: 20;
   border-right-width: 2;
 }
-#left {
+#speedMinus {
   border-left-width: 2;
   border-left-color: gray;
 }

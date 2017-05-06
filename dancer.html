@@ -1,4 +1,4 @@
-<head>
+﻿<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -23,11 +23,10 @@
 
 
   var isLoopOn = false;
-  var isPlayOn = false;
   var isMetronomeOn = false;
 
   // to turn of debugging statements
-  var debugOn = false;
+  var debugOn = true;
 
   //Initialize auto-complete
   var availableCodes = [
@@ -39,10 +38,10 @@
   var COUNTOFF_MIN=0;
   var COUNTOFF_MAX=30;
   var countoff = 0;
-  
+
   var SPEED_MIN=0.5;
   var SPEED_MAX=4.0;
-  
+
   // play indicator global Variables
   var indicatorTimeout = 100;
   var global_counter;
@@ -62,7 +61,7 @@
 
     // check if we need to play the video
     // this is needed when we end the video, and then move the indicator back.
-    if (isPlayOn && video.paused) {
+    if (isPlayOn() && video.paused) {
       video.play()
     }
   }
@@ -102,6 +101,16 @@
     return document.getElementById("videoBox");
   }
 
+  pauseVideo = function(){
+    var video = getVideo();
+    video.pause();
+  }
+
+  playVideo = function(){
+    var video = getVideo();
+    video.play();
+  }
+
   // returns the string representation of countoff which is just
   // " (number)s"
   // note the preceding space
@@ -118,49 +127,82 @@
     return parseFloat(left.substring(0, left.length - 2));
   }
 
+  percentageToFloat = function(percentage) {
+    return parseFloat(percentage.substring(0, percentage.length-1));
+  }
+
+  // takes a css position which is either pixel or percentage and converts to floating
+  // float is in range [0,100]
+  cssPositionToFloat = function(css) {
+    var lastChar =  css.charAt(css.length-1);
+    if (lastChar == "%") {
+      return percentageToFloat(css);
+    } else if (lastChar == "x") {
+      return 100*pixelToFloat(css)/getSeekbarWidth();
+    } else if (css.length > 1){
+      alert("uh-oh, don't know what to do with css")
+    }
+  }
   // TODO: positons of everything isn't consistent, some have to be offset with seekbarWidth
   // sad!
-  // get left position of the play Indicator
+  // get left position of the play Indicator: range [0,100]
   getIndicatorPosition = function() {
     var left = document.getElementById("indicator").style.left;
-    return pixelToFloat(left);
+    return cssPositionToFloat(left);
   }
   // set left position of the play Indicator to left
+  // left is a floating point number in range [0,100]
   setIndicatorPosition = function(left) {
     var indicator = document.getElementById("indicator").style;
-    indicator.left = left;
-    debug("value is here: " + indicator.left);
+    indicator.left = left+"%";
+    debug(getHandleEndPosition());
   }
+
   // get left position of the start handle
   getHandleStartPosition = function() {
     // TODO call sectionStart a better name...
     var left = document.getElementById("sectionStart").style.left;
-    return pixelToFloat(left);
+    // cssPosition needed because while we drag elements we set their left and right positions
+    return cssPositionToFloat(left);
   }
-  setHandleStartPosition = function(left) {
-    document.getElementById("sectionStart").style.left = left;
-  }
+
   // get left position of the end handle
-  getHandleEndPositon = function() {
-    var left = document.getElementById("sectionEnd").style.left;
-    return getSeekbarWidth() + pixelToFloat(left);
+  getHandleEndPosition = function () {
+      var right = document.getElementById("sectionEnd").style.right;
+      return 100 - cssPositionToFloat(right);
   }
 
+  // sets the position of the start handle bar to left
+  // left: a floating point number in range [0,100] that represents
+  // fractionalPosition from the left
+  setHandleStartPosition = function (left) {
+      console.log(left)
+      document.getElementById("sectionStart").style.left = left+"%";
+  }
+
+  // sets the position of the end handle bar to right
+  // right: a floating point number in range [0,100] that represents
+  // fractionalPosition from the right
   setHandleEndPosition = function(left) {
-    document.getElementById("sectionEnd").style.left = left - getSeekbarWidth();
+      document.getElementById("sectionEnd").style.right = (100-left)+"%";
   }
 
+  getDelta = function(){
+    return 100 * getSpeed() / (1000*getVideoDuration()/indicatorTimeout);
+  }
   getNextPosition = function(current, handleStart, handleEnd) {
     // 1000 because videoDuration is in seconds, and we work in milliseconds
     var steps = 1000*getVideoDuration()/ indicatorTimeout;
-    var delta = getSpeed() * getSeekbarWidth() / steps;
-    debug(delta);
+    var delta = 100 * getSpeed() / steps;
+
     var nextJump = current + delta;
     // this controls whether or not we want to start in the beggining or not
     if (nextJump > handleEnd && isLoopOn) {
       return handleStart;
-    } else if (nextJump > getSeekbarWidth()) {
-      return getSeekbarWidth;
+    } else if (nextJump > handleEnd && !isLoopOn) {
+      return handleEnd;
+    } else if (nextJump < handleStart) {
+      return handleStart;
     } else {
       return nextJump;
     }
@@ -168,7 +210,6 @@
 
   getCountOff = function() {
     var countoff = document.getElementById("countoffBar");
-    console.log("countoff: " + countoff.value);
     return countoff.value;
   }
 
@@ -186,6 +227,25 @@
     }
   }
 
+  var continuePlayIndicator; //to enable cancelling of the interval
+
+  // does all the side effects associated with pausing
+  pause = function() {
+  	clearInterval(continuePlayIndicator);
+    pauseVideo();
+    document.getElementById("playPause").setAttribute("style", "background-image:url('images/play.svg')")
+  }
+
+  // does all the side effects associated with playing a video
+  play = function() {
+    continuePlayIndicator = setInterval(playIndicator, indicatorTimeout);
+    playVideo();
+    document.getElementById("playPause").setAttribute("style", "background-image:url('images/pause.svg')")
+  }
+
+  isPlayOn = function() {
+    return document.getElementById("playPause").getAttribute("style") == "background-image:url('images/pause.svg')";
+  }
   // debugger
   debug = function(string){
     if (debugOn) {
@@ -194,18 +254,22 @@
   }
   /******************* Event Handlers *******************/
 
+	var continueCountoffIndicator; //prevents infinite loop of checkCountOff()
+
   // pauses the video while the countoff happens
   this.checkCountOff = function() {
+    clearInterval(continueCountoffIndicator);
     var video = getVideo();
     if (startLoop) {
       video.pause();
-    } else if (isPlayOn && video.paused) {
+    } else if (isPlayOn() && video.paused) {
       video.play();
     }
   }
 
   //starts the countoff procedure
   this.startCountOff = function() {
+    continueCountoffIndicator = setInterval(checkCountOff, indicatorTimeout);
     global_counter = 0;
     var timerID = setInterval(function(){
       global_counter++;
@@ -217,24 +281,29 @@
   }
 
   // moves the indicator after pressing the play button
-  this.playIndicator = function() {
+  playIndicator = function() {
     // check if we are playing.
-    debug("in playIndicator")
-    if (!isPlayOn || startLoop) {
+    console.log("in playIndicator")
+    if (!isPlayOn() || startLoop) {
+      console.log("play is off")
       return;
     } else {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = getHandleStartPosition();
-      var handleEnd = getHandleEndPositon();
+      var handleEnd = getHandleEndPosition();
       var current = getIndicatorPosition();
       var nextCurrent = getNextPosition(current, handleStart, handleEnd)
+      console.log(nextCurrent)
       setIndicatorPosition(nextCurrent);
       // only happnens when we loop back...
       // so change video
       // we only want to update video in this case, because if we always update
       // video to match, video will look jumpy
-
-      if (nextCurrent < current) {
+      if (nextCurrent == handleEnd){
+        pause();
+        return;
+      }
+      if (nextCurrent == handleStart){
         if (getCountOff() > 0) {
           startLoop = true;
         }
@@ -254,16 +323,13 @@
     $("#comments").css({position: "absolute", left: "47%", top: 520});
 
     // set countoff display
-    document.getElementById("countoff").innerHTML = "&nbsp15s";
+    document.getElementById("countoff").innerHTML = "&nbsp0s";
     document.getElementById("videoBox").setAttribute("width", "100%")
 
     /// set the left of the indicator because things are sketchy
     setIndicatorPosition(0);
     setHandleStartPosition(0);
-    setHandleEndPosition(getSeekbarWidth());
-    // set indicator driver loop
-    setInterval(playIndicator, indicatorTimeout);
-    setInterval(checkCountOff, indicatorTimeout);
+    setHandleEndPosition(100);
 
     setVolume();
 
@@ -325,33 +391,32 @@
       $(this).css('cursor','auto');
     });
 
-    // Collapse / Expand window panes:
-    // TODO: Merge into one listener?
-    $('#x_button_form').on('mousedown', function(event) {
-      $("#formation-image-wrapper").slideToggle('slow', function() {});
-    });
-
-    $('#x_button_comments').on('mousedown', function(event) {
-      $("#comments-pane").slideToggle('slow', function() {});
-    });
-
-    $('.x_button').on('mousedown', function(event) {
-      currentSrc = document.getElementById(event.target.id).src;
-
-      //$(this).attr("src");
-
-      if(currentSrc.indexOf("eye_open.svg") != -1) { //currently visible
-        //$(this).attr("src", "/images/eye_closed.svg");
+  toggleXIcon = function(documentId) {
+      var xIcon = document.getElementById(documentId);
+      if (xIcon.getAttribute("src") == "images/visibility_on.svg") {
+        var off = "off"
+      } else {
+        var off = "on"
       }
-      else {
-        //$(this).attr("src", "/images/eye_epen.svg");
-      }
-    });
+      xIcon.setAttribute("src", "images/visibility_" + off + ".svg")
+    }
+  	// Collapse / Expand window panes:
+  	// TODO: Merge into one listener?
+		$('#x_button_form').on('mousedown', function(event) {
+    	$("#formation-image-wrapper").slideToggle('slow', function() {})
+      //toggleXIcon("x_button_form")
+  	});
+
+  	$('#x_button_comments').on('mousedown', function(event) {
+    	$("#comments-pane").slideToggle('slow', function() {});
+  	});
+
+  	$('.x_button').on('mousedown', function(event) {
+      toggleXIcon(event.target.id)
+  	});
 
     var clicking = false; // used to know when indicator should be dragging
-        
-    $("#indicator").draggable(true);
-    $("#indicator").draggable({ axis: "x", containment: "#seekbar"})
+    $("#indicator").draggable({ axis: "x", containment: "parent"})
     // The following technique was adapted from 
     // http://stackoverflow.com/questions/14445375/trigger-click-and-hold-event
                    .click(function(e) { 
@@ -365,9 +430,11 @@
                       clicking = !clicking;
                       return false;
                    });
+      
     $("#indicator").on("drag", function(event, ui) {
-        var fractionalPosition = Math.abs(event.delegateTarget.offsetLeft / $("#seekbar").width());
-        loopVideoTo(fractionalPosition * 100.);
+      var fractionalPosition = Math.abs(ui.position.left / getSeekbarWidth());
+      $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
+      loopVideoTo(fractionalPosition * 100.);
     });
   });
 
@@ -381,11 +448,34 @@
   // creates the handler for dragging handlebars
   $(function() {
     var rect = document.getElementById("seekbar").getBoundingClientRect();
-    $(".handlebar").draggable({ axis: "x", containment: "parent"});
+    $(".handlebar").draggable({
+      axis: "x",
+      containment: "parent",
+      stop: function( event, ui ) {
+        if ($(this).attr("id") == "sectionEnd"){
+          console.log("hello")
+          var fraction = parseInt($(this).css("left")) / getSeekbarWidth();
+          var rightPercentage = -1* (100 * (fraction))
+          $(this).css("right", rightPercentage + "%");
+          $(this).css("left","");
+        } else if ($(this).attr("id") == "sectionStart"){
+          $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
+          console.log("bye")
+        }
+      }
+    });
+    $("#indicator").draggable({
+      axis: "x",
+      containment: "parent",
+      stop: function(event, ui) {
+        $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
+      }
+    });
 
     // updates the grey rectangles on the sides of the handlebar
     // DISCUSS: inverting the greyed out section?
-    $(".handlebar").on("drag", function(event, ui) {
+
+    /*$(".handlebar").on("drag", function(event, ui) {
       var width = $("#seekbar").width();
       var fractionalPosition = ui.position.left / width;
       
@@ -398,7 +488,7 @@
         $("#grayLeft").css({"width": ui.position.left});
       }
       event.stopPropagation();
-    });
+    });*/
 
     $("#indicator").on("move", function(event, leftPx) {
       $("#indicator").stop();
@@ -415,9 +505,28 @@
     });
     
     $("#seekbar").on("mousedown", function(event) {
-
       startLoop = false;
-      var clickedPosX_centered = event.pageX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
+      $("#indicator").stop();
+    });
+
+    $(".section").on("dblclick", function(event) {
+      debug("dblclick: target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
+      var section = $(event.target);
+      var seekbar = $("#seekbar");
+      debug(section.position().left - section.width());
+      setHandleStartPosition(section.data("left"));
+      setHandleEndPosition(100 - section.data("right"));
+    });
+    $("#seekbar").on("click", function(event) {
+
+      // a double click is waiting for us!
+      if(event.detail > 1){
+        debug(event.target.id + " registered a doubleclick");
+        return;
+      }
+      debug("seekbar click");
+      debug("target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
+      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
 
       //Keep in bounds:
       if(clickedPosX_centered < 0) {
@@ -432,6 +541,17 @@
         clicking = true;
         var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
         $("#indicator").trigger("move", [clickedPos_centered]);
+
+        /*var clickTimeout = 400;
+        loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
+        setIndicatorPosition(100 * clickedPosX_centered / getSeekbarWidth());
+        document.getElementById("indicatorBar").style.pointerEvents="none"
+        setTimeout(function(){
+          document.getElementById("indicatorBar").style.pointerEvents="auto"
+        }, clickTimeout)*/
+      }
+      if(event.target.class === "section") {
+        console.log("foo")
       }
 
     });
@@ -475,27 +595,16 @@
   $(document).on('click', "#playPause", function(evt)
   {
     startLoop = false;
-    var button  = document.getElementById("playPause") // maybe this instead?
-    if (!isPlayOn){
-      var video = document.getElementById("videoBox");
-      video.play();
-      isPlayOn = true;
-      playIndicator();
-      pause = false;
-      // set button to pause
-      button.setAttribute("style", "background-image:url('images/pause.svg')")
+    console.log("playon: " + isPlayOn);
+    if (!isPlayOn()){
+      play();
       if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17) {
         startLoop = true;
         startCountOff();
       }
     } else {
-      var video = document.getElementById("videoBox");
-      video.pause();
+      pause();
       $("#indicator").stop();
-      pause = true;
-      // set button to play
-      button.setAttribute("style", "background-image:url('images/play.svg')")
-      isPlayOn = false;
     }
   });
 
@@ -554,44 +663,44 @@
   var last_valid_speed = "1.0";
 
   var clicking = false; //true while either button is held down
-  
+
   // decrements speed by 0.1
-  $(document).on('click', "#left", function(evt) {
+  $(document).on('click', "#speedMinus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
     
-    if(re.test(speed)) { //valid speed string 
-      speed = parseFloat(speed) - 0.1;
-      speed = Math.max(speed, SPEED_MIN);
-      speed = Math.min(speed, SPEED_MAX);
-      last_valid_speed = speed;
-    } 
-    
+    if(re.test(speed)) { //valid speed string
+			speed = parseFloat(speed) - 0.1;
+			speed = Math.max(speed, SPEED_MIN);
+			speed = Math.min(speed, SPEED_MAX);
+			last_valid_speed = speed;
+    }
+
     $("#speed").val(last_valid_speed.toFixed(1.));
-      
+
     setVideoSpeed(last_valid_speed);
-    
+
     if(clicking) {
       setTimeout(function() {
-        $("#left").click();
-      }, 275);
+    	  $("#speedMinus").click();
+    	}, 275);
     }
   });
-  
-  $(document).on('mousedown', "#left", function(evt) {
-      clicking = true;
-      setTimeout(function() {
-        if(clicking) {
-          $("#left").click();
-        }
-      }, 275);
+
+  $(document).on('mousedown', "#speedMinus", function(evt) {
+  		clicking = true;
+  		setTimeout(function() {
+  			if(clicking) {
+    		  $("#speedMinus").click();
+    		}
+    	}, 275);
   });
-  $(document).on('mouseup', "#left", function(evt) {
+  $(document).on('mouseup', "#speedMinus", function(evt) {
       clicking = false;
   });
 
   // increments speed by 0.1
-  $(document).on('click', "#right", function(evt) {
+  $(document).on('click', "#speedPlus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
     
@@ -601,45 +710,44 @@
       speed = Math.min(speed, SPEED_MAX);
       last_valid_speed = speed;
     } 
-    
+ 
     $("#speed").val(last_valid_speed.toFixed(1.));
-      
+
     setVideoSpeed(last_valid_speed);
-    
+
     if(clicking) {
       setTimeout(function() {
-        $("#right").click();
-      }, 275);
+    		$("#speedPlus").click();
+    	}, 275);
     }
   });
-  
-    $(document).on('mousedown', "#right", function(evt) {
-      clicking = true;
-      setTimeout(function() {
-        if(clicking) {
-          $("#right").click();
-        }
-      }, 275);
+
+    $(document).on('mousedown', "#speedPlus", function(evt) {
+  		clicking = true;
+  		setTimeout(function() {
+  			if(clicking) {
+    		  $("#speedPlus").click();
+    		}
+    	}, 275);
   });
-  $(document).on('mouseup', "#right", function(evt) {
+  $(document).on('mouseup', "#speedPlus", function(evt) {
       clicking = false;
   });
 
   $(document).on('keyup', "#speed", function(evt) {
     var speed = $("#speed").val();
-    
-    var re = /\d?\.?\d+x?/;
-    
-    if(re.test(speed)) { //valid speed string 
-      speed = parseFloat(speed);
-      speed = Math.max(speed, SPEED_MIN);
-      speed = Math.min(speed, SPEED_MAX);
-      last_valid_speed = speed;
-    } 
 
+    var re = /\d?\.?\d+x?/;
+
+    if(re.test(speed)) { //valid speed string
+			speed = parseFloat(speed);
+			speed = Math.max(speed, SPEED_MIN);
+			speed = Math.min(speed, SPEED_MAX);
+			last_valid_speed = speed;
+    }
     setVideoSpeed(last_valid_speed);
   });
-  
+
 
   // stops enter from submitting the page when focused on the speed textbox
   $(document).on('keypress', "#speed", function (e) {
@@ -647,7 +755,7 @@
       return false;
     }
   });
-  
+
   //Hamburger menu code
   $(document).on('click', '#hamburger', function (evt) {
       $(".menu").slideToggle("fast", function () {
@@ -667,12 +775,22 @@
     </button>
     <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
 
+    <div id ="search">
+      <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
+        <span class="btnSearch ui-state-default" title="search">
+          <img src="images/search.svg" style="flex:1"/>
+        </span>
+        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code">
+      </div>
+    </div>
+
     <button class="btn" id="editDance" onclick="location.href='choreo.html'">
       <img src="images/edit.svg">
       <div id="editDanceText">
         Edit Dance
       </div>
-    </button>    </div>
+    </button>
+  </div>
     <!--Hamburger menu dropdown-->
     <div class="menu">
         <ul>
@@ -681,15 +799,8 @@
             <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
         </ul>
     </div>
-    <div id ="search">
-      <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
-        <span class="btnSearch ui-state-default" title="search">
-          <img src="images/search.svg" style="flex:1"/>
-        </span>
-        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-      </div>
-    </div>
 
+    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto"><h1>Chicken Dance</h1></div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
@@ -710,9 +821,9 @@
           </div>
 
           <div id="sections">
-            <div id="section1" class="section"></div>
-            <div id="section2" class="section"></div>
-            <div id="section3" class="section"></div>
+            <div id="section1" class="section" data-left="0" data-right="85"></div>
+            <div id="section2" class="section" data-left ="15" data-right="75"></div>
+            <div id="section3" class="section" data-left ="25" data-right="0"></div>
           </div>
 
           <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar disable-selection">
@@ -726,25 +837,25 @@
           <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
           <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
           <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-          <button type="button" class="btn btn-primary tool-icon" id="left" style="background-image:url('images/left.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed">
+          <button type="button" class="btn btn-primary tool-icon" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed by 0.1">
           </button>
           <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
           <!--The speed controller-->
           <form>
             <div class="form-group form-inline" style="display:inline-block">
-              <label for="speed" id="speedLabel" class="disable-selection" style="line-height:1.1">Speed</label>
+              <label for="speed" id="speedLabel" class="disable-selection" style="line-height:1.1" data-toggle="tooltip" data-placement="bottom" title="Video Playback Speed">Speed</label>
               <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
           </form>
-          <button type="button" class="btn btn-primary tool-icon" id="right" style="background-image:url('images/right.svg')">
+          <button type="button" class="btn btn-primary tool-icon" id="speedPlus" style="background-image:url('images/plus.svg')" data-toggle="tooltip" data-placement="bottom" title="Increase Speed by 0.1">
           </button>
 
           <div style="display: inline-block">
             <div style="display: flex; margin-bottom: -3px">
-              <label id="countoffLabel" class="disable-selection">Start delay:&#160;</label>
-              <div id="countoff">&#160 15s</div>
+              <label id="countoffLabel" class="disable-selection" data-toggle="tooltip" data-placement="bottom" title="Time delay before the video starts">Start delay:&#160;</label>
+              <div id="countoff">&#160 0s</div>
             </div>
-            <input id="countoffBar" type="range" min="0" max="30" step="1"></input>
+            <input id="countoffBar" type="range" min="0" max="30" step="1" value="0"></input>
           </div>
 
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
@@ -760,7 +871,7 @@
 
       <!-- Formation Diagram Pane-->
       <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/play.svg"/></div>
+        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Formation Diagram"/></div>
         <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
           <img src="images/form_dgm1.svg">
         </div>
@@ -769,7 +880,7 @@
 
       <!-- Comments Pane -->
       <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/play.svg"/></div>
+        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Comments"/></div>
         <div id="comments-pane" class="pane">
           <p class="comments-content">Comments appear here...</p>
         </div>
