@@ -139,7 +139,7 @@
       return percentageToFloat(css);
     } else if (lastChar == "x") {
       return 100*pixelToFloat(css)/getSeekbarWidth();
-    } else {
+    } else if (css.length > 1){
       alert("uh-oh, don't know what to do with css")
     }
   }
@@ -735,7 +735,7 @@
       <div id="editDanceText">
         Edit Dance
       </div>
-    </button>    
+    </button>
   </div>
     <!--Hamburger menu dropdown-->
     <div class="menu">
