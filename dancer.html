@@ -354,17 +354,17 @@
     $("#indicator").draggable({ axis: "x", containment: "#seekbar"})
     // The following technique was adapted from 
     // http://stackoverflow.com/questions/14445375/trigger-click-and-hold-event
-    							 .click(function(e) { 
-											if(!clicking){
-													$(this).data('uiDraggable')._mouseCapture(e, true)
-													$(this).data('uiDraggable')._mouseStart(e, true, true);
-											} else {
-													$(this).data('uiDraggable')._mouseUp(e);
-													$(this).data('uiDraggable')._mouseStop(e);
-											}
-											clicking = !clicking;
-											return false;
-									 });
+                   .click(function(e) { 
+                      if(!clicking){
+                          $(this).data('uiDraggable')._mouseCapture(e, true)
+                          $(this).data('uiDraggable')._mouseStart(e, true, true);
+                      } else {
+                          $(this).data('uiDraggable')._mouseUp(e);
+                          $(this).data('uiDraggable')._mouseStop(e);
+                      }
+                      clicking = !clicking;
+                      return false;
+                   });
     $("#indicator").on("drag", function(event, ui) {
         var fractionalPosition = Math.abs(event.delegateTarget.offsetLeft / $("#seekbar").width());
         loopVideoTo(fractionalPosition * 100.);
