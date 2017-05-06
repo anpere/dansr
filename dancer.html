@@ -335,7 +335,7 @@
 
     $(".cross").hide();
     $(".menu").hide();
-  });
+  //});
 
   $( "#codeSearch" ).autocomplete({
     source: availableCodes
@@ -354,44 +354,44 @@
     }
   });
 
-
+});
   //Draggable Indicator:
   $(function() {
 
     // Set all instances of .draggable-wrapper to be draggable in the body
-  	$('.draggable-wrapper').draggable({ containment: "parent" });
+    $('.draggable-wrapper').draggable({ containment: "parent" });
 
 
-		$(".pane").hover(function() {
+    $(".pane").hover(function() {
       $(this).css('cursor','-webkit-grab');
       $(this).css('cursor','-moz-grab');
     }, function() {
-    	$(this).css('cursor','auto');
-		});
+      $(this).css('cursor','auto');
+    });
 
-		$('.pane').on('mousedown', function(event) {
-    	$(this).css({cursor: "-webkit-grabbing"});
-    	$(this).css({cursor: "-moz-grabbing"});
-  	});
+    $('.pane').on('mousedown', function(event) {
+      $(this).css({cursor: "-webkit-grabbing"});
+      $(this).css({cursor: "-moz-grabbing"});
+    });
 
-		$('.pane').on('mouseup', function(event) {
-    	$(this).css({cursor: "-webkit-grab"});
-    	$(this).css({cursor: "-moz-grab"});
-  	});
+    $('.pane').on('mouseup', function(event) {
+      $(this).css({cursor: "-webkit-grab"});
+      $(this).css({cursor: "-moz-grab"});
+    });
 
-  	$("#indicatorBar").hover(function() {
-    	$(this).css('cursor','col-resize');
-		}, function() {
-    	$(this).css('cursor','auto');
-		});
+    $("#indicatorBar").hover(function() {
+      $(this).css('cursor','col-resize');
+    }, function() {
+      $(this).css('cursor','auto');
+    });
 
-		$(".handlebar").hover(function() {
-    	$(this).css('cursor','col-resize');
-		}, function() {
-    	$(this).css('cursor','auto');
-		});
+    $(".handlebar").hover(function() {
+      $(this).css('cursor','col-resize');
+    }, function() {
+      $(this).css('cursor','auto');
+    });
 
-    toggleXIcon = function(documentId) {
+  toggleXIcon = function(documentId) {
       var xIcon = document.getElementById(documentId);
       if (xIcon.getAttribute("src") == "images/visibility_on.svg") {
         var off = "off"
@@ -415,9 +415,23 @@
       toggleXIcon(event.target.id)
   	});
 
-    $("#indicator").draggable({ axis: "x", containment: "parent"});
+    var clicking = false; // used to know when indicator should be dragging
+    $("#indicator").draggable({ axis: "x", containment: "parent"})
+    // The following technique was adapted from 
+    // http://stackoverflow.com/questions/14445375/trigger-click-and-hold-event
+                   .click(function(e) { 
+                      if(!clicking){
+                          $(this).data('uiDraggable')._mouseCapture(e, true)
+                          $(this).data('uiDraggable')._mouseStart(e, true, true);
+                      } else {
+                          $(this).data('uiDraggable')._mouseUp(e);
+                          $(this).data('uiDraggable')._mouseStop(e);
+                      }
+                      clicking = !clicking;
+                      return false;
+                   });
+      
     $("#indicator").on("drag", function(event, ui) {
-      console.log("here")
       var fractionalPosition = Math.abs(ui.position.left / getSeekbarWidth());
       $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
       loopVideoTo(fractionalPosition * 100.);
@@ -461,6 +475,35 @@
     // updates the grey rectangles on the sides of the handlebar
     // DISCUSS: inverting the greyed out section?
 
+    /*$(".handlebar").on("drag", function(event, ui) {
+      var width = $("#seekbar").width();
+      var fractionalPosition = ui.position.left / width;
+      
+      if ($(this).attr("id") == "sectionEnd") {
+        var handle = document.getElementById("sectionEnd").getBoundingClientRect();
+        secEnd = fractionalPosition;
+        $("#grayRight").css({"left": ui.position.left+20, "width": rect.right-handle.left-10});
+      } else {
+        secStart = fractionalPosition;
+        $("#grayLeft").css({"width": ui.position.left});
+      }
+      event.stopPropagation();
+    });*/
+
+    $("#indicator").on("move", function(event, leftPx) {
+      $("#indicator").stop();
+      $("#indicator").animate({left: leftPx.toString() }, 50, function() {
+        //on completed animation
+        if(clicking) {
+          $(document).bind('mousemove', function (e) {
+            $("#indicator").trigger("move", [e.pageX - $("#seekbar").position().left]);
+           });
+         }
+      });
+      loopVideoTo( leftPx / $("#seekbar").width() * 100.);
+      return false;
+    });
+    
     $("#seekbar").on("mousedown", function(event) {
       startLoop = false;
       $("#indicator").stop();
@@ -490,23 +533,32 @@
         clickedPosX_centered = 0;
       }
       else if(clickedPosX_centered > $("#seekbar").width()) {
-      	clickedPosX_centered = $("#seekbar").width();
+        clickedPosX_centered = $("#seekbar").width();
       }
 
       //Make sure indicator doesn't jump if handlebar is clicked:
       if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-        var clickTimeout = 400;
+        clicking = true;
+        var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
+        $("#indicator").trigger("move", [clickedPos_centered]);
+
+        /*var clickTimeout = 400;
         loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
         setIndicatorPosition(100 * clickedPosX_centered / getSeekbarWidth());
         document.getElementById("indicatorBar").style.pointerEvents="none"
         setTimeout(function(){
           document.getElementById("indicatorBar").style.pointerEvents="auto"
-        }, clickTimeout)
+        }, clickTimeout)*/
       }
       if(event.target.class === "section") {
         console.log("foo")
       }
 
+    });
+    
+    $('html').on("mouseup", function(event) {
+      clicking = false;
+      $(document).unbind('mousemove');
     });
   });
 
@@ -520,7 +572,7 @@
     var volume = document.getElementById("volumeBar");
     isMuteOn = !isMuteOn;
     if (isMuteOn) {
-      prevVol = volume.value / 100;
+      prevVol = volume.value / 100.;
       volume.value = 0;
     } else {
       volume.value = prevVol * 100;
@@ -532,7 +584,7 @@
   $(document).on('click', "#goBack", function(evt)
   {
     setIndicatorPosition(getHandleStartPosition());
-    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
+    loopVideoTo(100.*getHandleStartPosition()/getSeekbarWidth());
 
     if (getCountOff() > 0) {
       startLoop = true;
@@ -616,7 +668,7 @@
   $(document).on('click', "#speedMinus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
-
+    
     if(re.test(speed)) { //valid speed string
 			speed = parseFloat(speed) - 0.1;
 			speed = Math.max(speed, SPEED_MIN);
@@ -651,14 +703,14 @@
   $(document).on('click', "#speedPlus", function(evt) {
     var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
-
-    if(re.test(speed)) { //valid speed string
-			speed = parseFloat(speed) + 0.1;
-			speed = Math.max(speed, SPEED_MIN);
-			speed = Math.min(speed, SPEED_MAX);
-			last_valid_speed = speed;
-    }
-
+    
+    if(re.test(speed)) { //valid speed string 
+      speed = parseFloat(speed) + 0.1;
+      speed = Math.max(speed, SPEED_MIN);
+      speed = Math.min(speed, SPEED_MAX);
+      last_valid_speed = speed;
+    } 
+ 
     $("#speed").val(last_valid_speed.toFixed(1.));
 
     setVideoSpeed(last_valid_speed);
@@ -693,7 +745,6 @@
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
     }
-
     setVideoSpeed(last_valid_speed);
   });
 
@@ -725,7 +776,10 @@
     <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
 
     <div id ="search">
-      <div class="ui-widget" id="searchWidget">
+      <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
+        <span class="btnSearch ui-state-default" title="search">
+          <img src="images/search.svg" style="flex:1"/>
+        </span>
         <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code">
       </div>
     </div>
@@ -759,7 +813,7 @@
         <div id ="seekbar">
 
           <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
-            <img id="indicatorBar" src="images/seekbar.svg">
+            <img id="indicatorBar" src="images/seekbar.svg" class="disable-selection" style="height:100%; width:100%" draggable="false">
           </div>
 
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
@@ -807,7 +861,7 @@
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
 
           <!-- TODO(AP) make not a button, but still look nice -->
-          <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
+          <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume"> </button>
 
           <input id ="volumeBar" type="range" min="0" max="100" step="1"></input>
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>

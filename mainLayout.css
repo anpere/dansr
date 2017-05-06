@@ -65,10 +65,11 @@ body {
 #search {
   display: inline-flex;
   overflow: hidden;
-  height: 50;
-  max-height: 28px;
+  height: 50px;
+  min-height: 28px;
   width: 66%;
-  max-height: 480px;
+  /*max-height: 480px;*/
+  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -77,14 +78,17 @@ body {
 div#searchWidget {
   display: inline-flex;
   flex-grow: 1;
-  overflow: hidden;
-  white-space: nowrap;
 }
 input#codeSearch {
-  margin-left: 25px;
   width: 100%;
-  font-size: 1.25em;
+  font-size: 1.15em;
+  padding-left: 10px;
 }
+.btnSearch {
+  cursor: pointer;
+  display: flex;
+}
+
 #searchWidget button {
   background: rgba(75, 205, 100, 0.5)
 }
@@ -99,7 +103,7 @@ input#codeSearch {
   width: 100%;
   position: relative;
   background-color: lightgray;
-  height: 42;
+  height: 42px;
 }
 #indicator {
   background: #FF0000;
