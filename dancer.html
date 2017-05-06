@@ -293,62 +293,62 @@
   $(function() {
 
     // Set all instances of .draggable-wrapper to be draggable in the body
-  	$('.draggable-wrapper').draggable({ containment: "parent" });
+    $('.draggable-wrapper').draggable({ containment: "parent" });
 
 
-		$(".pane").hover(function() {
+    $(".pane").hover(function() {
       $(this).css('cursor','-webkit-grab');
       $(this).css('cursor','-moz-grab');
     }, function() {
-    	$(this).css('cursor','auto');
-		});
+      $(this).css('cursor','auto');
+    });
 
-		$('.pane').on('mousedown', function(event) {
-    	$(this).css({cursor: "-webkit-grabbing"});
-    	$(this).css({cursor: "-moz-grabbing"});
-  	});
+    $('.pane').on('mousedown', function(event) {
+      $(this).css({cursor: "-webkit-grabbing"});
+      $(this).css({cursor: "-moz-grabbing"});
+    });
 
-		$('.pane').on('mouseup', function(event) {
-    	$(this).css({cursor: "-webkit-grab"});
-    	$(this).css({cursor: "-moz-grab"});
-  	});
+    $('.pane').on('mouseup', function(event) {
+      $(this).css({cursor: "-webkit-grab"});
+      $(this).css({cursor: "-moz-grab"});
+    });
 
-  	$("#indicatorBar").hover(function() {
-    	$(this).css('cursor','col-resize');
-		}, function() {
-    	$(this).css('cursor','auto');
-		});
+    $("#indicatorBar").hover(function() {
+      $(this).css('cursor','col-resize');
+    }, function() {
+      $(this).css('cursor','auto');
+    });
 
-		$(".handlebar").hover(function() {
-    	$(this).css('cursor','col-resize');
-		}, function() {
-    	$(this).css('cursor','auto');
-		});
+    $(".handlebar").hover(function() {
+      $(this).css('cursor','col-resize');
+    }, function() {
+      $(this).css('cursor','auto');
+    });
 
-  	// Collapse / Expand window panes:
-  	// TODO: Merge into one listener?
-		$('#x_button_form').on('mousedown', function(event) {
-    	$("#formation-image-wrapper").slideToggle('slow', function() {});
-  	});
+    // Collapse / Expand window panes:
+    // TODO: Merge into one listener?
+    $('#x_button_form').on('mousedown', function(event) {
+      $("#formation-image-wrapper").slideToggle('slow', function() {});
+    });
 
-  	$('#x_button_comments').on('mousedown', function(event) {
-    	$("#comments-pane").slideToggle('slow', function() {});
-  	});
+    $('#x_button_comments').on('mousedown', function(event) {
+      $("#comments-pane").slideToggle('slow', function() {});
+    });
 
-  	$('.x_button').on('mousedown', function(event) {
-    	currentSrc = document.getElementById(event.target.id).src;
+    $('.x_button').on('mousedown', function(event) {
+      currentSrc = document.getElementById(event.target.id).src;
 
-    	//$(this).attr("src");
+      //$(this).attr("src");
 
-    	if(currentSrc.indexOf("eye_open.svg") != -1) { //currently visible
-    	  //$(this).attr("src", "/images/eye_closed.svg");
-    	}
-    	else {
-    	  //$(this).attr("src", "/images/eye_epen.svg");
-    	}
-  	});
+      if(currentSrc.indexOf("eye_open.svg") != -1) { //currently visible
+        //$(this).attr("src", "/images/eye_closed.svg");
+      }
+      else {
+        //$(this).attr("src", "/images/eye_epen.svg");
+      }
+    });
 
-		var clicking = false; // used to know when indicator should be dragging
+    var clicking = false; // used to know when indicator should be dragging
         
     $("#indicator").draggable(true);
     $("#indicator").draggable({ axis: "x", containment: "#seekbar"})
@@ -400,20 +400,20 @@
       event.stopPropagation();
     });
 
-		$("#indicator").on("move", function(event, leftPx) {
-			$("#indicator").stop();
-			$("#indicator").animate({left: leftPx.toString() }, 50, function() {
-			 	//on completed animation
-			 	if(clicking) {
-			   	$(document).bind('mousemove', function (e) {
-				   	$("#indicator").trigger("move", [e.pageX - $("#seekbar").position().left]);
-    			 });
-				 }
-			});
+    $("#indicator").on("move", function(event, leftPx) {
+      $("#indicator").stop();
+      $("#indicator").animate({left: leftPx.toString() }, 50, function() {
+        //on completed animation
+        if(clicking) {
+          $(document).bind('mousemove', function (e) {
+            $("#indicator").trigger("move", [e.pageX - $("#seekbar").position().left]);
+           });
+         }
+      });
       loopVideoTo( leftPx / $("#seekbar").width() * 100.);
       return false;
-		});
-		
+    });
+    
     $("#seekbar").on("mousedown", function(event) {
 
       startLoop = false;
@@ -424,21 +424,21 @@
         clickedPosX_centered = 0;
       }
       else if(clickedPosX_centered > $("#seekbar").width()) {
-      	clickedPosX_centered = $("#seekbar").width();
+        clickedPosX_centered = $("#seekbar").width();
       }
 
       //Make sure indicator doesn't jump if handlebar is clicked:
       if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-  			clicking = true;
-      	var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
-      	$("#indicator").trigger("move", [clickedPos_centered]);
+        clicking = true;
+        var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
+        $("#indicator").trigger("move", [clickedPos_centered]);
       }
 
     });
     
     $('html').on("mouseup", function(event) {
       clicking = false;
-		 	$(document).unbind('mousemove');
+      $(document).unbind('mousemove');
     });
   });
 
@@ -561,10 +561,10 @@
     var re = /\d?\.?\d+x?/;
     
     if(re.test(speed)) { //valid speed string 
-			speed = parseFloat(speed) - 0.1;
-			speed = Math.max(speed, SPEED_MIN);
-			speed = Math.min(speed, SPEED_MAX);
-			last_valid_speed = speed;
+      speed = parseFloat(speed) - 0.1;
+      speed = Math.max(speed, SPEED_MIN);
+      speed = Math.min(speed, SPEED_MAX);
+      last_valid_speed = speed;
     } 
     
     $("#speed").val(last_valid_speed.toFixed(1.));
@@ -573,18 +573,18 @@
     
     if(clicking) {
       setTimeout(function() {
-    	  $("#left").click();
-    	}, 275);
+        $("#left").click();
+      }, 275);
     }
   });
   
   $(document).on('mousedown', "#left", function(evt) {
-  		clicking = true;
-  		setTimeout(function() {
-  			if(clicking) {
-    		  $("#left").click();
-    		}
-    	}, 275);
+      clicking = true;
+      setTimeout(function() {
+        if(clicking) {
+          $("#left").click();
+        }
+      }, 275);
   });
   $(document).on('mouseup', "#left", function(evt) {
       clicking = false;
@@ -596,10 +596,10 @@
     var re = /\d?\.?\d+x?/;
     
     if(re.test(speed)) { //valid speed string 
-			speed = parseFloat(speed) + 0.1;
-			speed = Math.max(speed, SPEED_MIN);
-			speed = Math.min(speed, SPEED_MAX);
-			last_valid_speed = speed;
+      speed = parseFloat(speed) + 0.1;
+      speed = Math.max(speed, SPEED_MIN);
+      speed = Math.min(speed, SPEED_MAX);
+      last_valid_speed = speed;
     } 
     
     $("#speed").val(last_valid_speed.toFixed(1.));
@@ -608,18 +608,18 @@
     
     if(clicking) {
       setTimeout(function() {
-    		$("#right").click();
-    	}, 275);
+        $("#right").click();
+      }, 275);
     }
   });
   
     $(document).on('mousedown', "#right", function(evt) {
-  		clicking = true;
-  		setTimeout(function() {
-  			if(clicking) {
-    		  $("#right").click();
-    		}
-    	}, 275);
+      clicking = true;
+      setTimeout(function() {
+        if(clicking) {
+          $("#right").click();
+        }
+      }, 275);
   });
   $(document).on('mouseup', "#right", function(evt) {
       clicking = false;
@@ -631,10 +631,10 @@
     var re = /\d?\.?\d+x?/;
     
     if(re.test(speed)) { //valid speed string 
-			speed = parseFloat(speed);
-			speed = Math.max(speed, SPEED_MIN);
-			speed = Math.min(speed, SPEED_MAX);
-			last_valid_speed = speed;
+      speed = parseFloat(speed);
+      speed = Math.max(speed, SPEED_MIN);
+      speed = Math.min(speed, SPEED_MAX);
+      last_valid_speed = speed;
     } 
 
     setVideoSpeed(last_valid_speed);
@@ -684,7 +684,7 @@
     <div id ="search">
       <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
         <span class="btnSearch ui-state-default" title="search">
-        	<img src="images/search.svg" style="flex:1"/>
+          <img src="images/search.svg" style="flex:1"/>
         </span>
         <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
       </div>
@@ -750,7 +750,7 @@
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
 
           <!-- TODO(AP) make not a button, but still look nice -->
-          <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
+          <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume"> </button>
 
           <input id ="volumeBar" type="range" min="0" max="100" step="1"></input>
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
