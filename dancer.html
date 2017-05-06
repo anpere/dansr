@@ -137,7 +137,7 @@
   // set left position of the play Indicator to left
   setIndicatorPosition = function(left) {
     var indicator = document.getElementById("indicator").style;
-    indicator.left = left;
+    indicator.left = (100 * parseInt(left) / getSeekbarWidth()) +"%";
     debug("value is here: " + indicator.left);
   }
 
@@ -395,9 +395,9 @@
 
     $("#indicator").draggable({ axis: "x", containment: "parent"});
     $("#indicator").on("drag", function(event, ui) {
-      var width = $("#seekbar").width();
-      var fractionalPosition = Math.abs(ui.position.left / width);
-
+      console.log("here")
+      var fractionalPosition = Math.abs(ui.position.left / getSeekbarWidth());
+      $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
       loopVideoTo(fractionalPosition * 100.);
     });
   });
@@ -426,6 +426,13 @@
           $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
           console.log("bye")
         }
+      }
+    });
+    $("#indicator").draggable({
+      axis: "x",
+      containment: "parent",
+      stop: function(event, ui) {
+        $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
       }
     });
 
