@@ -1,4 +1,4 @@
-﻿ad>
+﻿<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -657,12 +657,19 @@
     </button>
     <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
 
+    <div id ="search">
+      <div class="ui-widget" id="searchWidget">
+        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code">
+      </div>
+    </div>
+
     <button class="btn" id="editDance" onclick="location.href='choreo.html'">
       <img src="images/edit.svg">
       <div id="editDanceText">
         Edit Dance
       </div>
-    </button>    </div>
+    </button>    
+  </div>
     <!--Hamburger menu dropdown-->
     <div class="menu">
         <ul>
@@ -671,12 +678,8 @@
             <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
         </ul>
     </div>
-    <div id ="search">
-      <div class="ui-widget" id="searchWidget">
-        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-      </div>
-    </div>
 
+    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto"><h1>Chicken Dance</h1></div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->

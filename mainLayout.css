@@ -59,18 +59,20 @@ body {
   margin-right: auto;
   position: relative;
 }
+#title {
+    margin-top: 25;
+}
 #search {
-  display: flex;
+  display: inline-flex;
   overflow: hidden;
-  height: 60;
+  height: 50;
   max-height: 28px;
-  align-self: center;
-  width: 1000;
+  width: 66%;
   max-height: 480px;
-  margin-top: 10;
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  left: 7%;
 }
 div#searchWidget {
   display: inline-flex;
@@ -151,6 +153,9 @@ input#codeSearch {
 }
 #top {
   position: relative;
+  margin-top: 10;
+  margin-left: 10;
+  margin-right: 10;
 }
 #editDance {
   position: absolute;
@@ -209,7 +214,6 @@ input#codeSearch {
   top: 0;
   left: 0;
   line-height: 45px;
-  padding: 5px 15px 0px 5px;
   color: #999;
   border: 0;
   font-size: 2em;
@@ -217,6 +221,10 @@ input#codeSearch {
   cursor: pointer;
   outline: none;
   z-index: 10000000000000;
+}
+#logo {
+    position: relative;
+    top: -5;
 }
 #countoff {
   width: 40px;
