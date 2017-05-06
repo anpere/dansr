@@ -82,6 +82,7 @@ input#codeSearch {
 }
 .btnSearch {
   cursor: pointer;
+  display: flex;
 }
 
 #searchWidget button {
