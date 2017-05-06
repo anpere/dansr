@@ -145,18 +145,14 @@
   getHandleStartPosition = function() {
     // TODO call sectionStart a better name...
     var left = document.getElementById("sectionStart").style.left;
-<<<<<<< HEAD
     return left;
-=======
-    return pixelToFloat(left);
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
+
   }
 
   // get left position of the end handle
   getHandleEndPositon = function () {
       var left = document.getElementById("sectionEnd").style.left;
       return getSeekbarWidth() + pixelToFloat(left);
-<<<<<<< HEAD
   }
 
   // sets the position of the start handle bar to left
@@ -165,23 +161,11 @@
   setHandleStartPosition = function (left) {
       console.log(left)
       document.getElementById("sectionStart").style.left = left+"%";
-=======
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
-  }
-  setHandleStartPosition = function (left) {
-      console.log(left)
-      document.getElementById("sectionStart").style.left = left+"%";
-  }
 
 
-<<<<<<< HEAD
   // sets the position of the end handle bar to right
   // right: a floating point number in range [0,1] that represents
   // fractionalPosition from the right
-=======
-
-
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
   setHandleEndPosition = function(right) {
       document.getElementById("sectionEnd").style.right = right+"%";
       console.log(right+"zzzz");
@@ -250,7 +234,6 @@
   }
   /******************* Event Handlers *******************/
 
-<<<<<<< HEAD
 	var continueCountoffIndicator; //prevents infinite loop of checkCountOff()
 
   // pauses the video while the countoff happens
@@ -283,12 +266,6 @@
     console.log("in playIndicator")
     if (!isPlayOn() || startLoop) {
       console.log("play is off")
-=======
-  // periodically updates the position of the playIndicator
-  this.playIndicator = function() {
-    // check if we are playing.
-    if (!isPlayOn) {
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
       return;
     } else {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
@@ -332,11 +309,6 @@
     setIndicatorPosition(0);
     setHandleStartPosition(0);
     setHandleEndPosition(0);
-<<<<<<< HEAD
-=======
-    // set indicator driver loop
-    setInterval(playIndicator, indicatorTimeout);
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
 
     setVolume();
 
@@ -418,13 +390,10 @@
     	$("#comments-pane").slideToggle('slow', function() {});
   	});
 
-<<<<<<< HEAD
   	$('.x_button').on('mousedown', function(event) {
       toggleXIcon(event.target.id)
   	});
 
-=======
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
     $("#indicator").draggable({ axis: "x", containment: "parent"});
     $("#indicator").on("drag", function(event, ui) {
       var width = $("#seekbar").width();
@@ -464,15 +433,11 @@
 
     // updates the grey rectangles on the sides of the handlebar
     // DISCUSS: inverting the greyed out section?
-
-<<<<<<< HEAD
     $("#seekbar").on("mousedown", function(event) {
       startLoop = false;
       $("#indicator").stop();
     });
 
-=======
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
     $(".section").on("dblclick", function(event) {
       debug("dblclick: target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
       var section = $(event.target);
@@ -480,11 +445,7 @@
       debug(section.position().left - section.width());
       setHandleStartPosition(section.data("left"));
       setHandleEndPosition(section.data("right"));
-<<<<<<< HEAD
     });
-=======
-});
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
     $("#seekbar").on("click", function(event) {
 
       // a double click is waiting for us!
@@ -562,7 +523,6 @@
         startCountOff();
       }
     } else {
-<<<<<<< HEAD
       pause();
       $("#indicator").stop();
     }
@@ -581,17 +541,6 @@
     $("#grayLeft").css({"width": left});
   });
 
-=======
-      var video = document.getElementById("videoBox");
-      video.pause();
-      pause = true;
-      // set button to play
-      button.setAttribute("style", "background-image:url('images/play.svg')")
-      isPlayOn = false;
-    }
-  });
-
->>>>>>> 2195e476b74a79e99f9960be001103241dc06e32
   $(document).on('mousemove', "#countoffBar", function(evt){
     // set countoff
     countoff = this.value;
