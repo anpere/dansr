@@ -130,32 +130,46 @@
   percentageToFloat = function(percentage) {
     return parseFloat(percentage.substring(0, percentage.length-1));
   }
+
+  // takes a css position which is either pixel or percentage and converts to floating
+  // float is in range [0,100]
+  cssPositionToFloat = function(css) {
+    var lastChar =  css.charAt(css.length-1);
+    if (lastChar == "%") {
+      return percentageToFloat(css);
+    } else if (lastChar == "x") {
+      return 100*pixelToFloat(css)/getSeekbarWidth();
+    } else {
+      alert("uh-oh, don't know what to do with css")
+    }
+  }
   // TODO: positons of everything isn't consistent, some have to be offset with seekbarWidth
   // sad!
   // get left position of the play Indicator: range [0,100]
   getIndicatorPosition = function() {
     var left = document.getElementById("indicator").style.left;
-    return percentageToFloat(left);
+    return cssPositionToFloat(left);
   }
   // set left position of the play Indicator to left
   // left is a floating point number in range [0,100]
   setIndicatorPosition = function(left) {
     var indicator = document.getElementById("indicator").style;
     indicator.left = left+"%";
-    debug("value is here: " + indicator.left);
+    debug(getHandleEndPosition());
   }
 
   // get left position of the start handle
   getHandleStartPosition = function() {
     // TODO call sectionStart a better name...
     var left = document.getElementById("sectionStart").style.left;
-    return percentageToFloat(left);
+    // cssPosition needed because while we drag elements we set their left and right positions
+    return cssPositionToFloat(left);
   }
 
   // get left position of the end handle
-  getHandleEndPositon = function () {
+  getHandleEndPosition = function () {
       var right = document.getElementById("sectionEnd").style.right;
-      return 100 - percentageToFloat(right);
+      return 100 - cssPositionToFloat(right);
   }
 
   // sets the position of the start handle bar to left
@@ -276,7 +290,7 @@
     } else {
       var rect = document.getElementById("seekbar").getBoundingClientRect();
       var handleStart = getHandleStartPosition();
-      var handleEnd = getHandleEndPositon();
+      var handleEnd = getHandleEndPosition();
       var current = getIndicatorPosition();
       var nextCurrent = getNextPosition(current, handleStart, handleEnd)
       console.log(nextCurrent)
