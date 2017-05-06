@@ -127,17 +127,21 @@
     return parseFloat(left.substring(0, left.length - 2));
   }
 
+  percentageToFloat = function(percentage) {
+    return parseFloat(percentage.substring(0, percentage.length-1));
+  }
   // TODO: positons of everything isn't consistent, some have to be offset with seekbarWidth
   // sad!
-  // get left position of the play Indicator
+  // get left position of the play Indicator: range [0,100]
   getIndicatorPosition = function() {
     var left = document.getElementById("indicator").style.left;
-    return pixelToFloat(left);
+    return percentageToFloat(left);
   }
   // set left position of the play Indicator to left
+  // left is a floating point number in range [0,100]
   setIndicatorPosition = function(left) {
     var indicator = document.getElementById("indicator").style;
-    indicator.left = (100 * parseInt(left) / getSeekbarWidth()) +"%";
+    indicator.left = left+"%";
     debug("value is here: " + indicator.left);
   }
 
@@ -145,17 +149,17 @@
   getHandleStartPosition = function() {
     // TODO call sectionStart a better name...
     var left = document.getElementById("sectionStart").style.left;
-    return left;
+    return percentageToFloat(left);
   }
 
   // get left position of the end handle
   getHandleEndPositon = function () {
-      var left = document.getElementById("sectionEnd").style.left;
-      return getSeekbarWidth() + pixelToFloat(left);
+      var right = document.getElementById("sectionEnd").style.right;
+      return 100 - percentageToFloat(right);
   }
 
   // sets the position of the start handle bar to left
-  // left: a floating point number in range [0,1] that represents
+  // left: a floating point number in range [0,100] that represents
   // fractionalPosition from the left
   setHandleStartPosition = function (left) {
       console.log(left)
@@ -163,17 +167,20 @@
   }
 
   // sets the position of the end handle bar to right
-  // right: a floating point number in range [0,1] that represents
+  // right: a floating point number in range [0,100] that represents
   // fractionalPosition from the right
-  setHandleEndPosition = function(right) {
-      document.getElementById("sectionEnd").style.right = right+"%";
-      console.log(right+"zzzz");
+  setHandleEndPosition = function(left) {
+      document.getElementById("sectionEnd").style.right = (100-left)+"%";
   }
 
+  getDelta = function(){
+    return 100 * getSpeed() / (1000*getVideoDuration()/indicatorTimeout);
+  }
   getNextPosition = function(current, handleStart, handleEnd) {
     // 1000 because videoDuration is in seconds, and we work in milliseconds
     var steps = 1000*getVideoDuration()/ indicatorTimeout;
-    var delta = getSpeed() * getSeekbarWidth() / steps;
+    var delta = 100 * getSpeed() / steps;
+
     var nextJump = current + delta;
     // this controls whether or not we want to start in the beggining or not
     if (nextJump > handleEnd && isLoopOn) {
@@ -272,6 +279,7 @@
       var handleEnd = getHandleEndPositon();
       var current = getIndicatorPosition();
       var nextCurrent = getNextPosition(current, handleStart, handleEnd)
+      console.log(nextCurrent)
       setIndicatorPosition(nextCurrent);
       // only happnens when we loop back...
       // so change video
@@ -307,7 +315,7 @@
     /// set the left of the indicator because things are sketchy
     setIndicatorPosition(0);
     setHandleStartPosition(0);
-    setHandleEndPosition(0);
+    setHandleEndPosition(100);
 
     setVolume();
 
@@ -450,7 +458,7 @@
       var seekbar = $("#seekbar");
       debug(section.position().left - section.width());
       setHandleStartPosition(section.data("left"));
-      setHandleEndPosition(section.data("right"));
+      setHandleEndPosition(100 - section.data("right"));
     });
     $("#seekbar").on("click", function(event) {
 
@@ -475,7 +483,7 @@
       if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
         var clickTimeout = 400;
         loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
-        setIndicatorPosition(clickedPosX_centered);
+        setIndicatorPosition(100 * clickedPosX_centered / getSeekbarWidth());
         document.getElementById("indicatorBar").style.pointerEvents="none"
         setTimeout(function(){
           document.getElementById("indicatorBar").style.pointerEvents="auto"
