@@ -1,4 +1,4 @@
-﻿<head>
+<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -151,24 +151,24 @@
 
   // get left position of the end handle
   getHandleEndPositon = function () {
-      var left = document.getElementById("sectionEnd").style.left;
-      return getSeekbarWidth() + pixelToFloat(left);
+    var left = document.getElementById("sectionEnd").style.left;
+    return getSeekbarWidth() + pixelToFloat(left);
   }
 
   // sets the position of the start handle bar to left
   // left: a floating point number in range [0,1] that represents
   // fractionalPosition from the left
   setHandleStartPosition = function (left) {
-      console.log(left)
-      document.getElementById("sectionStart").style.left = left+"%";
-
+    console.log(left)
+    document.getElementById("sectionStart").style.left = left+"%";
+  }
 
   // sets the position of the end handle bar to right
   // right: a floating point number in range [0,1] that represents
   // fractionalPosition from the right
   setHandleEndPosition = function(right) {
-      document.getElementById("sectionEnd").style.right = right+"%";
-      console.log(right+"zzzz");
+    document.getElementById("sectionEnd").style.right = right+"%";
+    console.log(right+"zzzz");
   }
 
   getNextPosition = function(current, handleStart, handleEnd) {
@@ -211,7 +211,7 @@
 
   // does all the side effects associated with pausing
   pause = function() {
-  	clearInterval(continuePlayIndicator);
+    clearInterval(continuePlayIndicator);
     pauseVideo();
     document.getElementById("playPause").setAttribute("style", "background-image:url('images/play.svg')")
   }
@@ -227,14 +227,14 @@
     return document.getElementById("playPause").getAttribute("style") == "background-image:url('images/pause.svg')";
   }
   // debugger
-  debug = function(string){
+  debug = function(string) {
     if (debugOn) {
       console.log(string)
     }
   }
   /******************* Event Handlers *******************/
 
-	var continueCountoffIndicator; //prevents infinite loop of checkCountOff()
+  var continueCountoffIndicator; //prevents infinite loop of checkCountOff()
 
   // pauses the video while the countoff happens
   this.checkCountOff = function() {
@@ -336,71 +336,69 @@
 
   //Draggable Indicator:
   $(function() {
-
     // Set all instances of .draggable-wrapper to be draggable in the body
-  	$('.draggable-wrapper').draggable({ containment: "parent" });
+    $('.draggable-wrapper').draggable({ containment: "parent" });
 
-
-		$(".pane").hover(function() {
+    $(".pane").hover(function() {
       $(this).css('cursor','-webkit-grab');
       $(this).css('cursor','-moz-grab');
     }, function() {
-    	$(this).css('cursor','auto');
-		});
-
-		$('.pane').on('mousedown', function(event) {
-    	$(this).css({cursor: "-webkit-grabbing"});
-    	$(this).css({cursor: "-moz-grabbing"});
-  	});
-
-		$('.pane').on('mouseup', function(event) {
-    	$(this).css({cursor: "-webkit-grab"});
-    	$(this).css({cursor: "-moz-grab"});
-  	});
-
-  	$("#indicatorBar").hover(function() {
-    	$(this).css('cursor','col-resize');
-		}, function() {
-    	$(this).css('cursor','auto');
-		});
-
-		$(".handlebar").hover(function() {
-    	$(this).css('cursor','col-resize');
-		}, function() {
-    	$(this).css('cursor','auto');
-		});
-
-    toggleXIcon = function(documentId) {
-      var xIcon = document.getElementById(documentId);
-      if (xIcon.getAttribute("src") == "images/visibility_on.svg") {
-        var off = "off"
-      } else {
-        var off = "on"
-      }
-      xIcon.setAttribute("src", "images/visibility_" + off + ".svg")
-    }
-  	// Collapse / Expand window panes:
-  	// TODO: Merge into one listener?
-		$('#x_button_form').on('mousedown', function(event) {
-    	$("#formation-image-wrapper").slideToggle('slow', function() {})
-      //toggleXIcon("x_button_form")
-  	});
-
-  	$('#x_button_comments').on('mousedown', function(event) {
-    	$("#comments-pane").slideToggle('slow', function() {});
-  	});
-
-  	$('.x_button').on('mousedown', function(event) {
-      toggleXIcon(event.target.id)
-  	});
-
-    $("#indicator").draggable({ axis: "x", containment: "parent"});
-    $("#indicator").on("drag", function(event, ui) {
-      var width = $("#seekbar").width();
-      var fractionalPosition = Math.abs(ui.position.left / width);
-
-      loopVideoTo(fractionalPosition * 100.);
+      $(this).css('cursor','auto');
     });
+
+    $('.pane').on('mousedown', function(event) {
+      $(this).css({cursor: "-webkit-grabbing"});
+      $(this).css({cursor: "-moz-grabbing"});
+    });
+
+    $('.pane').on('mouseup', function(event) {
+      $(this).css({cursor: "-webkit-grab"});
+      $(this).css({cursor: "-moz-grab"});
+    });
+
+    $("#indicatorBar").hover(function() {
+      $(this).css('cursor','col-resize');
+    }, function() {
+      $(this).css('cursor','auto');
+    });
+
+    $(".handlebar").hover(function() {
+      $(this).css('cursor','col-resize');
+    }, function() {
+      $(this).css('cursor','auto');
+    });
+  });
+
+  toggleXIcon = function(documentId) {
+    var xIcon = document.getElementById(documentId);
+    if (xIcon.getAttribute("src") == "images/visibility_on.svg") {
+      var off = "off"
+    } else {
+      var off = "on"
+    }
+    xIcon.setAttribute("src", "images/visibility_" + off + ".svg")
+  };
+  // Collapse / Expand window panes:
+  // TODO: Merge into one listener?
+  $('#x_button_form').on('mousedown', function(event) {
+    $("#formation-image-wrapper").slideToggle('slow', function() {})
+    //toggleXIcon("x_button_form")
+  });
+
+  $('#x_button_comments').on('mousedown', function(event) {
+    $("#comments-pane").slideToggle('slow', function() {});
+  });
+
+  $('.x_button').on('mousedown', function(event) {
+    toggleXIcon(event.target.id)
+  });
+
+  $("#indicator").draggable({ axis: "x", containment: "parent"});
+  $("#indicator").on("drag", function(event, ui) {
+    var width = $("#seekbar").width();
+    var fractionalPosition = Math.abs(ui.position.left / width);
+
+    loopVideoTo(fractionalPosition * 100.);
   });
 
   //Draggable Handlebars
@@ -430,57 +428,57 @@
         }
       }
     });
-
-    // updates the grey rectangles on the sides of the handlebar
-    // DISCUSS: inverting the greyed out section?
-    $("#seekbar").on("mousedown", function(event) {
-      startLoop = false;
-      $("#indicator").stop();
-    });
-
-    $(".section").on("dblclick", function(event) {
-      debug("dblclick: target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
-      var section = $(event.target);
-      var seekbar = $("#seekbar");
-      debug(section.position().left - section.width());
-      setHandleStartPosition(section.data("left"));
-      setHandleEndPosition(section.data("right"));
-    });
-    $("#seekbar").on("click", function(event) {
-
-      // a double click is waiting for us!
-      if(event.detail > 1){
-        debug(event.target.id + " registered a doubleclick");
-        return;
-      }
-      debug("seekbar click");
-      debug("target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
-      var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
-
-      //Keep in bounds:
-      if(clickedPosX_centered < 0) {
-        clickedPosX_centered = 0;
-      }
-      else if(clickedPosX_centered > $("#seekbar").width()) {
-      	clickedPosX_centered = $("#seekbar").width();
-      }
-
-      //Make sure indicator doesn't jump if handlebar is clicked:
-      if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-        var clickTimeout = 400;
-        loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
-        setIndicatorPosition(clickedPosX_centered);
-        document.getElementById("indicatorBar").style.pointerEvents="none"
-        setTimeout(function(){
-          document.getElementById("indicatorBar").style.pointerEvents="auto"
-        }, clickTimeout)
-      }
-      if(event.target.class === "section") {
-        console.log("foo")
-      }
-
-    });
   });
+
+  // updates the grey rectangles on the sides of the handlebar
+  // DISCUSS: inverting the greyed out section?
+  $("#seekbar").on("mousedown", function(event) {
+    startLoop = false;
+    $("#indicator").stop();
+  });
+
+  $(".section").on("dblclick", function(event) {
+    debug("dblclick: target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
+    var section = $(event.target);
+    var seekbar = $("#seekbar");
+    debug(section.position().left - section.width());
+    setHandleStartPosition(section.data("left"));
+    setHandleEndPosition(section.data("right"));
+  });
+  $("#seekbar").on("click", function(event) {
+
+    // a double click is waiting for us!
+    if(event.detail > 1){
+      debug(event.target.id + " registered a doubleclick");
+      return;
+    }
+    debug("seekbar click");
+    debug("target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
+    var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
+
+    //Keep in bounds:
+    if(clickedPosX_centered < 0) {
+      clickedPosX_centered = 0;
+    }
+    else if(clickedPosX_centered > $("#seekbar").width()) {
+      clickedPosX_centered = $("#seekbar").width();
+    }
+
+    //Make sure indicator doesn't jump if handlebar is clicked:
+    if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
+      var clickTimeout = 400;
+      loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
+      setIndicatorPosition(clickedPosX_centered);
+      document.getElementById("indicatorBar").style.pointerEvents="none"
+      setTimeout(function(){
+        document.getElementById("indicatorBar").style.pointerEvents="auto"
+      }, clickTimeout)
+    }
+    if(event.target.class === "section") {
+      console.log("foo")
+    }
+  });
+
 
   //Volume control
   $(document).on('input', "#volumeBar", function(event) {
@@ -590,10 +588,10 @@
     var re = /\d?\.?\d+x?/;
 
     if(re.test(speed)) { //valid speed string
-			speed = parseFloat(speed) - 0.1;
-			speed = Math.max(speed, SPEED_MIN);
-			speed = Math.min(speed, SPEED_MAX);
-			last_valid_speed = speed;
+      speed = parseFloat(speed) - 0.1;
+      speed = Math.max(speed, SPEED_MIN);
+      speed = Math.min(speed, SPEED_MAX);
+      last_valid_speed = speed;
     }
 
     $("#speed").val(last_valid_speed.toFixed(1.));
@@ -602,21 +600,21 @@
 
     if(clicking) {
       setTimeout(function() {
-    	  $("#speedMinus").click();
-    	}, 275);
+        $("#speedMinus").click();
+      }, 275);
     }
   });
 
   $(document).on('mousedown', "#speedMinus", function(evt) {
-  		clicking = true;
-  		setTimeout(function() {
-  			if(clicking) {
-    		  $("#speedMinus").click();
-    		}
-    	}, 275);
+    clicking = true;
+    setTimeout(function() {
+      if(clicking) {
+        $("#speedMinus").click();
+      }
+    }, 275);
   });
   $(document).on('mouseup', "#speedMinus", function(evt) {
-      clicking = false;
+    clicking = false;
   });
 
   // increments speed by 0.1
@@ -625,10 +623,10 @@
     var re = /\d?\.?\d+x?/;
 
     if(re.test(speed)) { //valid speed string
-			speed = parseFloat(speed) + 0.1;
-			speed = Math.max(speed, SPEED_MIN);
-			speed = Math.min(speed, SPEED_MAX);
-			last_valid_speed = speed;
+      speed = parseFloat(speed) + 0.1;
+      speed = Math.max(speed, SPEED_MIN);
+      speed = Math.min(speed, SPEED_MAX);
+      last_valid_speed = speed;
     }
 
     $("#speed").val(last_valid_speed.toFixed(1.));
@@ -637,21 +635,21 @@
 
     if(clicking) {
       setTimeout(function() {
-    		$("#speedPlus").click();
-    	}, 275);
+        $("#speedPlus").click();
+      }, 275);
     }
   });
 
-    $(document).on('mousedown', "#speedPlus", function(evt) {
-  		clicking = true;
-  		setTimeout(function() {
-  			if(clicking) {
-    		  $("#speedPlus").click();
-    		}
-    	}, 275);
+  $(document).on('mousedown', "#speedPlus", function(evt) {
+    clicking = true;
+    setTimeout(function() {
+      if(clicking) {
+        $("#speedPlus").click();
+      }
+    }, 275);
   });
   $(document).on('mouseup', "#speedPlus", function(evt) {
-      clicking = false;
+    clicking = false;
   });
 
   $(document).on('keyup', "#speed", function(evt) {
@@ -660,10 +658,10 @@
     var re = /\d?\.?\d+x?/;
 
     if(re.test(speed)) { //valid speed string
-			speed = parseFloat(speed);
-			speed = Math.max(speed, SPEED_MIN);
-			speed = Math.min(speed, SPEED_MAX);
-			last_valid_speed = speed;
+      speed = parseFloat(speed);
+      speed = Math.max(speed, SPEED_MIN);
+      speed = Math.min(speed, SPEED_MAX);
+      last_valid_speed = speed;
     }
 
     setVideoSpeed(last_valid_speed);
@@ -679,8 +677,8 @@
 
   //Hamburger menu code
   $(document).on('click', '#hamburger', function (evt) {
-      $(".menu").slideToggle("fast", function () {
-      });
+    $(".menu").slideToggle("fast", function () {
+    });
   });
 
   </script>
@@ -704,11 +702,11 @@
     </button>    </div>
     <!--Hamburger menu dropdown-->
     <div class="menu">
-        <ul>
-            <a href="#"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
-            <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
-            <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
-        </ul>
+      <ul>
+        <a href="#"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
+        <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
+        <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
+      </ul>
     </div>
     <div id ="search">
       <div class="ui-widget" id="searchWidget">
