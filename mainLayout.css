@@ -185,21 +185,21 @@ input#codeSearch {
   top: 0px;
   left: 0%;
   right:85%;
-  background-color: #b067c6;
+  background-color: yellow;
 }
 #section2 {
   right: 75%;
   position: absolute;
   top: 0px;
   left: 15%;
-  background-color: #b1d83c;
+  background-color: green;
 }
 #section3 {
   right: 0%;
   position: absolute;
   top: 0px;
   left: 25%;
-  background-color: #dba55e;
+  background-color: yellow;
 }
 .grey {
   position: absolute;
