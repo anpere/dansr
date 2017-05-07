@@ -16,6 +16,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script>
+
+  /************************ Global Constants ********************/
+  metronome_sound_path = "audio/metronome.m4a"
+
   /************************ Global Variables ********************/
   // TODO() replace as many as possible with functions.
   // i.e isLoopOn should be a function that reads the state of the loop button
@@ -42,6 +46,7 @@
   var SPEED_MIN=0.5;
   var SPEED_MAX=4.0;
 
+  var bpm = 0;
   // play indicator global Variables
   var indicatorTimeout = 100;
   var global_counter;
@@ -110,7 +115,14 @@
     var video = getVideo();
     video.play();
   }
+  playMetronomeClick = function(){
+    var audio = new Audio(metronome_sound_path);
+    audio.play();
+  }
 
+  getChoreoBPM = function() {
+    return 100;
+  }
   // returns the string representation of countoff which is just
   // " (number)s"
   // note the preceding space
@@ -246,6 +258,24 @@
   isPlayOn = function() {
     return document.getElementById("playPause").getAttribute("style") == "background-image:url('images/pause.svg')";
   }
+
+  // TODO(ap) move up
+  var continueMetronome;
+  getMetronomeTimeout = function () {
+    return (60*1000) / (bpm * getSpeed());
+  }
+  metronomeOff = function() {
+    isMetronomeOn = false;
+    metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:lightgray;");
+  }
+
+  metronomeOn = function () {
+    isMetronomeOn = true;
+    // must happen after isMetronomeOn because it counts on it being true
+    playMetronome();
+    metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:#0275d8;border-color:#0275d8")
+  }
+
   // debugger
   debug = function(string){
     if (debugOn) {
@@ -315,8 +345,16 @@
     }
   }
 
+  playMetronome = function() {
+    if (isMetronomeOn) {
+      playMetronomeClick();
+      setTimeout(playMetronome, getMetronomeTimeout())
+    }
+  }
+
   $(document).ready(function() {
     countoff = this.value;
+    bpm = getChoreoBPM();
 
     // set initial positions of window panes
     $("#formations").css({position: "absolute", left: "70%", top: 170});
@@ -585,12 +623,10 @@
   $(document).on('click', '#metronome', function (evt) {
     metronomeButton = document.getElementById("metronome");
     if (isMetronomeOn) {
-      isMetronomeOn = false;
-      metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:lightgray;");
+      metronomeOff();
     }
     else {
-      isMetronomeOn = true;
-      metronomeButton.setAttribute("style", "background-image:url('images/metronome.svg');background-color:#0275d8;border-color:#0275d8")
+      metronomeOn();
     }
   });
 
