@@ -331,6 +331,8 @@
       // video to match, video will look jumpy
       if (nextCurrent == handleEnd){
         pause();
+        setIndicatorPosition(handleStart)
+        loopVideoTo(handleStart)
         return;
       }
       if (nextCurrent == handleStart){
