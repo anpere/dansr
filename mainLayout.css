@@ -182,6 +182,8 @@ input#codeSearch {
 }
 #section1 {
   position: absolute;
+  border-radius: 25px;
+  border: 2px solid cornflowerblue;
   top: 0px;
   left: 0%;
   right:85%;
@@ -190,6 +192,8 @@ input#codeSearch {
 #section2 {
   right: 75%;
   position: absolute;
+  border-radius: 25px;
+  border: 2px solid cornflowerblue;
   top: 0px;
   left: 15%;
   background-color: green;
@@ -197,6 +201,8 @@ input#codeSearch {
 #section3 {
   right: 0%;
   position: absolute;
+  border-radius: 25px;
+  border: 2px solid cornflowerblue;
   top: 0px;
   left: 25%;
   background-color: yellow;
