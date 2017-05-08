@@ -572,7 +572,7 @@
   $(document).on('click', "#goBack", function(evt)
   {
     setIndicatorPosition(getHandleStartPosition());
-    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
+    loopVideoTo(getHandleStartPosition());
 
     if (getCountOff() > 0) {
       startLoop = true;
