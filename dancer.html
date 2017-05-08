@@ -758,18 +758,18 @@
   <div id ="top">
     <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
     <button id="hamburger">
-      <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
+      <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px" alt="dancer menu">
     </button>
-    <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
+    <a href="homepage.html" id="logo"><img alt="homepage" src="images/dansrlogo.svg" height="40"/></a>
 
     <div id ="search">
       <div class="ui-widget" id="searchWidget">
-        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code">
+        <input id="codeSearch" title="Search" label="search" class="ui-autocomplete-input" placeholder="Dance Code">
       </div>
     </div>
 
     <button class="btn" id="editDance" onclick="location.href='choreo.html'">
-      <img src="images/edit.svg">
+      <img src="images/edit.svg" alt="edit video">
       <div id="editDanceText">
         Edit Dance
       </div>
@@ -790,18 +790,17 @@
         <!-- https://www.w3schools.com/html/html5_video.asp -->
         <video id="videoBox">
           <source src="images/chicken.MOV">
-            Your browser does not support the video tag.
           </video>
         </div>
 
         <div id ="seekbar">
 
           <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
-            <img id="indicatorBar" src="images/seekbar.svg">
+            <img id="indicatorBar" src="images/seekbar.svg" alt="progress indicator">
           </div>
 
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
-            <img id="handlebarleft" src="images/handlebarright.svg">
+            <img id="handlebarleft" src="images/handlebarright.svg" alt="left handle bar">
           </div>
 
           <div id="sections">
@@ -811,7 +810,7 @@
           </div>
 
           <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar disable-selection">
-            <img id="handlebarright" src="images/handlebarleft.svg">
+            <img id="handlebarright" src="images/handlebarleft.svg" alt="right handle bar">
           </div>
         </div>
 
@@ -839,7 +838,7 @@
               <label id="countoffLabel" class="disable-selection" data-toggle="tooltip" data-placement="bottom" title="Time delay before the video starts">Start delay:&#160;</label>
               <div id="countoff">&#160 0s</div>
             </div>
-            <input id="countoffBar" type="range" min="0" max="30" step="1" value="0"></input>
+            <input id="countoffBar" title="Countoff Bar" type="range" min="0" max="30" step="1" value="0"></input>
           </div>
 
           <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
@@ -847,7 +846,7 @@
           <!-- TODO(AP) make not a button, but still look nice -->
           <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
 
-          <input id ="volumeBar" type="range" min="0" max="100" step="1"></input>
+          <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
 
         </div>
@@ -857,7 +856,7 @@
       <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
         <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Formation Diagram"/></div>
         <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
-          <img src="images/form_dgm1.svg">
+          <img src="images/form_dgm1.svg" alt="formation diagram">
         </div>
       </div>
 
