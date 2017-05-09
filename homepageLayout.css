@@ -8,8 +8,14 @@ img {
     position:relative;
 }
 #title{
-	margin-top:10%;
-}
+	text-align: center;
+	vertical-align: middle;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	margin-left:2;
+	margin-top: -150px;
+	}
 
 #search {
 	text-align: center;
@@ -140,9 +146,5 @@ input#codeSearch {
 	text-decoration:none; 
 	color:#666;
 }
-#logo{
-	margin-left:auto;
-	margin-right:auto; 
-	margin-top:20;
-}
+
 
