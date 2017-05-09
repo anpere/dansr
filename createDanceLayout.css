@@ -1,0 +1,77 @@
+#top {
+  position: relative;
+  margin-top: 10;
+  margin-left: 10;
+  margin-right: 10;
+}
+#newDance {
+  display: inline-flex;
+  text-align: center;
+  position: absolute;
+  right: 0px;
+}
+#newDanceText {
+  padding-top: 4px;
+  margin: 0px;
+}
+#newDance img {
+  margin: 2px 5px 2px 2px;
+}
+#hamburger {
+  background: none;
+  position: relative;
+  top: 0;
+  left: 0;
+  line-height: 45px;
+  color: #999;
+  border: 0;
+  font-size: 2em;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  z-index: 10000000000000;
+}
+#logo {
+    position: relative;
+    top: -5;
+}
+#search {
+  display: inline-flex;
+  overflow: hidden;
+  height: 50;
+  max-height: 28px;
+  width: 66%;
+  max-height: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  left: 7%;
+}
+div#searchWidget {
+  display: inline-flex;
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+input#codeSearch {
+  margin-left: 25px;
+  width: 100%;
+  font-size: 1.25em;
+}
+#searchWidget button {
+  background: rgba(75, 205, 100, 0.5)
+}
+
+.menu{z-index:1000000; font-size:20px !important; width:20%; background:#f1f1f1;  position:absolute; text-align:left; font-size:12px;}
+.menu ul {margin: 0; padding: 0; list-style-type: none; list-style-image: none;}
+.menu li {display: block;   padding:15px 0 15px 15px; border-bottom:#dddddd 1px solid;}
+.menu li:hover{display: block;    background:lightgray; padding:15px 0 15px 15px; border-bottom:#dddddd 1px solid;}
+.menu ul li a { text-decoration:none;  margin: 0px; color:#666;}
+.menu ul li a:hover {  color: #666; text-decoration:none;}
+.menu a{text-decoration:none; color:#666;}
+.menu a:hover{text-decoration:none; color:#666;}
+.menuSymbol{
+  vertical-align: text-bottom;
+  padding-right:10px;
+  height:25px;
+}
