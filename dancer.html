@@ -230,13 +230,11 @@
   this.checkCountOff = function() {
     var video = getVideo();
     if (startLoop) {
-      video.pause();
-    } else if (isPlayOn() && video.paused) {
+      pause();
+    } else {
       clearInterval(continueCountoffIndicator);
       $("#countoffVisual").text("");
-      video.play();
-    } else if (!startLoop) {
-      $("#countoffVisual").text("");
+      play();
     }
   }
 
@@ -481,13 +479,15 @@
 
   $(document).on('click', "#playPause", function(evt)
   {
-    startLoop = false;
     console.log("playon: " + isPlayOn);
     if (!isPlayOn()){
-      play();
       if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17) {
-        startLoop = true;
-        startCountOff();
+        if (startLoop) {
+          startLoop = false;
+        } else {
+          startLoop = true;
+          startCountOff();
+        }
       }
     } else {
       pause();
