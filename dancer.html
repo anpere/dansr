@@ -230,7 +230,7 @@
   this.checkCountOff = function() {
     var video = getVideo();
     if (startLoop) {
-      pause();
+      document.getElementById("playPause").setAttribute("style", "background-image:url('images/pause.svg')")
     } else {
       clearInterval(continueCountoffIndicator);
       $("#countoffVisual").text("");
@@ -278,11 +278,14 @@
         return;
       }
       if (nextCurrent == handleStart){
-        if (getCountOff() > 0) {
-          startLoop = true;
-        }
         loopVideoTo(100*nextCurrent/getSeekbarWidth());
-        startCountOff();
+        if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17 && !startLoop) {
+          pause();
+          startLoop = true;
+          startCountOff();
+        } else {
+          play();
+        }
       }
 
       // TODO: fix the handlebars so that they cannot cross each other
@@ -470,10 +473,10 @@
   {
     setIndicatorPosition(getHandleStartPosition());
     loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
-
-    if (getCountOff() > 0) {
-      startLoop = true;
-      startCountOff();
+    if (isPlayOn()) {
+      play();
+    } else {
+      pause();
     }
   });
 
@@ -481,17 +484,17 @@
   {
     console.log("playon: " + isPlayOn);
     if (!isPlayOn()){
-      if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17) {
-        if (startLoop) {
-          startLoop = false;
-        } else {
-          startLoop = true;
-          startCountOff();
-        }
+      if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17 && !startLoop) {
+        pause();
+        startLoop = true;
+        startCountOff();
+      } else if (startLoop) {
+        pause();
       } else {
         play();
       }
     } else {
+      startLoop = false;
       pause();
       $("#indicator").stop();
     }
