@@ -30,12 +30,15 @@
   isValidInput = function(input) {
     return getValidCodes().indexOf(input) > -1;
   }
+  displayWarning = function() {
+    alert("bad input");
+  }
   /************ Event Handlers ********/
   $(document).ready(function() {
 
   });
 
-  $(document).on("click", "#searchIcon", function(evt) {
+  $(document).on("click", "#searchButton", function(evt) {
     var input = $('#codeSearch').val();
     if (isValidInput(input)){
       location.href = "dancer.html";
@@ -121,8 +124,8 @@
 <div class="row" id ="search">
   <div class="ui-toolbar ui-widget ui-helper-clearfix" id="searchWidget">
     <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
-    <span class="btnSearch ui-state-default" title="search">
-      <img src="images/search.svg" id="searchIcon"style="min-width:100%; min-height:100%; flex-shrink:0;"/>
+    <span class="btnSearch ui-state-default" title="search" id ="searchButton">
+      <img src="images/search.svg" id="searchIcon" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
     </span>
   </div>
   <div id="warning">The video you have input doesn't exist <input type="button" class="btn" value="create video" id="createVideo"></div>
