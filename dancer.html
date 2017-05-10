@@ -336,7 +336,7 @@
         return;
       }
       if (nextCurrent == handleStart){
-        loopVideoTo(100*nextCurrent/getSeekbarWidth());
+        loopVideoTo(nextCurrent);
         if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17 && !startLoop) {
           pause();
           startLoop = true;
@@ -575,7 +575,7 @@
   $(document).on('click', "#goBack", function(evt)
   {
     setIndicatorPosition(getHandleStartPosition());
-    loopVideoTo(100*getHandleStartPosition()/getSeekbarWidth());
+    loopVideoTo(getIndicatorPosition());
     if (isPlayOn()) {
       play();
     } else {
@@ -777,7 +777,7 @@
         </span>
       </div>
     </div>
-    
+
     <button class="btn" id="editDance" onclick="location.href='choreo.html'">
       <img src="images/edit.svg" alt="edit video"/>
       <div id="editDanceText">
