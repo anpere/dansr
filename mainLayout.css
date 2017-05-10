@@ -359,22 +359,22 @@ div.toolbar-pane p:hover {
   cursor: default;
 }
 #handlebarright {
-  width: 20 !important;
-  height: 20 !important;
-  margin-left: -10;
-  margin-top: -53;
+  width: 70 !important;
+  height: 70 !important;
+  margin-left: -35;
+  margin-top: -55;
 }
 #handlebarleft {
-  width: 20 !important;
-  height: 20 !important;
-  margin-left: -10;
-  margin-top: -53;
+  width: 70 !important;
+  height: 70 !important;
+  margin-left: -35;
+  margin-top: -55;
 }
 #indicatorBar {
-  width: 15 !important;
-  height: 33 !important;
-  margin-left: -5;
-  margin-top: 0;
+  width: 70 !important;
+  height: 70 !important;
+  margin-left: -35;
+  margin-top: -22;
 }
 #handlebarright:hover {
   cursor: col-resize;
