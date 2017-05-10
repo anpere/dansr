@@ -72,15 +72,14 @@ body {
   margin-right: auto;
   position: relative;
 }
+#title {
+    margin-top: 25;
+}
 #search {
-  display: flex;
+  display: inline-flex;
   overflow: hidden;
-  height: 60;
-  max-height: 28px;
-  align-self: center;
-  width: 1000;
-  max-height: 480px;
-  margin-top: 10;
+  height: 50px;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -92,9 +91,16 @@ div#searchWidget {
   white-space: nowrap;
 }
 input#codeSearch {
-  margin-left: 25px;
+  padding-left: 10px;
   width: 100%;
   font-size: 1.25em;
+}
+.btnSearch {
+  cursor: pointer;
+  display: flex;
+  padding-right: 15px;
+  padding-left: 5px;
+  padding-bottom: 10px;
 }
 #searchWidget button {
   background: rgba(75, 205, 100, 0.5)
@@ -164,10 +170,11 @@ input#codeSearch {
 }
 #top {
   position: relative;
-}
-#editDance {
-  position: absolute;
-  right: 0;
+  display: inline-flex;
+  width:100%;
+  margin-top: 10px;
+  padding-left: 2%; /*  using margins doesnt work for edit dance button */
+  padding-right: 2%;
 }
 #watchDance {
   position: absolute;
@@ -186,27 +193,34 @@ input#codeSearch {
 #sections {
   width: 100%;
   display: inline-flex;
+  position: relative;
 }
 #section1 {
-  width: 15%;
-  position: relative;
+  position: absolute;
+  border-radius: 25px;
+  border: 2px solid cornflowerblue;
   top: 0px;
-  left: 50px;
-  background-color: #b067c6;
+  left: 0%;
+  right:85%;
+  background-color: yellow;
 }
 #section2 {
-  width: 25%;
-  position: relative;
+  right: 75%;
+  position: absolute;
+  border-radius: 25px;
+  border: 2px solid cornflowerblue;
   top: 0px;
-  left: 100px;
-  background-color: #b1d83c;
+  left: 15%;
+  background-color: green;
 }
 #section3 {
-  width: 5%;
-  position: relative;
+  right: 0%;
+  position: absolute;
+  border-radius: 25px;
+  border: 2px solid cornflowerblue;
   top: 0px;
-  left: 200px;
-  background-color: #dba55e;
+  left: 25%;
+  background-color: yellow;
 }
 .grey {
   position: absolute;
@@ -222,7 +236,6 @@ input#codeSearch {
   top: 0;
   left: 0;
   line-height: 45px;
-  padding: 5px 15px 0px 5px;
   color: #999;
   border: 0;
   font-size: 2em;
@@ -231,16 +244,17 @@ input#codeSearch {
   outline: none;
   z-index: 10000000000000;
 }
+#logo {
+    position: relative;
+    top: -5;
+}
 #countoff {
   width: 40px;
 }
 #editDance {
   display: inline-flex;
-  position: absolute;
   text-align: center;
   vertical-align: middle;
-  padding-left: 19px;
-  padding-bottom: 12px;
 }
 #editDanceText {
   padding-top: 4px;
