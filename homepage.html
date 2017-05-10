@@ -13,6 +13,8 @@
   <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script>
+
+  /********* Globals *******/
   //Initialize auto-complete
   var availableCodes = [
     "chicken",
@@ -20,9 +22,27 @@
     "nature",
   ];
 
+  /********** Helper Functions ********/
+
+  getValidCodes = function() {
+    return availableCodes;
+  }
+  isValidInput = function(input) {
+    return getValidCodes().indexOf(input) > -1;
+  }
+  /************ Event Handlers ********/
   $(document).ready(function() {
 
   });
+
+  $(document).on("click", "#searchIcon", function(evt) {
+    var input = $('#codeSearch').val();
+    if (isValidInput(input)){
+      location.href = "dancer.html";
+    } else {
+      displayWarning();
+    }
+  })
 
 
   // hides the menu after the page is loaded
@@ -95,14 +115,16 @@
 
 <div id="title">
   <img id="logo" src="images/dansrlogo.svg">
-
 </div>
+
+
 <div class="row" id ="search">
   <div class="ui-toolbar ui-widget ui-helper-clearfix" id="searchWidget">
     <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
     <span class="btnSearch ui-state-default" title="search">
-      <img src="images/search.svg" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
+      <img src="images/search.svg" id="searchIcon"style="min-width:100%; min-height:100%; flex-shrink:0;"/>
     </span>
   </div>
+  <div id="warning">The video you have input doesn't exist <input type="button" class="btn" value="create video" id="createVideo"></div>
 </div>
 </body>
