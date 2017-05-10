@@ -763,13 +763,16 @@
     <a href="homepage.html" id="logo"><img alt="homepage" src="images/dansrlogo.svg" height="40"/></a>
 
     <div id ="search">
-      <div class="ui-widget" id="searchWidget">
-        <input id="codeSearch" title="Search" label="search" class="ui-autocomplete-input" placeholder="Dance Code">
+      <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
+        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
+        <span class="btnSearch ui-state-default" title="search">
+          <img src="images/search.svg" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
+        </span>
       </div>
     </div>
-
+    
     <button class="btn" id="editDance" onclick="location.href='choreo.html'">
-      <img src="images/edit.svg" alt="edit video">
+      <img src="images/edit.svg" alt="edit video"/>
       <div id="editDanceText">
         Edit Dance
       </div>
