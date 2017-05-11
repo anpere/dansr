@@ -74,6 +74,7 @@ body {
 }
 #title {
     margin-top: 25;
+    border:solid;
 }
 #search {
   display: inline-flex;
@@ -147,7 +148,6 @@ input#codeSearch {
 }
 #video {
   display: flex;
-  border-style: solid;
   width: 100%;
   height: 480px;
   max-height: 480px;
@@ -255,6 +255,9 @@ input#codeSearch {
   display: inline-flex;
   text-align: center;
   vertical-align: middle;
+  border:solid;
+  float:right;
+  margin-top:5px;
 }
 #editDanceText {
   padding-top: 4px;
