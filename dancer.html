@@ -798,10 +798,14 @@ function exitFullScreen()
 
 function toggleFullScreen(element)
 {
-    if (isFullScreen())
+    if (isFullScreen()) {
+        document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen.svg')")
         exitFullScreen();
-    else
+      }
+    else {
+        document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen_exit.svg')")
         requestFullScreen(element || document.documentElement);
+      }
 }
 
   </script>
