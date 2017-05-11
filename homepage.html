@@ -20,6 +20,7 @@
     "chicken",
     "toffee",
     "nature",
+    "I'll give you a dollar",
   ];
 
   /********** Helper Functions ********/
@@ -32,7 +33,7 @@
   }
   displayWarning = function() {
     $("#warning").css("visibility", "visible");
-    $("#warning").effect("shake");
+    $("#warning").effect("shake", {times:2});
   }
   /************ Event Handlers ********/
   $(document).ready(function() {
