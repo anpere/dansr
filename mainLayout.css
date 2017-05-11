@@ -53,6 +53,19 @@ body {
   margin-left: 0px;
   margin-bottom: auto;
 }
+#countoffVisual {
+    position: absolute;
+    top: 45%;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    text-shadow: 0px 0px 4px black, 0px 0px 4px black,
+        0px 0px 4px black, 0px 0px 4px black,
+        0px 0px 4px black, 0px 0px 4px black;
+    font-size: 50px;
+}
 #addComment {
   top: 415px;
   margin-left: auto;
@@ -65,14 +78,11 @@ body {
 #search {
   display: inline-flex;
   overflow: hidden;
-  height: 50;
-  max-height: 28px;
-  width: 66%;
-  max-height: 480px;
+  height: 50px;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  left: 7%;
 }
 div#searchWidget {
   display: inline-flex;
@@ -81,9 +91,16 @@ div#searchWidget {
   white-space: nowrap;
 }
 input#codeSearch {
-  margin-left: 25px;
+  padding-left: 10px;
   width: 100%;
   font-size: 1.25em;
+}
+.btnSearch {
+  cursor: pointer;
+  display: flex;
+  padding-right: 15px;
+  padding-left: 5px;
+  padding-bottom: 10px;
 }
 #searchWidget button {
   background: rgba(75, 205, 100, 0.5)
@@ -153,13 +170,11 @@ input#codeSearch {
 }
 #top {
   position: relative;
-  margin-top: 10;
-  margin-left: 10;
-  margin-right: 10;
-}
-#editDance {
-  position: absolute;
-  right: 0;
+  display: inline-flex;
+  width:100%;
+  margin-top: 10px;
+  padding-left: 2%; /*  using margins doesnt work for edit dance button */
+  padding-right: 2%;
 }
 #watchDance {
   position: absolute;
@@ -238,11 +253,8 @@ input#codeSearch {
 }
 #editDance {
   display: inline-flex;
-  position: absolute;
   text-align: center;
   vertical-align: middle;
-  padding-left: 19px;
-  padding-bottom: 12px;
 }
 #editDanceText {
   padding-top: 4px;
@@ -360,22 +372,22 @@ div.toolbar-pane p:hover {
   cursor: default;
 }
 #handlebarright {
-  width: 70 !important;
-  height: 70 !important;
-  margin-left: -35;
-  margin-top: -55;
+  width: 20 !important;
+  height: 20 !important;
+  margin-left: -10;
+  margin-top: -53;
 }
 #handlebarleft {
-  width: 70 !important;
-  height: 70 !important;
-  margin-left: -35;
-  margin-top: -55;
+  width: 20 !important;
+  height: 20 !important;
+  margin-left: -10;
+  margin-top: -53;
 }
 #indicatorBar {
-  width: 70 !important;
-  height: 70 !important;
-  margin-left: -35;
-  margin-top: -22;
+  width: 15 !important;
+  height: 33 !important;
+  margin-left: -5;
+  margin-top: 0;
 }
 #handlebarright:hover {
   cursor: col-resize;
