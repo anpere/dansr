@@ -412,3 +412,15 @@ div.toolbar-pane p:hover {
 	padding-right:10px;
 	height:25px;
 }
+
+:-webkit-full-screen #content {
+  font-size: 20px;
+  width: 100%;
+  width: 100vw;
+  bottom: 0;
+  position: fixed;;
+}
+:-moz-full-screen #content {
+  font-size: 20px;
+  width: 100%;
+}
