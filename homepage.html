@@ -1,106 +1,145 @@
 <head>
-    <title>Dansr</title>
-    <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+  <title>Dansr</title>
+  <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
 
-    <link rel="stylesheet" href="homepageLayout.css">
-    <link rel='shortcut icon' href='images/dfavicon.png'/>
+  <link rel="stylesheet" href="homepageLayout.css">
+  <link rel='shortcut icon' href='images/dfavicon.png'/>
 
 
-	<!-- jQuery and jQueryUI -->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-    $(document).ready(function() {
+  <!-- jQuery and jQueryUI -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
 
-        //Initialize auto-complete
-        var availableCodes = [
-        "chicken",
-        "toffee",
-        "nature",
-        ];
+  /********* Globals *******/
+  //Initialize auto-complete
+  var availableCodes = [
+    "chicken",
+    "toffee",
+    "nature",
+    "I'll give you a dollar",
+  ];
 
-        // hides the menu after the page is loaded
-        $( ".menu" ).hide();
-        
-        // shows/hides the menu after pressing the hamburger button
-        $("#hamburger").click(function() {
-            $( ".menu" ).slideToggle("slow");
-        });
-        
-        $( "#codeSearch" ).autocomplete({
-          source: availableCodes
-        });
+  /********** Helper Functions ********/
 
-        $('#codeSubmit').click(function() {
-          //TODO: Prevent multiple entries from being added
-          //Add entered code to auto-complete list:
-          availableCodes.push($('#codeSearch').val());
-
-          //$( "#codeSearch" ).val(""); //Uncomment to clear text field
-        });
-    	$('#codeSearch').keypress(function(e) {
-      	//TODO: Prevent multiple entries from being added
-      	console.log("a");
-      	if(e.which == 13) {
-        	//Add entered code to auto-complete list:
-        	availableCodes.push($('#codeSearch').val());
-			
-        	$( "#codeSearch" ).val(""); //Uncomment to clear text field
-
-        	$( "#codeSearch" ).autocomplete({
-            	source: availableCodes
-        	});
-        	
-        	console.log("h");
-        	location.href = "http://web.mit.edu/anpere/www/dansr/dancer.html";
-	}
+  getValidCodes = function() {
+    return availableCodes;
+  }
+  isValidInput = function(input) {
+    return getValidCodes().indexOf(input) > -1;
+  }
+  displayWarning = function() {
+    $("#warning").css("visibility", "visible");
+    $("#warning").effect("shake", {times:2, distance:5});
+  }
+  /************ Event Handlers ********/
+  $(document).ready(function() {
+    document.getElementById("codeSearch").focus();
   });
 
-	});
-    </script>
+  $(document).on("click", "#searchButton", function(evt) {
+    var input = $('#codeSearch').val();
+    if (isValidInput(input)){
+      location.href = "dancer.html";
+    } else {
+      displayWarning();
+    }
+  })
+
+  $(document).on("keypress", "#codeSearch", function (evt){
+    //TODO: Prevent multiple entries from being added
+    console.log("a");
+    if(evt.which == 13) {
+      var input = $('#codeSearch').val();
+      if (isValidInput(input)){
+        location.href = "dancer.html";
+      } else {
+        displayWarning();
+        return
+      }
+      //Add entered code to auto-complete list:
+      availableCodes.push($('#codeSearch').val());
+
+      $( "#codeSearch" ).val(""); //Uncomment to clear text field
+
+      $( "#codeSearch" ).autocomplete({
+        source: availableCodes
+      });
+
+      console.log("h");
+      location.href = "dancer.html";
+    }
+  });
+
+  // hides the menu after the page is loaded
+  $( ".menu" ).hide();
+
+  // shows/hides the menu after pressing the hamburger button
+  $("#hamburger").click(function() {
+    $( ".menu" ).slideToggle("slow");
+  });
+
+  $( "#codeSearch" ).autocomplete({
+    source: availableCodes
+  });
+
+  $('#codeSubmit').click(function() {
+    //TODO: Prevent multiple entries from being added
+    //Add entered code to auto-complete list:
+    availableCodes.push($('#codeSearch').val());
+
+    //$( "#codeSearch" ).val(""); //Uncomment to clear text field
+  });
+
+  </script>
 
 
 </head>
 
 <body>
 
-    <div class="row" id="top">
+  <div class="row" id="top">
     <div>
-        <button id="hamburger">
-          <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
-        </button>
-<!--
+      <button id="hamburger">
+        <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
+      </button>
+      <!--
       <div id="options" class="menu">
-        <ul>
-            <a href="#"><li> <img src="http://www.clipartkid.com/images/158/clipartbest-com-7TO9x9-clipart.png" width="20px" height="20px"> Create New Dance</li></a>
-            <a href="#"><li> <img src="http://mattvanderpol.com/images/star_selected.png" width="20px" height="20px"> Favorites</li></a>
-            <a href="#"><li> <img src="https://thetomatos.com/wp-content/uploads/2016/12/symbol-hourglass-clipart.png" width="15px" height="20px"> History</li></a>
-        </ul>
-      </div>
-    -->
-    </div>
-        <!--For now, this buton links directly to the choreographer interface-->
-        <button class="btn" id="newDance" onclick="location.href='create.html'">
-            <img src="images/plus.svg"> 
-            <div id="newDanceText">
-                Create New Dance
-            </div>
-        </button>
+      <ul>
+      <a href="#"><li> <img src="http://www.clipartkid.com/images/158/clipartbest-com-7TO9x9-clipart.png" width="20px" height="20px"> Create New Dance</li></a>
+      <a href="#"><li> <img src="http://mattvanderpol.com/images/star_selected.png" width="20px" height="20px"> Favorites</li></a>
+      <a href="#"><li> <img src="https://thetomatos.com/wp-content/uploads/2016/12/symbol-hourglass-clipart.png" width="15px" height="20px"> History</li></a>
+    </ul>
+  </div>
+-->
+</div>
+<!--For now, this buton links directly to the choreographer interface-->
+<button class="btn" id="newDance" onclick="location.href='choreo.html'">
+  <img src="images/plus.svg">
+  <div id="newDanceText">
+    Create New Dance
+  </div>
+</button>
+</div>
+
+<div id="title">
+  <img id="logo" src="images/dansrlogo.svg">
+</div>
+
+<div class="row" id ="search">
+
+  <div class="ui-toolbar ui-widget ui-helper-clearfix" id="searchWidget">
+    <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
+    <span class="btnSearch ui-state-default" title="search" id ="searchButton">
+      <img src="images/search.svg" id="searchIcon" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
+    </span>
+
   </div>
 
-    <div id="title">
-        <img id="logo" src="images/dansrlogo.svg">
-
-    </div>
-    <div class="row" id ="search">
-      <div class="ui-toolbar ui-widget ui-helper-clearfix" id="searchWidget">
-        <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
-        <span class="btnSearch ui-state-default" title="search">
-          <img src="images/search.svg" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
-        </span>
-      </div>
-    </div>
+  <div id="warning">That video doesn't exist.
+     Would you like to <a href="create.html">create a video</a>? </div>
+</div>
 </body>
