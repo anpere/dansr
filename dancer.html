@@ -367,7 +367,7 @@
 
     // set initial positions of window panes
     $("#formations").css({position: "absolute", left: "70%", top: 170});
-    $("#comments").css({position: "absolute", left: "40%", top: 520});
+    $("#comments").css({position: "absolute", left: "50%", top: 520,});
 
     // set countoff display
     document.getElementById("countoff").innerHTML = "&nbsp0s";
@@ -410,20 +410,14 @@
 
 
 		$(".pane").hover(function() {
-      $(this).css('cursor','-webkit-grab');
-      $(this).css('cursor','-moz-grab');
     }, function() {
     	$(this).css('cursor','auto');
 		});
 
 		$('.pane').on('mousedown', function(event) {
-    	$(this).css({cursor: "-webkit-grabbing"});
-    	$(this).css({cursor: "-moz-grabbing"});
   	});
 
 		$('.pane').on('mouseup', function(event) {
-    	$(this).css({cursor: "-webkit-grab"});
-    	$(this).css({cursor: "-moz-grab"});
   	});
 
   	$("#indicatorBar").hover(function() {
@@ -800,90 +794,81 @@
 
     <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto"><h1>Chicken Dance</h1></div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
-      <div id="video">
-        <!-- https://www.w3schools.com/html/html5_video.asp -->
-        <div id="countoffVisual"></div>
-        <video id="videoBox">
-          <source src="images/chicken.MOV">
-            Your browser does not support the video tag.
-          </video>
-        </div>
 
-        <div id ="seekbar">
+        <div id="video">
 
-          <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
-            <img id="indicatorBar" src="images/seekbar.svg" alt="progress indicator">
-          </div>
+            <!-- https://www.w3schools.com/html/html5_video.asp -->
+            <div id="countoffVisual"></div>
+            <video id="videoBox">
+                <source src="images/chicken.MOV">
+                Your browser does not support the video tag.
+            </video>
 
-          <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
-            <img id="handlebarleft" src="images/handlebartriangle.svg" alt="left handle bar">
-          </div>
-
-          <div id="sections">
-            <div id="section1" class="section" data-left="0" data-right="85"></div>
-            <div id="section2" class="section" data-left ="15" data-right="75"></div>
-            <div id="section3" class="section" data-left ="25" data-right="0"></div>
-          </div>
-
-          <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar disable-selection">
-            <img id="handlebarright" src="images/handlebartriangle.svg" alt="right handle bar">
-          </div>
-        </div>
-
-
-        <!--The toolbar controlling playback controls-->
-        <div class="btn-group" id="toolbar">
-          <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
-          <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
-          <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-          <button type="button" class="btn btn-primary tool-icon" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed by 0.1">
-          </button>
-          <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
-          <!--The speed controller-->
-          <form>
-            <div class="form-group form-inline" style="display:inline-block">
-              <label for="speed" id="speedLabel" class="disable-selection" style="line-height:1.1" data-toggle="tooltip" data-placement="bottom" title="Video Playback Speed">Speed</label>
-              <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
-          </form>
-          <button type="button" class="btn btn-primary tool-icon" id="speedPlus" style="background-image:url('images/plus.svg')" data-toggle="tooltip" data-placement="bottom" title="Increase Speed by 0.1">
-          </button>
-
-          <div style="display: inline-block">
-            <div style="display: flex; margin-bottom: -3px">
-              <label id="countoffLabel" class="disable-selection" data-toggle="tooltip" data-placement="bottom" title="Time delay before the video starts">Start delay:&#160;</label>
-              <div id="countoff">&#160 0s</div>
+            <div id="seekbar">
+                <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
+                    <img id="indicatorBar" src="images/seekbar.svg" alt="progress indicator">
+                </div>
+                <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
+                    <img id="handlebarleft" src="images/handlebartriangle.svg" alt="left handle bar">
+                </div>
+                <div id="sections">
+                    <div id="section1" class="section" data-left="0" data-right="85"></div>
+                    <div id="section2" class="section" data-left="15" data-right="75"></div>
+                    <div id="section3" class="section" data-left="25" data-right="0"></div>
+                </div>
+                <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar disable-selection">
+                    <img id="handlebarright" src="images/handlebartriangle.svg" alt="right handle bar">
+                </div>
             </div>
-            <input id="countoffBar" title="Countoff Bar" type="range" min="0" max="30" step="1" value="0"></input>
-          </div>
 
-          <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
-
-          <!-- TODO(AP) make not a button, but still look nice -->
-          <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
-
-          <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
-          <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
-
+            <!--The toolbar controlling playback controls-->
+            <div class="btn-group" id="toolbar">
+                <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play" />
+                <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection" />
+                <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection" />
+                <button type="button" class="btn btn-primary tool-icon" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed by 0.1"></button>
+                <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
+                <!--The speed controller-->
+                <form>
+                    <div class="form-group form-inline" style="display:inline-block">
+                        <label for="speed" id="speedLabel" class="disable-selection" style="line-height:1.1" data-toggle="tooltip" data-placement="bottom" title="Video Playback Speed">Speed</label>
+                        <input class="form-control" id="speed" autocomplete="off" value="1.0">
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary tool-icon" id="speedPlus" style="background-image:url('images/plus.svg')" data-toggle="tooltip" data-placement="bottom" title="Increase Speed by 0.1"></button>
+                <div style="display: inline-block">
+                    <div style="display: flex; margin-bottom: -3px">
+                        <label id="countoffLabel" class="disable-selection" data-toggle="tooltip" data-placement="bottom" title="Time delay before the video starts">Start delay:&#160;</label>
+                        <div id="countoff">&#160 0s</div>
+                    </div>
+                    <input id="countoffBar" title="Countoff Bar" type="range" min="0" max="30" step="1" value="0"></input>
+                </div>
+                <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome" />
+                <!-- TODO(AP) make not a button, but still look nice -->
+                <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
+                <input id="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
+                <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen" />
+            </div>
         </div>
-      </div>
-  
-      <!-- Formation Diagram Pane-->
-      <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Formation Diagram"/></div>
-        <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
-          <img src="images/form_dgm1.svg" alt="formation diagram">
-        </div>
-      </div>
 
-
-      <!-- Comments Pane -->
-      <div id="comments">
-        <div id="comments-pane" class="pane">
-            <p class="comments-content">Comments appear here...</p>
+        <!-- Formation Diagram Pane-->
+        <div id="formations">
+            <div height="10px">
+                Formation Diagram
+            </div>
+            <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
+                <img src="images/form_dgm1.svg" alt="formation diagram">
+            </div>
         </div>
 
-      </div>
+        <!-- Comments Pane -->
+        <div id="comments">
+            <div id="comments-pane" class="pane" data-toggle="tooltip" data-placement="bottom" title="Choreographer Comments">
+                <p class="comments-content">Comments appear here...</p>
+            </div>
+        </div>
+
     
 
 
