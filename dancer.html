@@ -578,7 +578,8 @@
   // back to beginning button - stops the indicator movement and plays again
   $(document).on('click', "#goBack", function(evt)
   {
-    clearInterval(continueCountoffIndicator);
+
+    startLoop = false;
     setIndicatorPosition(getHandleStartPosition());
     loopVideoTo(getHandleStartPosition());
     if (!isPlayOn()) {
