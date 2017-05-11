@@ -421,21 +421,9 @@
 
 
 		$(".pane").hover(function() {
-      $(this).css('cursor','-webkit-grab');
-      $(this).css('cursor','-moz-grab');
     }, function() {
     	$(this).css('cursor','auto');
 		});
-
-		$('.pane').on('mousedown', function(event) {
-    	$(this).css({cursor: "-webkit-grabbing"});
-    	$(this).css({cursor: "-moz-grabbing"});
-  	});
-
-		$('.pane').on('mouseup', function(event) {
-    	$(this).css({cursor: "-webkit-grab"});
-    	$(this).css({cursor: "-moz-grab"});
-  	});
 
   	$("#indicatorBar").hover(function() {
     	$(this).css('cursor','col-resize');
@@ -658,7 +646,6 @@
         timer = setTimeout(function() {
           if(!prevent) {  //perform single-click action:
             debug("seekbar single-click");
-            debug("target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
             var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
 
             //Keep in bounds:
@@ -666,22 +653,16 @@
               clickedPosX_centered = 0;
             }
             else if(clickedPosX_centered > $("#seekbar").width()) {
-              clickedPosX_centered = $("#seekbar").width();
-            }
-
-            //Make sure indicator doesn't jump if handlebar is clicked:
-            if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-              var clickTimeout = 400;
-              loopVideoTo( clickedPosX_centered / $("#seekbar").width() * 100.);
-              setIndicatorPosition(100 * clickedPosX_centered / getSeekbarWidth());
-              document.getElementById("indicatorBar").style.pointerEvents="none"
-              setTimeout(function(){
-                document.getElementById("indicatorBar").style.pointerEvents="auto"
-              }, clickTimeout)
+      	      clickedPosX_centered = $("#seekbar").width();
             }
           }
           prevent = false;
           }, DOUBLECLICK_DELAY);
+
+    $('body').on("mouseup", function(event) {
+      clicking = false;
+      $(document).unbind('mousemove');
+
     });
   });
 
@@ -997,20 +978,19 @@
         </div>
       </div>
 
-      <!-- Formation Diagram Pane-->
-      <div id="formations" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="formation-toolbar" class="toolbar-pane"><p>Formation</p><img id="x_button_form" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Formation Diagram"/></div>
+    <!-- Formation Diagram Pane-->
+    <div id="formations">
+        <div height="10px">
+            Formation Diagram
+        </div>
         <div id="formation-image-wrapper" class="image-wrapper pane" style="z-index: 0">
-          <img src="images/form_dgm1.svg" alt="formation diagram">
+            <img src="images/form_dgm1.svg" alt="formation diagram">
         </div>
-      </div>
-
-
-      <!-- Comments Pane -->
-      <div id="comments" class="draggable-wrapper ui-draggable ui-draggable-handle">
-        <div id="comments-toolbar" class="toolbar-pane"><p>Comments</p><img id="x_button_comments" class="x_button" src="images/visibility_on.svg" data-toggle="tooltip" data-placement="bottom" title="Comments"/></div>
-        <div id="comments-pane" class="pane">
-          <p class="comments-content">Comments appear here...</p>
+    </div>
+    <!-- Comments Pane -->
+    <div id="comments">
+        <div id="comments-pane" class="pane" data-toggle="tooltip" data-placement="bottom" title="Choreographer Comments">
+            <p class="comments-content">Comments appear here...</p>
         </div>
-      </div>
+    </div>
 </body>

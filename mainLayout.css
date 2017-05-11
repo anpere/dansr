@@ -149,7 +149,7 @@ input#codeSearch {
   display: flex;
   border-style: solid;
   width: 100%;
-  height: 70%;
+  height: 480px;
   max-height: 480px;
   margin-left: auto;
   margin-right: auto;
@@ -293,29 +293,42 @@ input#codeSearch {
   border-left-color: gray;
 }
 div.draggable-wrapper {
-  position: relative;
-  background: #ededed;
-  width: 120px;
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  z-index: 1000;
+
+}
+
+#comments{
+    margin-left:-108px;
 }
 .comments-content {
-  justify-content: left;
-  align-items: left;
   overflow: hidden;
   font-size: 1em;
   margin-bottom: 0px;
+  color:white;
 
 }
-.pane:hover {
-  cursor: grab;
-}
+
 #comments-pane {
-  margin-top: 12px;
+  background-color: rgba(0,0,0,0.5);
+  padding:10 20 10 20;
+  left: 10px;
+
   /* toolbar height */
 }
+
+#formations{
+      background-color: white;
+      opacity:0.8;
+      text-align:center;
+}
+
+
+#formation-image-wrapper {
+  width: 200px;
+  height: 100px;
+  margin-top:0px;
+  /* toolbar height */
+}
+
 div.image-wrapper {
   margin-top: 12px;
   /* toolbar height */
@@ -340,22 +353,7 @@ div.toolbar-pane {
   font-size: 0.75em;
   z-index: 1000;
 }
-.x_button {
-  flex: 1;
-  margin: 0 auto;
-  cursor: default;
-  text-align: right;
-  width: 100%;
-  height: 100%;
-  font-size: 0.7em;
-  z-index: 1000;
-}
-#x_button_form:hover {
-  cursor: pointer;
-}
-#x_button_comments:hover {
-  cursor: pointer;
-}
+
 div.toolbar-pane p {
   flex: 7;
   text-align: initial;
@@ -368,9 +366,7 @@ div.toolbar-pane p {
   margin-bottom: 1px;
   z-index: 1000;
 }
-div.toolbar-pane p:hover {
-  cursor: default;
-}
+
 #handlebarright {
   width: 20 !important;
   height: 20 !important;
