@@ -31,11 +31,11 @@
     return getValidCodes().indexOf(input) > -1;
   }
   displayWarning = function() {
-    alert("bad input");
+    $("#warning").css("visibility", "visible");
   }
   /************ Event Handlers ********/
   $(document).ready(function() {
-
+    document.getElementById("codeSearch").focus();
   });
 
   $(document).on("click", "#searchButton", function(evt) {
@@ -47,6 +47,30 @@
     }
   })
 
+  $(document).on("keypress", "#codeSearch", function (evt){
+    //TODO: Prevent multiple entries from being added
+    console.log("a");
+    if(evt.which == 13) {
+      var input = $('#codeSearch').val();
+      if (isValidInput(input)){
+        location.href = "dancer.html";
+      } else {
+        displayWarning();
+        return
+      }
+      //Add entered code to auto-complete list:
+      availableCodes.push($('#codeSearch').val());
+
+      $( "#codeSearch" ).val(""); //Uncomment to clear text field
+
+      $( "#codeSearch" ).autocomplete({
+        source: availableCodes
+      });
+
+      console.log("h");
+      location.href = "dancer.html";
+    }
+  });
 
   // hides the menu after the page is loaded
   $( ".menu" ).hide();
@@ -66,23 +90,6 @@
     availableCodes.push($('#codeSearch').val());
 
     //$( "#codeSearch" ).val(""); //Uncomment to clear text field
-  });
-  $('#codeSearch').keypress(function(e) {
-    //TODO: Prevent multiple entries from being added
-    console.log("a");
-    if(e.which == 13) {
-      //Add entered code to auto-complete list:
-      availableCodes.push($('#codeSearch').val());
-
-      $( "#codeSearch" ).val(""); //Uncomment to clear text field
-
-      $( "#codeSearch" ).autocomplete({
-        source: availableCodes
-      });
-
-      console.log("h");
-      location.href = "http://web.mit.edu/anpere/www/dansr/dancer.html";
-    }
   });
 
   </script>
@@ -120,14 +127,16 @@
   <img id="logo" src="images/dansrlogo.svg">
 </div>
 
-
 <div class="row" id ="search">
+
   <div class="ui-toolbar ui-widget ui-helper-clearfix" id="searchWidget">
     <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
     <span class="btnSearch ui-state-default" title="search" id ="searchButton">
       <img src="images/search.svg" id="searchIcon" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
     </span>
   </div>
-  <div id="warning">The video you have input doesn't exist <input type="button" class="btn" value="create video" id="createVideo"></div>
+
+  <div id="warning">That video doesn't exist.
+     Would you like to <a href="create.html">create a video</a>? </div>
 </div>
 </body>
