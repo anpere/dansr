@@ -307,6 +307,7 @@ div.draggable-wrapper {
   overflow: hidden;
   font-size: 1em;
   margin-bottom: 0px;
+  color:white;
 
 }
 .pane:hover {
@@ -314,6 +315,8 @@ div.draggable-wrapper {
 }
 #comments-pane {
   margin-top: 12px;
+  background-color: rgba(0,0,0,0.5);
+  padding:10 20 10 20;
   /* toolbar height */
 }
 div.image-wrapper {
