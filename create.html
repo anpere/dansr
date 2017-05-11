@@ -78,13 +78,6 @@
             <input id="codeSearch" title="Search" label="search" class="ui-autocomplete-input" placeholder="Dance Code">
           </div>
         </div>
-
-        <button class="btn" id="newDance" onclick="location.href='create.html'">
-            <img src="images/plus.svg"> 
-            <div id="newDanceText">
-                Create New Dance
-            </div>
-        </button>
       </div>
 
     <!--Hamburger menu dropdown-->
@@ -94,5 +87,26 @@
             <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
             <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
         </ul>
+    </div>
+
+    <div id="wrapper">
+        <h1> Create New Dance </h1>
+        <div id="danceCode" class="textbox">
+            Dance Code: <input form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the code that will be used to access the dance.">
+        </div>
+
+        <div id="upload"> 
+            <button id="file"> Select File </button> danceVideo.avi
+        </div>
+
+        <div id="settings" class="textbox"> 
+            Dance Title: <input form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the title (or name) of the dance.">
+        </div>
+    
+
+        <div id="buttons">
+            <button class="btn" id="danceSubmit" onclick="location.href='choreo.html'"> Create Dance </button>
+            <button class="btn" id="danceCancel" onclick="location.href='homepage.html'"> Cancel </button>
+        </div>
     </div>
 </body>
