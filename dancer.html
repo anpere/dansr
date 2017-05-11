@@ -1,4 +1,4 @@
-<head>
+﻿<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -587,35 +587,7 @@
     });
     
     $("#seekbar").on("mousedown", function(event) {
-      startLoop = false;
       clicking = true;
-      $("#indicator").stop();
-      
-      var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
-      
-      //Keep in bounds:
-      if(clickedPos_centered < 0)
-        clickedPos_centered = 0;
-      else if(clickedPos_centered > $("#seekbar").width())
-      	clickedPos_centered = $("#seekbar").width();
-      
-      var fractionPosition = clickedPos_centered / getSeekbarWidth();
-      
-      //Make sure indicator doesn't jump if handlebar is clicked:
-      if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-        
-        //Adjust handlebars if moving out of range:
-        if(fractionPosition*100 < getHandleStartPosition())
-          setHandleStartPosition(fractionPosition*100);
-  
-        if(fractionPosition*100 - getHandleEndPosition() > 1)
-          setHandleEndPosition(fractionPosition*100);
-        
-        setIndicatorPosition(fractionPosition * 100);
-        // Keep triggering 'move' while click-and-dragging
-        if(clicking) 
-          $("#indicator").trigger("move", [clickedPos_centered]);
-      }
     });
     
     $(".section").on("mousedown", function(event) {
@@ -625,7 +597,7 @@
       clicking = false;
     });
 
-    var DOUBLECLICK_DELAY = 150;
+    var DOUBLECLICK_DELAY = 200;
     var timer = 0;
     var prevent = false;
 
@@ -636,9 +608,9 @@
         debug("dblclick: target id: " + event.target.id + " target class: " + $(event.target).attr('class') )
         var section = $(event.target);
         var seekbar = $("#seekbar");
-        debug(section.position().left - section.width());
         setHandleStartPosition(section.data("left"));
         setHandleEndPosition(100 - section.data("right"));
+        setIndicatorPosition(section.data("left"));
       });
    
     $("#seekbar")
@@ -646,18 +618,39 @@
         timer = setTimeout(function() {
           if(!prevent) {  //perform single-click action:
             debug("seekbar single-click");
-            var clickedPosX_centered = event.clientX - event.delegateTarget.offsetLeft - $('#indicator').width()*1.0;
+            startLoop = false;
 
+            $("#indicator").stop();
+      
+            var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
+      
             //Keep in bounds:
-            if(clickedPosX_centered < 0) {
-              clickedPosX_centered = 0;
-            }
-            else if(clickedPosX_centered > $("#seekbar").width()) {
-      	      clickedPosX_centered = $("#seekbar").width();
+            if(clickedPos_centered < 0)
+              clickedPos_centered = 0;
+            else if(clickedPos_centered > $("#seekbar").width())
+              clickedPos_centered = $("#seekbar").width();
+      
+            var fractionPosition = clickedPos_centered / getSeekbarWidth();
+      
+            //Make sure indicator doesn't jump if handlebar is clicked:
+            if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
+        
+              //Adjust handlebars if moving out of range:
+              if(fractionPosition*100 < getHandleStartPosition())
+                setHandleStartPosition(fractionPosition*100);
+  
+              if(fractionPosition*100 - getHandleEndPosition() > 1)
+                setHandleEndPosition(fractionPosition*100);
+        
+              setIndicatorPosition(fractionPosition * 100);
+              // Keep triggering 'move' while click-and-dragging
+              if(clicking) 
+                $("#indicator").trigger("move", [clickedPos_centered]);
             }
           }
           prevent = false;
-          }, DOUBLECLICK_DELAY);
+        }, DOUBLECLICK_DELAY);
+      });
 
     $('body').on("mouseup", function(event) {
       clicking = false;
