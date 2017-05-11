@@ -149,7 +149,7 @@ input#codeSearch {
   display: flex;
   border-style: solid;
   width: 100%;
-  height: 70%;
+  height: 480px;
   max-height: 480px;
   margin-left: auto;
   margin-right: auto;
