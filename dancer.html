@@ -1,4 +1,4 @@
-﻿<head>
+<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -306,12 +306,13 @@
 
   // pauses the video while the countoff happens
   this.checkCountOff = function() {
-    clearInterval(continueCountoffIndicator);
     var video = getVideo();
     if (startLoop) {
-      video.pause();
-    } else if (isPlayOn() && video.paused) {
-      video.play();
+      document.getElementById("playPause").setAttribute("style", "background-image:url('images/pause.svg')")
+    } else {
+      clearInterval(continueCountoffIndicator);
+      $("#countoffVisual").text("");
+      play();
     }
   }
 
@@ -319,11 +320,15 @@
   this.startCountOff = function() {
     continueCountoffIndicator = setInterval(checkCountOff, indicatorTimeout);
     global_counter = 0;
+    var visual = $("#countoffVisual");
+    visual.text(getCountOff()-global_counter);
     var timerID = setInterval(function(){
       global_counter++;
-      if (global_counter >= getCountOff()) {
+      if (global_counter >= getCountOff() || !startLoop) {
         startLoop = false;
         clearInterval(timerID);
+      } else {
+        visual.text(getCountOff()-global_counter);
       }
     }, 1000);
   }
@@ -341,7 +346,6 @@
       var handleEnd = getHandleEndPosition();
       var current = getIndicatorPosition();
       var nextCurrent = getNextPosition(current, handleStart, handleEnd)
-      
       setIndicatorPosition(nextCurrent);
       // only happnens when we loop back...
       // so change video
@@ -354,11 +358,14 @@
         return;
       }
       if (nextCurrent == handleStart){
-        if (getCountOff() > 0) {
-          startLoop = true;
-        }
         loopVideoTo(nextCurrent);
-        startCountOff();
+        if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17 && !startLoop) {
+          pause();
+          startLoop = true;
+          startCountOff();
+        } else {
+          play();
+        }
       }
 
       // TODO: fix the handlebars so that they cannot cross each other
@@ -685,26 +692,31 @@
   // back to beginning button - stops the indicator movement and plays again
   $(document).on('click', "#goBack", function(evt)
   {
+
+    startLoop = false;
     setIndicatorPosition(getHandleStartPosition());
     loopVideoTo(getHandleStartPosition());
-
-    if (getCountOff() > 0) {
-      startLoop = true;
-      startCountOff();
+    if (!isPlayOn()) {
+      pause();
     }
   });
 
   $(document).on('click', "#playPause", function(evt)
   {
-    startLoop = false;
+    clearInterval(continueCountoffIndicator);
     console.log("playon: " + isPlayOn);
     if (!isPlayOn()){
-      play();
-      if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17) {
+      if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17 && !startLoop) {
+        pause();
         startLoop = true;
         startCountOff();
+      } else if (startLoop) {
+        pause();
+      } else {
+        play();
       }
     } else {
+      startLoop = false;
       pause();
       $("#indicator").stop();
     }
@@ -884,7 +896,7 @@
         </span>
       </div>
     </div>
-    
+
     <button class="btn" id="editDance" onclick="location.href='choreo.html'">
       <img src="images/edit.svg" alt="edit video"/>
       <div id="editDanceText">
@@ -895,9 +907,9 @@
     <!--Hamburger menu dropdown-->
     <div class="menu">
         <ul>
-            <a href="#"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
-            <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
-            <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
+            <a href="create.html"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
+            <a href="dancelist.html?title=History"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
+            <a href="dancelist.html?title=Favorites"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
         </ul>
     </div>
 
@@ -905,8 +917,10 @@
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
+        <div id="countoffVisual"></div>
         <video id="videoBox">
           <source src="images/chicken.MOV">
+            Your browser does not support the video tag.
           </video>
         </div>
 
@@ -917,7 +931,7 @@
           </div>
 
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
-            <img id="handlebarleft" src="images/handlebarleft.svg" alt="left handle bar">
+            <img id="handlebarleft" src="images/handlebartriangle.svg" alt="left handle bar">
           </div>
 
           <div id="sections">
@@ -927,7 +941,7 @@
           </div>
 
           <div id="sectionEnd" class="ui-draggable ui-draggable-handle handlebar disable-selection">
-            <img id="handlebarright" src="images/handlebarright.svg" alt="right handle bar">
+            <img id="handlebarright" src="images/handlebartriangle.svg" alt="right handle bar">
           </div>
         </div>
 

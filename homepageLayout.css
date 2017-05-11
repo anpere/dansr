@@ -18,18 +18,29 @@ img {
 	}
 
 #search {
-  overflow: hidden;
+  top: 50%;
   height: 50px;
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 35px;
   position: relative;
+}
+
+#warning {
+  overflow: hidden;
+  top: 50%;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  margin-top: -7px;
+  visibility: hidden;
 }
 div#searchWidget {
   display: inline-flex;
   flex-grow: 1;
   width:100%;
+  height: 36px;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -98,12 +109,12 @@ label {
 }
 
 .menu {
-	z-index:1000000; 
-	font-weight:bold; 
-	width:13%; 
-	background:#f1f1f1;  
-	position:absolute; 
-	text-align:left; 
+	z-index:1000000;
+	font-weight:bold;
+	width:13%;
+	background:#f1f1f1;
+	position:absolute;
+	text-align:left;
 	font-size:14px;
 
 	position: absolute;
@@ -114,46 +125,48 @@ label {
 .menu ul {
 	margin: 0;
 	padding: 0;
-	list-style-type: none; 
+	list-style-type: none;
 	list-style-image: none;
 }
 
 .menu li {
-	display: block;   
-	padding: 7px 3px 5px 3px; 
+	display: block;
+	padding: 7px 3px 5px 3px;
 	border-bottom:#dddddd 1px solid;
 }
 
 .menu li:hover{
-	display: block;    
-	background: #9fc2f9; 
-	padding: 7px 3px 5px 3px; 
+	display: block;
+	background: #9fc2f9;
+	padding: 7px 3px 5px 3px;
 	border-bottom:#dddddd 1px solid;
 }
 
 .menu ul li img {
 	margin: 5px;
 }
-.menu ul li a { 
-	text-decoration:none;  
-	margin: 0px; 
+.menu ul li a {
+	text-decoration:none;
+	margin: 0px;
 	color:#666;
 }
 
-.menu ul li a:hover {  
-	color: #666; 
+.menu ul li a:hover {
+	color: #666;
 	margin: 0px;
 	text-decoration:none;
 }
 
 .menu a{
-	text-decoration:none; 
+	text-decoration:none;
 	color:#666;
 }
 
-.menu a:hover{ 
-	text-decoration:none; 
+.menu a:hover{
+	text-decoration:none;
 	color:#666;
 }
 
-
+#searchIcon{
+    margin-left:5px;
+}
