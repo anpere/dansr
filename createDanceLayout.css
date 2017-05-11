@@ -4,6 +4,31 @@
   margin-left: 10;
   margin-right: 10;
 }
+#newDance {
+  display: inline-flex;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#newDanceText {
+  padding-top: 4px;
+  margin: 0px;
+}
+
+#newDance img {
+  margin: 2px 5px 2px 2px;
+}
+#page {
+  margin: 15px;
+  padding: 10px;
+  width: 75%;
+  position: absolute;
+  top: 15%;
+  left: 12%;
+}
 #wrapper {
   border-width: 2px;
   border-color: grey;
@@ -98,6 +123,20 @@ input#codeSearch {
 }
 #danceSubmit {
   background: #96a2ff;
+}
+.thumbnail {
+  width: 225px;
+  height: 150px;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+}
+.entry {
+  display: inline-flex;
+}
+
+.videoInfo {
+  margin-left: 15px;
 }
 
 .menu{z-index:1000000; font-size:20px !important; width:20%; background:#f1f1f1;  position:absolute; text-align:left; font-size:12px;}
