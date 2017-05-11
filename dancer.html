@@ -1,4 +1,4 @@
-﻿<head>
+<head>
   <title>Dansr</title>
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
@@ -155,48 +155,66 @@
       alert("uh-oh, don't know what to do with css")
     }
   }
-  // TODO: positons of everything isn't consistent, some have to be offset with seekbarWidth
-  // sad!
+  
   // get left position of the play Indicator: range [0,100]
   getIndicatorPosition = function() {
     var left = document.getElementById("indicator").style.left;
-    return cssPositionToFloat(left);
+    if(!isNaN(parseInt(left))) {
+      debug("getIndicatorPosition() returning " + cssPositionToFloat(left));
+      return cssPositionToFloat(left);
+    }
+    else return 0;
   }
+  
   // set left position of the play Indicator to left
   // left is a floating point number in range [0,100]
   setIndicatorPosition = function(left) {
+    debug("setting indicator position to " + left + "%");
     var indicator = document.getElementById("indicator").style;
     indicator.left = left+"%";
-    debug(getHandleEndPosition());
   }
 
   // get left position of the start handle
   getHandleStartPosition = function() {
-    // TODO call sectionStart a better name...
     var left = document.getElementById("sectionStart").style.left;
     // cssPosition needed because while we drag elements we set their left and right positions
-    return cssPositionToFloat(left);
+    if(!isNaN(parseInt(left))) {
+      debug("getHandleStartPosition() returning " + cssPositionToFloat(left));
+      return cssPositionToFloat(left);
+    }
+    else return 0;
   }
 
   // get left position of the end handle
   getHandleEndPosition = function () {
-      var right = document.getElementById("sectionEnd").style.right;
-      return 100 - cssPositionToFloat(right);
+    var left = document.getElementById("sectionEnd").style.right;
+    if( !isNaN(parseInt(left))) {
+      debug("getHandleEndPosition() returning " + (100 - cssPositionToFloat(left)));
+      return 100 - cssPositionToFloat(left);
+    }
+    else return 100;
   }
 
   // sets the position of the start handle bar to left
   // left: a floating point number in range [0,100] that represents
   // fractionalPosition from the left
   setHandleStartPosition = function (left) {
-      console.log(left)
-      document.getElementById("sectionStart").style.left = left+"%";
+    debug("setting handle start position to " + left + "%");
+    document.getElementById("sectionStart").style.left = left+"%";
+    if(left - getIndicatorPosition() > 1) {
+      setIndicatorPosition(left);
+    }
   }
 
   // sets the position of the end handle bar to right
-  // right: a floating point number in range [0,100] that represents
-  // fractionalPosition from the right
+  // left: a floating point number in range [0,100] that represents
+  // fractionalPosition from the left
   setHandleEndPosition = function(left) {
+      debug("setting handle end position to " + (100 - left) + "%");
       document.getElementById("sectionEnd").style.right = (100-left)+"%";
+      if(getIndicatorPosition() - ( left) > 1) {
+        setIndicatorPosition(100 - left);
+      }
   }
 
   getDelta = function(){
@@ -371,11 +389,6 @@
     document.getElementById("countoff").innerHTML = "&nbsp0s";
     document.getElementById("videoBox").setAttribute("width", "100%")
 
-    /// set the left of the indicator because things are sketchy
-    setIndicatorPosition(0);
-    setHandleStartPosition(0);
-    setHandleEndPosition(100);
-
     setVolume();
 
     $(".cross").hide();
@@ -459,13 +472,40 @@
   	$('.x_button').on('mousedown', function(event) {
       toggleXIcon(event.target.id)
   	});
-
-    $("#indicator").draggable({ axis: "x", containment: "parent"});
+    
+    var clicking = false; // used to know when indicator should be dragging
+    $("#indicator").draggable({ axis: "x", containment: "#seekbar"})
+    // The following technique was adapted from 
+    // http://stackoverflow.com/questions/14445375/trigger-click-and-hold-event
+                   .click(function(e) { 
+                      if(!clicking){
+                          $(this).data('uiDraggable')._mouseCapture(e, true)
+                          $(this).data('uiDraggable')._mouseStart(e, true, true);
+                      } else {
+                          $(this).data('uiDraggable')._mouseUp(e);
+                          $(this).data('uiDraggable')._mouseStop(e);
+                      }
+                      console.log("flipping clicking from " + clicking + " to " + !clicking);
+                      clicking = !clicking;
+                      return false;
+                   });
+      
     $("#indicator").on("drag", function(event, ui) {
-      console.log("here")
-      var fractionalPosition = Math.abs(ui.position.left / getSeekbarWidth());
-      $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
+      //event.stopPropagation();
+      var fractionalPosition = parseInt($(this).css("left")) / getSeekbarWidth();
+          
+      setIndicatorPosition(fractionalPosition * 100);
+      
       loopVideoTo(fractionalPosition * 100.);
+      
+      // Moved indicator right of R handlebar:
+      if (fractionalPosition*100 - getHandleEndPosition() > 1) {
+        setHandleEndPosition(fractionalPosition * 100);
+      } 
+      // Moved indicator left of L handlebar:
+      else if (fractionalPosition*100 < getHandleStartPosition()) {
+        setHandleStartPosition(fractionalPosition * 100);
+      }
     });
   });
 
@@ -483,15 +523,24 @@
       axis: "x",
       containment: "parent",
       stop: function( event, ui ) {
-        if ($(this).attr("id") == "sectionEnd"){
-          console.log("hello")
+        var indicatorPos = parseInt( $('#indicator').css("left")) / getSeekbarWidth();
+        
+        // Moved R handlebar left of indicator:
+        if ($(this).attr("id") == "sectionEnd") {
+          var fraction = parseInt($(this).css("left")) / getSeekbarWidth() + 1; // +1 to make positive
+          var rightPercentage = 100 * fraction;
+          setHandleEndPosition(rightPercentage);
+          if(indicatorPos > fraction)
+              setIndicatorPosition(fraction * 100);
+          $(this).css("left", ""); //we are adjusting the right css prop; draggable automatically changes left
+        } 
+        // Moved L handlebar right of indicator
+        else if ($(this).attr("id") == "sectionStart") {
           var fraction = parseInt($(this).css("left")) / getSeekbarWidth();
-          var rightPercentage = -1* (100 * (fraction))
-          $(this).css("right", rightPercentage + "%");
-          $(this).css("left","");
-        } else if ($(this).attr("id") == "sectionStart"){
-          $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
-          console.log("bye")
+          var leftPercentage = 100 * fraction;
+          setHandleStartPosition(leftPercentage);
+          if(indicatorPos < fraction)
+              setIndicatorPosition(leftPercentage);
         }
       }
     });
@@ -500,15 +549,92 @@
       containment: "parent",
       stop: function(event, ui) {
         $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
+          
+        //Adjust handlebars if moving out of range:
+        if(getHandleStartPosition() - getIndicatorPosition() > 1)
+            setHandleStartPosition(getIndicatorPosition());
+            
+        if(getIndicatorPosition() -  (getHandleEndPosition()) > 1)
+            setHandleEndPosition(getIndicatorPosition());
       }
     });
+    
 
     // updates the grey rectangles on the sides of the handlebar
     // DISCUSS: inverting the greyed out section?
 
+    $("#indicator").on("move", function(event, leftPx) {
+      $("#indicator").stop();
+      $("#indicator").animate({left: leftPx.toString() }, 50, function() {
+        //on completed animation
+        if(clicking) {
+          $(document).bind('mousemove', function (e) {
+            var position = e.pageX - $("#seekbar").position().left;
+            
+            // Adjust to stay in range of seekbar
+            if(position < 0)
+              position = 0;
+            else if(position > getSeekbarWidth())
+      	      position = getSeekbarWidth();
+
+            var fractionPosition = position / getSeekbarWidth();
+
+            //Adjust handlebars if moving out of range:
+            if(getIndicatorPosition() < getHandleStartPosition()) 
+                setHandleStartPosition(fractionPosition*100);
+
+            if(fractionPosition*100 - getHandleEndPosition() > 1)
+                setHandleEndPosition(fractionPosition*100);
+
+            $("#indicator").trigger("move", [position]); // initiates click-and-drag
+          });
+         }
+         else { //no longer clicking; unbind mousemove
+           $(document).unbind('mousemove');
+         }
+      });
+      
+      loopVideoTo( leftPx / $("#seekbar").width() * 100.);
+      return false;
+    });
+    
     $("#seekbar").on("mousedown", function(event) {
       startLoop = false;
+      clicking = true;
       $("#indicator").stop();
+      
+      var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
+      
+      //Keep in bounds:
+      if(clickedPos_centered < 0)
+        clickedPos_centered = 0;
+      else if(clickedPos_centered > $("#seekbar").width())
+      	clickedPos_centered = $("#seekbar").width();
+      
+      var fractionPosition = clickedPos_centered / getSeekbarWidth();
+      
+      //Make sure indicator doesn't jump if handlebar is clicked:
+      if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
+        
+        //Adjust handlebars if moving out of range:
+        if(fractionPosition*100 < getHandleStartPosition())
+          setHandleStartPosition(fractionPosition*100);
+  
+        if(fractionPosition*100 - getHandleEndPosition() > 1)
+          setHandleEndPosition(fractionPosition*100);
+        
+        setIndicatorPosition(fractionPosition * 100);
+        // Keep triggering 'move' while click-and-dragging
+        if(clicking) 
+          $("#indicator").trigger("move", [clickedPos_centered]);
+      }
+    });
+    
+    $(".section").on("mousedown", function(event) {
+      clicking = true;
+    });
+    $(".section").on("mouseup", function(event) {
+      clicking = false;
     });
 
     var DOUBLECLICK_DELAY = 150;
@@ -556,8 +682,7 @@
           }
           prevent = false;
           }, DOUBLECLICK_DELAY);
-        })
-      
+    });
   });
 
   //Volume control
@@ -816,7 +941,7 @@
         <div id ="seekbar">
 
           <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
-            <img id="indicatorBar" src="images/seekbar.svg" alt="progress indicator">
+            <img id="indicatorBar" src="images/seekbar.svg" alt="progress indicator" draggable="false">
           </div>
 
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
@@ -888,5 +1013,4 @@
           <p class="comments-content">Comments appear here...</p>
         </div>
       </div>
-
-    </body>
+</body>
