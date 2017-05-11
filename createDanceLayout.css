@@ -1,0 +1,115 @@
+#top {
+  position: relative;
+  margin-top: 10;
+  margin-left: 10;
+  margin-right: 10;
+}
+#wrapper {
+  border-width: 2px;
+  border-color: grey;
+  border-style: solid;
+  border-radius: 15px;
+  margin: 15px;
+  padding: 10px;
+  align-items: center;
+  width: 50%;
+  position: absolute;
+  top: 15%;
+  left: 25%;
+}
+#hamburger {
+  background: none;
+  position: relative;
+  top: 0;
+  left: 0;
+  line-height: 45px;
+  color: #999;
+  border: 0;
+  font-size: 2em;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  z-index: 10000000000000;
+}
+#logo {
+    position: relative;
+    top: -5;
+}
+.info {
+  width: 25px;
+  height: 25px;
+}
+h1 {
+  margin-bottom: 20px;
+}
+#search {
+  display: inline-flex;
+  overflow: hidden;
+  height: 50;
+  max-height: 28px;
+  width: 66%;
+  max-height: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  left: 7%;
+}
+.textbox {
+  text-align: center;
+  margin: 10px;
+}
+div#searchWidget {
+  display: inline-flex;
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+input#codeSearch {
+  margin-left: 25px;
+  width: 100%;
+  font-size: 1.25em;
+}
+#searchWidget button {
+  background: rgba(75, 205, 100, 0.5)
+}
+#upload {
+  align-self: center;
+  padding: 2px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: grey;
+  border-radius: 5px;
+  width: 45%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+#file {
+  margin-right: 5px;
+  height: 30px;
+  padding: 3px;
+  vertical-align: middle;
+}
+#buttons {
+  margin: 10px;
+  width: 225px;
+  margin-right: 0px;
+}
+#danceSubmit {
+  background: #96a2ff;
+}
+
+.menu{z-index:1000000; font-size:20px !important; width:20%; background:#f1f1f1;  position:absolute; text-align:left; font-size:12px;}
+.menu ul {margin: 0; padding: 0; list-style-type: none; list-style-image: none;}
+.menu li {display: block;   padding:15px 0 15px 15px; border-bottom:#dddddd 1px solid;}
+.menu li:hover{display: block;    background:lightgray; padding:15px 0 15px 15px; border-bottom:#dddddd 1px solid;}
+.menu ul li a { text-decoration:none;  margin: 0px; color:#666;}
+.menu ul li a:hover {  color: #666; text-decoration:none;}
+.menu a{text-decoration:none; color:#666;}
+.menu a:hover{text-decoration:none; color:#666;}
+.menuSymbol{
+  vertical-align: text-bottom;
+  padding-right:10px;
+  height:25px;
+}

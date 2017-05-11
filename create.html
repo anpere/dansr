@@ -1,0 +1,111 @@
+<head>
+    <title>Dansr</title>
+    <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+
+    <link rel="stylesheet" href="createDanceLayout.css">
+    <link rel='shortcut icon' href='images/dfavicon.png'/>
+
+
+    <!-- jQuery and jQueryUI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+
+        //Initialize auto-complete
+        var availableCodes = [
+        "chicken",
+        "toffee",
+        "nature",
+        ];
+
+        // hides the menu after the page is loaded
+        $( ".menu" ).hide();
+        
+        // shows/hides the menu after pressing the hamburger button
+        $("#hamburger").click(function() {
+            $( ".menu" ).slideToggle("slow");
+        });
+        
+        $( "#codeSearch" ).autocomplete({
+          source: availableCodes
+        });
+
+        $('#codeSubmit').click(function() {
+          //TODO: Prevent multiple entries from being added
+          //Add entered code to auto-complete list:
+          availableCodes.push($('#codeSearch').val());
+
+          //$( "#codeSearch" ).val(""); //Uncomment to clear text field
+        });
+        $('#codeSearch').keypress(function(e) {
+        //TODO: Prevent multiple entries from being added
+        console.log("a");
+        if(e.which == 13) {
+            //Add entered code to auto-complete list:
+            availableCodes.push($('#codeSearch').val());
+            
+            $( "#codeSearch" ).val(""); //Uncomment to clear text field
+
+            $( "#codeSearch" ).autocomplete({
+                source: availableCodes
+            });
+            
+            console.log("h");
+            location.href = "http://web.mit.edu/anpere/www/dansr/dancer.html";
+    }
+  });
+
+    });
+    </script>
+
+
+</head>
+
+<body>
+    <div id ="top">
+    <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
+        <button id="hamburger">
+          <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px" alt="dancer menu">
+        </button>
+        <a href="homepage.html" id="logo"><img alt="homepage" src="images/dansrlogo.svg" height="40"/></a>
+
+        <div id ="search">
+          <div class="ui-widget" id="searchWidget">
+            <input id="codeSearch" title="Search" label="search" class="ui-autocomplete-input" placeholder="Dance Code">
+          </div>
+        </div>
+      </div>
+
+    <!--Hamburger menu dropdown-->
+    <div class="menu">
+        <ul>
+            <a href="create.html"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
+            <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
+            <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
+        </ul>
+    </div>
+
+    <div id="wrapper">
+        <h1> Create New Dance </h1>
+        <div id="danceCode" class="textbox">
+            Dance Code: <input form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the code that will be used to access the dance.">
+        </div>
+
+        <div id="settings" class="textbox"> 
+            Dance Title: <input form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the title (or name) of the dance.">
+        </div>
+    
+        <div id="upload"> 
+            <button id="file"> Select File </button> danceVideo.avi
+        </div>
+
+        <div id="buttons">
+            <button class="btn" id="danceSubmit" onclick="location.href='choreo.html'"> Create Dance </button>
+            <button class="btn" id="danceCancel" onclick="location.href='homepage.html'"> Cancel </button>
+        </div>
+    </div>
+</body>
