@@ -71,7 +71,7 @@ body {
   margin-right: auto;
   position: relative;
 }
-#title {
+#videoHeader {
     margin-top: 25;
 }
 #search {
@@ -175,11 +175,6 @@ input#codeSearch {
   padding-left: 0px; /*  using margins doesnt work for edit dance button */
   padding-right: 10px;
   background-color:rgb(220,220,220);
-}
-#watchDance {
-  position: absolute;
-  right: 0;
-
 }
 .section {
   z-index: 1;
