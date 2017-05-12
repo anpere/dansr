@@ -16,8 +16,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
+      $.extend({
+        getUrlVars: function() {
+          var vars = [], pair;
+          var pairs = window.location.search.substr(1).split('&');
+          for (var i = 0; i < pairs.length; i++) {
+            pair = pairs[i].split('=');
+            vars.push(pair[0]);
+            vars[pair[0]] = pair[1] &&
+                decodeURIComponent(pair[1].replace(/\+/g, ' '));
+          }
+          return vars;
+        },
+        getUrlVar: function(name) {
+          return $.getUrlVars()[name];
+        }
+      });
+
       $(document).ready(function() {
-        // after merge, fix the title so that it refers to the correct div: videoHeader
+        var title = $.getUrlVar("title");
+        $("#title").text(title);
+
         $(".cross").hide();
         $(".menu").hide();
 
@@ -142,9 +161,8 @@
       </ul>
     </div>
 
-
     <div id="videoHeader" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
-        <h1>
+        <h1 id="title">
             Title
 
             <button class="btn" id="watchDance" onclick="location.href='dancer.html'">
@@ -155,10 +173,10 @@
           </button>
         </h1>
       </div>
-    
 
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
     <div id="video">
+      <div id="videoSpace" style="height: 480px;"></div>
       <button type="button" class="btn btn-primary" id="addComment">Add comment &#43;</button>
         <div class="btn-group" id="choreoTools">
             <button type="button" class="btn btn-primary tool-icon" id="addSection" style="background-image:url('images/plus.svg')"/>
