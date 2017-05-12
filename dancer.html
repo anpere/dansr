@@ -885,6 +885,7 @@
     // if the inputted speed is been capped by the max or min, update the textbox to reflect this
     if (speed != inputtedSpeed) {
       $("#speed").val(last_valid_speed.toFixed(1.));
+      $("#speed").effect("shake", {times:2, distance:3});
     }
   });
 
