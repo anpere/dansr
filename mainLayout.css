@@ -110,8 +110,7 @@ input#codeSearch {
   width: 100%;
   border: 1px solid black;
   margin: 0 auto;
-  padding-left:16px;
-  padding-right:16px;
+  padding-left:33px;
   background-color:black;
 }
 #toolbar {
@@ -129,6 +128,7 @@ input#codeSearch {
   z-index: 5;
   position: relative;
   left: 0px;
+  margin-left:-15px;
 }
 .handlebar {
   background: #000000;
