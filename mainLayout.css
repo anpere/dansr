@@ -74,7 +74,6 @@ body {
 }
 #title {
     margin-top: 25;
-    border:solid;
 }
 #search {
   display: inline-flex;
@@ -255,7 +254,6 @@ input#codeSearch {
   display: inline-flex;
   text-align: center;
   vertical-align: middle;
-  border:solid;
   float:right;
   margin-top:5px;
 }
