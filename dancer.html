@@ -898,12 +898,58 @@
   });
 
   $(document).keypress(function(evt) {
-    
+    // handle space characater
     if (evt.charCode == 32) {
       evt.preventDefault();
       $("#playPause").trigger("click");
     }
+    // = key which is the same key as plus, which users may use to speed up
+    if (evt.charCode == 61 || evt.charCode == 43) {
+      $("#speedPlus").click();
+    }
+    // - should handle speedMinus
+    if (evt.charCode == 45){
+      $("#speedMinus").click();
+    }
+    if (evt.charCode == 108){
+      $("#loop").click();
+    }
+    if (evt.charCode == 109){
+      $("#metronome").click();
+    }
   });
+  $(document).on("keydown", function(evt){
+    var keyCode = evt.keyCode;
+    switch(keyCode) {
+      // left
+      case 37:
+        setIndicatorPosition(Math.max(getIndicatorPosition()-2, 0))
+        if (getHandleStartPosition()>getIndicatorPosition()){
+          setHandleStartPosition(getIndicatorPosition());
+        }
+        break;
+      // up
+      case 38:
+        console.log("38")
+        setHandleStartPosition(getIndicatorPosition())
+        break;
+      // right
+      case 39:
+        setIndicatorPosition(Math.min(getIndicatorPosition()+2, 100))
+        if (getHandleEndPosition()<getIndicatorPosition()){
+          setHandleEndPosition(getIndicatorPosition());
+        }
+        break;
+      // down
+      case 40:
+        setHandleEndPosition(getIndicatorPosition())
+        console.log("down")
+        break;
+      default:
+        console.log("neither")
+    }
+    loopVideoTo(getIndicatorPosition())
+  })
 
   // handles efficiency and all that jazz...
   $(document).on('click', ".btn", function (evt) {
