@@ -332,6 +332,7 @@ div.draggable-wrapper {
       background-color: white;
       opacity:0.8;
       text-align:center;
+      margin-left:200px;
 }
 
 
@@ -449,4 +450,13 @@ div.toolbar-pane p {
     position:absolute;
     color:white;
     font-size:20px;
+}
+
+
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-box {
+
+}
+
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-content {
+
 }
