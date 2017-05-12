@@ -869,18 +869,23 @@
   });
 
   $(document).on('keyup', "#speed", function(evt) {
+    var inputtedSpeed = $("#speed").val();
     var speed = $("#speed").val();
-
     var re = /\d?\.?\d+x?/;
 
-    if(re.test(speed)) { //valid speed string
-			speed = parseFloat(speed);
+    if(re.test(inputtedSpeed)) { //valid speed string
+			speed = parseFloat(inputtedSpeed);
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
     }
 
     setVideoSpeed(last_valid_speed);
+
+    // if the inputted speed is been capped by the max or min, update the textbox to reflect this
+    if (speed != inputtedSpeed) {
+      $("#speed").val(last_valid_speed.toFixed(1.));
+    }
   });
 
 
