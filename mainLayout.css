@@ -147,9 +147,7 @@ input#codeSearch {
 }
 #video {
   display: flex;
-  border-style: solid;
   width: 100%;
-  height: 480px;
   max-height: 480px;
   margin-left: auto;
   margin-right: auto;
@@ -173,12 +171,8 @@ input#codeSearch {
   display: inline-flex;
   width:100%;
   margin-top: 10px;
-  padding-left: 2%; /*  using margins doesnt work for edit dance button */
-  padding-right: 2%;
-}
-#watchDance {
-  position: absolute;
-  right: 0;
+  padding-left: 1%; /*  using margins doesnt work for edit dance button */
+  padding-right: 1%;
 }
 .section {
   z-index: 1;
@@ -251,23 +245,17 @@ input#codeSearch {
 #countoff {
   width: 40px;
 }
-#editDance {
+#editDance, #watchDance {
   display: inline-flex;
   text-align: center;
   vertical-align: middle;
+  float:right;
+  margin-top:5px;
 }
 #editDanceText {
   padding-top: 4px;
   margin: 0px;
   padding-left: 8px;
-}
-#watchDance {
-  display: inline-flex;
-  position: absolute;
-  text-align: center;
-  vertical-align: middle;
-  padding-left: 19px;
-  padding-bottom: 12px;
 }
 #watchDanceText {
   padding-top: 4px;
@@ -407,4 +395,25 @@ div.toolbar-pane p {
 	vertical-align: text-bottom;
 	padding-right:10px;
 	height:25px;
+}
+
+:-webkit-full-screen #content {
+  left: 0px;
+  /* font-size: 20px; */
+  width: 100vw !important;
+  bottom: 0;
+  position: fixed;
+  margin: auto;
+  max-width: none !important;
+}
+:-moz-full-screen #content {
+  font-size: 20px;
+  width: 100%;
+}
+:-webkit-full-screen #video {
+  height: none;
+  max-height: none;
+}
+:-webkit-full-screen #comments {
+  top:78% !important;
 }

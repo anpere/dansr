@@ -155,7 +155,7 @@
       alert("uh-oh, don't know what to do with css")
     }
   }
-  
+
   // get left position of the play Indicator: range [0,100]
   getIndicatorPosition = function() {
     var left = document.getElementById("indicator").style.left;
@@ -165,7 +165,7 @@
     }
     else return 0;
   }
-  
+
   // set left position of the play Indicator to left
   // left is a floating point number in range [0,100]
   setIndicatorPosition = function(left) {
@@ -460,12 +460,12 @@
   	$('.x_button').on('mousedown', function(event) {
       toggleXIcon(event.target.id)
   	});
-    
+
     var clicking = false; // used to know when indicator should be dragging
     $("#indicator").draggable({ axis: "x", containment: "#seekbar"})
-    // The following technique was adapted from 
+    // The following technique was adapted from
     // http://stackoverflow.com/questions/14445375/trigger-click-and-hold-event
-                   .click(function(e) { 
+                   .click(function(e) {
                       if(!clicking){
                           $(this).data('uiDraggable')._mouseCapture(e, true)
                           $(this).data('uiDraggable')._mouseStart(e, true, true);
@@ -477,19 +477,19 @@
                       clicking = !clicking;
                       return false;
                    });
-      
+
     $("#indicator").on("drag", function(event, ui) {
       //event.stopPropagation();
       var fractionalPosition = parseInt($(this).css("left")) / getSeekbarWidth();
-          
+
       setIndicatorPosition(fractionalPosition * 100);
-      
+
       loopVideoTo(fractionalPosition * 100.);
-      
+
       // Moved indicator right of R handlebar:
       if (fractionalPosition*100 - getHandleEndPosition() > 1) {
         setHandleEndPosition(fractionalPosition * 100);
-      } 
+      }
       // Moved indicator left of L handlebar:
       else if (fractionalPosition*100 < getHandleStartPosition()) {
         setHandleStartPosition(fractionalPosition * 100);
@@ -512,7 +512,7 @@
       containment: "parent",
       stop: function( event, ui ) {
         var indicatorPos = parseInt( $('#indicator').css("left")) / getSeekbarWidth();
-        
+
         // Moved R handlebar left of indicator:
         if ($(this).attr("id") == "sectionEnd") {
           var fraction = parseInt($(this).css("left")) / getSeekbarWidth() + 1; // +1 to make positive
@@ -521,7 +521,7 @@
           if(indicatorPos > fraction)
               setIndicatorPosition(fraction * 100);
           $(this).css("left", ""); //we are adjusting the right css prop; draggable automatically changes left
-        } 
+        }
         // Moved L handlebar right of indicator
         else if ($(this).attr("id") == "sectionStart") {
           var fraction = parseInt($(this).css("left")) / getSeekbarWidth();
@@ -537,16 +537,16 @@
       containment: "parent",
       stop: function(event, ui) {
         $(this).css("left",(100 * parseInt($(this).css("left")) / getSeekbarWidth()) +"%");
-          
+
         //Adjust handlebars if moving out of range:
         if(getHandleStartPosition() - getIndicatorPosition() > 1)
             setHandleStartPosition(getIndicatorPosition());
-            
+
         if(getIndicatorPosition() -  (getHandleEndPosition()) > 1)
             setHandleEndPosition(getIndicatorPosition());
       }
     });
-    
+
 
     // updates the grey rectangles on the sides of the handlebar
     // DISCUSS: inverting the greyed out section?
@@ -558,7 +558,7 @@
         if(clicking) {
           $(document).bind('mousemove', function (e) {
             var position = e.pageX - $("#seekbar").position().left;
-            
+
             // Adjust to stay in range of seekbar
             if(position < 0)
               position = 0;
@@ -568,7 +568,7 @@
             var fractionPosition = position / getSeekbarWidth();
 
             //Adjust handlebars if moving out of range:
-            if(getIndicatorPosition() < getHandleStartPosition()) 
+            if(getIndicatorPosition() < getHandleStartPosition())
                 setHandleStartPosition(fractionPosition*100);
 
             if(fractionPosition*100 - getHandleEndPosition() > 1)
@@ -581,15 +581,15 @@
            $(document).unbind('mousemove');
          }
       });
-      
+
       loopVideoTo( leftPx / $("#seekbar").width() * 100.);
       return false;
     });
-    
+
     $("#seekbar").on("mousedown", function(event) {
       clicking = true;
     });
-    
+
     $(".section").on("mousedown", function(event) {
       clicking = true;
     });
@@ -612,7 +612,7 @@
         setHandleEndPosition(100 - section.data("right"));
         setIndicatorPosition(section.data("left"));
       });
-   
+
     $("#seekbar")
       .on("click", function(event) {
         timer = setTimeout(function() {
@@ -621,30 +621,30 @@
             startLoop = false;
 
             $("#indicator").stop();
-      
-            var clickedPos_centered = event.pageX - $("#seekbar").position().left; 
-      
+
+            var clickedPos_centered = event.pageX - $("#seekbar").position().left;
+
             //Keep in bounds:
             if(clickedPos_centered < 0)
               clickedPos_centered = 0;
             else if(clickedPos_centered > $("#seekbar").width())
               clickedPos_centered = $("#seekbar").width();
-      
+
             var fractionPosition = clickedPos_centered / getSeekbarWidth();
-      
+
             //Make sure indicator doesn't jump if handlebar is clicked:
             if(event.target.id !== "handlebarleft" && event.target.id !== "handlebarright") {
-        
+
               //Adjust handlebars if moving out of range:
               if(fractionPosition*100 < getHandleStartPosition())
                 setHandleStartPosition(fractionPosition*100);
-  
+
               if(fractionPosition*100 - getHandleEndPosition() > 1)
                 setHandleEndPosition(fractionPosition*100);
-        
+
               setIndicatorPosition(fractionPosition * 100);
               // Keep triggering 'move' while click-and-dragging
-              if(clicking) 
+              if(clicking)
                 $("#indicator").trigger("move", [clickedPos_centered]);
             }
           }
@@ -870,6 +870,75 @@
     }
   });
 
+  $(document).on('click', '#fullscreen', function (evt) {
+    toggleFullScreen(document.getElementById("contentContainer"));
+  });
+    // taken from http://stackoverflow.com/questions/7836204/chrome-fullscreen-api
+    function isFullScreen()
+  {
+      return (document.fullScreenElement && document.fullScreenElement !== null)
+           || document.mozFullScreen
+           || document.webkitIsFullScreen;
+  }
+
+  function requestFullScreen(element)
+  {
+      if (element.requestFullscreen)
+          element.requestFullscreen();
+      else if (element.msRequestFullscreen)
+          element.msRequestFullscreen();
+      else if (element.mozRequestFullScreen)
+          element.mozRequestFullScreen();
+      else if (element.webkitRequestFullscreen)
+          element.webkitRequestFullscreen();
+  }
+
+  function exitFullScreen()
+  {
+      if (document.exitFullscreen)
+          document.exitFullscreen();
+      else if (document.msExitFullscreen)
+          document.msExitFullscreen();
+      else if (document.mozCancelFullScreen)
+          document.mozCancelFullScreen();
+      else if (document.webkitExitFullscreen)
+          document.webkitExitFullscreen();
+  }
+
+  // courtesy of: http://stackoverflow.com/questions/10706070/how-to-detect-when-a-page-exits-fullscreen
+  function toggleFullScreen(element)
+  {
+      if (isFullScreen()) {
+          document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen.svg')")
+          document.getElementById("contentContainer").setAttribute("style", "")
+          exitFullScreen();
+        }
+      else {
+          document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen_exit.svg')")
+          document.getElementById("contentContainer").setAttribute("style", "height: 100%; background: black;")
+
+          requestFullScreen(element || document.documentElement);
+        }
+  }
+  if (document.addEventListener)
+{
+    document.addEventListener('webkitfullscreenchange', exitHandler, false);
+    document.addEventListener('mozfullscreenchange', exitHandler, false);
+    document.addEventListener('fullscreenchange', exitHandler, false);
+    document.addEventListener('MSFullscreenChange', exitHandler, false);
+}
+
+function exitHandler()
+{
+    if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement !== null)
+    {
+      if (isFullScreen()){
+          document.getElementById("contentContainer").setAttribute("style", "")
+      } else {
+      }
+    }
+}
+
   </script>
 </head>
 
@@ -892,12 +961,7 @@
       </div>
     </div>
 
-    <button class="btn" id="editDance" onclick="location.href='choreo.html'">
-      <img src="images/edit.svg" alt="edit video"/>
-      <div id="editDanceText">
-        Edit Dance
-      </div>
-    </button>
+
   </div>
     <!--Hamburger menu dropdown-->
     <div class="menu">
@@ -908,7 +972,20 @@
         </ul>
     </div>
 
-    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto"><h1>Chicken Dance</h1></div>
+
+    <div id="contentContainer">
+    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
+        <h1>
+            Chicken Dance
+
+            <button class="btn" id="editDance" onclick="location.href='choreo.html'" >
+                <img src="images/edit.svg" alt="edit video" />
+                <div id="editDanceText" >
+                    Edit Dance
+                </div>
+            </button>
+        </h1>
+    </div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
@@ -975,9 +1052,10 @@
           <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
 
+
+
         </div>
       </div>
-
     <!-- Formation Diagram Pane-->
     <div id="formations">
         <div height="10px">
@@ -993,4 +1071,5 @@
             <p class="comments-content">Comments appear here...</p>
         </div>
     </div>
+  </div>
 </body>
