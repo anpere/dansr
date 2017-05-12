@@ -83,6 +83,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  padding-top:5px;
 }
 div#searchWidget {
   display: inline-flex;
@@ -171,9 +172,11 @@ input#codeSearch {
   position: relative;
   display: inline-flex;
   width:100%;
-  margin-top: 10px;
-  padding-left: 2%; /*  using margins doesnt work for edit dance button */
-  padding-right: 2%;
+  /*padding-top: 10px;
+  padding-bottom: 10px;*/
+  padding-left: 0px; /*  using margins doesnt work for edit dance button */
+  padding-right: 10px;
+  background-color:rgb(220,220,220);
 }
 #watchDance {
   position: absolute;
@@ -232,20 +235,32 @@ input#codeSearch {
 #hamburger {
   background: none;
   position: relative;
+  height:auto;
   top: 0;
   left: 0;
   line-height: 45px;
   color: #999;
-  border: 0;
   font-size: 2em;
   font-weight: bold;
   cursor: pointer;
   outline: none;
   z-index: 10000000000000;
+  border:0;
+  padding-left:10px;
+  padding-bottom:5px;
 }
+
+#hamburgerimg{
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+
 #logo {
     position: relative;
-    top: -5;
+    padding-top: 5px;
+    top: 0;
+    left: 10px;
 }
 #countoff {
   width: 40px;
