@@ -422,7 +422,7 @@
       return $.getUrlVars()[name];
     }
   });
-  
+
   var title;
   $(document).ready(function() {
     title = $.getUrlVar("title");
@@ -915,7 +915,7 @@
 
   $(document).on('keyup', "#speed", function(evt) {
     var inputtedSpeed = $("#speed").val(); //the original value entered in the textbox
-    var speed = $("#speed").val(); 
+    var speed = $("#speed").val();
     var re = /\d?\.?\d+x?/;
 
     //adjusts the inputted speed so that it is within SPEED_MIN and SPEED_MAX and saves this new value in speed
@@ -951,6 +951,9 @@
 
   $(document).keypress(function(evt) {
     // handle space characater
+    if (evt.target.id=="codeSearch") {
+      return;
+    }
     if (evt.charCode == 32) {
       evt.preventDefault();
       $("#playPause").trigger("click");
@@ -1018,7 +1021,7 @@
       } else {
         window.location.href='choreo.html?title=Chicken%20Dance';
       }
-      
+
     });
     // taken from http://stackoverflow.com/questions/7836204/chrome-fullscreen-api
     function isFullScreen()
