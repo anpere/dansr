@@ -56,9 +56,13 @@
 
             console.log("h");
             location.href = "dancer.html";
-    }
-  });
+        }
+      });
 
+    });
+
+    $(document).on('click', "#danceSubmit", function(event) {
+      window.location.href='choreo.html?title=' + $("#title").val();
     });
     </script>
 
@@ -96,7 +100,7 @@
         </div>
 
         <div id="settings" class="textbox">
-            Dance Title: <input form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the title (or name) of the dance.">
+            Dance Title: <input id="title" form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the title (or name) of the dance.">
         </div>
 
         <div id="upload">
@@ -104,7 +108,7 @@
         </div>
 
         <div id="buttons">
-            <button class="btn" id="danceSubmit" onclick="location.href='choreo.html'"> Create Dance </button>
+            <button class="btn" id="danceSubmit"> Create Dance </button>
             <button class="btn" id="danceCancel" onclick="location.href='homepage.html'"> Cancel </button>
         </div>
     </div>
