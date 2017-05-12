@@ -110,6 +110,9 @@ input#codeSearch {
   width: 100%;
   border: 1px solid black;
   margin: 0 auto;
+  padding-left:15px;
+  padding-right:15px;
+  background-color:black;
 }
 #toolbar {
   display: flex;
@@ -193,38 +196,39 @@ input#codeSearch {
   width: 100%;
   display: inline-flex;
   position: relative;
+  background-color: black;
 }
 #section1 {
   position: absolute;
   border-radius: 5px;
-  border: 2px solid cornflowerblue;
   top: 0px;
   left: 0%;
   right:85%;
-  background-color: yellow;
-    cursor: pointer;
+  border: 2px solid  black;
+  background-color: powderblue;
+  cursor: pointer;
 
 }
 #section2 {
   right: 75%;
   position: absolute;
   border-radius: 5px;
-  border: 2px solid cornflowerblue;
   top: 0px;
   left: 15%;
-  background-color: green;
-    cursor: pointer;
+  border: 2px solid  black;
+  background-color: plum;
+  cursor: pointer;
 
 }
 #section3 {
   right: 0%;
   position: absolute;
   border-radius: 5px;
-  border: 2px solid cornflowerblue;
+  border: 2px solid  black;
   top: 0px;
   left: 25%;
-  background-color: yellow;
-    cursor: pointer;
+  background-color: powderblue;
+  cursor: pointer;
 
 }
 .grey {
@@ -375,21 +379,21 @@ div.toolbar-pane p {
 }
 
 #handlebarright {
-  width: 20 !important;
-  height: 20 !important;
-  margin-left: -10;
-  margin-top: -53;
+  width: 30 !important;
+  height: 30 !important;
+  margin-left: -15;
+  margin-top: -62;
 }
 #handlebarleft {
-  width: 20 !important;
-  height: 20 !important;
-  margin-left: -10;
-  margin-top: -53;
+  width: 30 !important;
+  height: 30 !important;
+  margin-left: -15;
+  margin-top: -62;
 }
 #indicatorBar {
-  width: 15 !important;
+  width: 33 !important;
   height: 33 !important;
-  margin-left: -5;
+  margin-left: -16;
   margin-top: 0;
 }
 #handlebarright:hover {

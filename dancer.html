@@ -98,7 +98,7 @@
 
   // return the width of the seekbar
   getSeekbarWidth = function(){
-    return $('#seekbar').width();
+    return $('#seekbar').width()-33;
   }
 
   // get the video dom object
@@ -925,7 +925,7 @@
         <div id ="seekbar">
 
           <div id="indicator" class="ui-draggable ui-draggable-handle disable-selection">
-            <img id="indicatorBar" src="images/seekbar.svg" alt="progress indicator" draggable="false">
+            <img id="indicatorBar" src="images/circle.svg" alt="progress indicator" draggable="false">
           </div>
 
           <div id="sectionStart" class="ui-draggable ui-draggable-handle handlebar disable-selection">
