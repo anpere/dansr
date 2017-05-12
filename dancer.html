@@ -866,7 +866,7 @@
   $(document).keypress(function(evt) {
     if (evt.charCode == 32) {
       evt.preventDefault();
-      console.log("space");
+      $("#playPause").trigger("click");
     }
   });
 
