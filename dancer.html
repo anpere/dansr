@@ -58,10 +58,27 @@
 
   /************************ Helper Functions ********************/
 
+  updateTimestamp = function (currentTime, duration) {
+      var currentMin = ~~(~~(currentTime / 60)/1)
+      var currentSec = ~~(currentTime % 60/1)
+      var totalMin = ~~(duration / 60)
+      var totalSec = ~~(duration % 60 / 1)
+      if (currentSec < 10) {
+          currentSec = "0"+currentSec
+      }
+      if (totalSec < 10) {
+          totalSec = "0"+totalSec
+      }
+      $("#timestamp").text(currentMin+":"+currentSec + " / " + totalMin + ":" + totalSec);
+
+  }
+
   // function that plays the video starting at percentage
   // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
   // returns: null
-  loopVideoTo = function(percentage){
+  loopVideoTo = function (percentage) {
+
+
     var video = getVideo();
     video.currentTime = (percentage/100.) * video.duration;
 
@@ -70,6 +87,8 @@
     if (isPlayOn() && video.paused) {
       video.play()
     }
+    updateTimestamp(video.currentTime, video.duration)
+
   }
 
   // sets the speed of the video
@@ -334,7 +353,10 @@
   }
 
   // moves the indicator after pressing the play button
-  playIndicator = function() {
+  playIndicator = function () {
+      var video = getVideo();
+    updateTimestamp(video.currentTime, video.duration)
+
     // check if we are playing.
     console.log("in playIndicator")
     if (!isPlayOn() || startLoop) {
@@ -1023,6 +1045,9 @@ function exitHandler()
     </div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
+          <div id="timestamp">
+              0:00 / 0:31
+          </div>
         <!-- https://www.w3schools.com/html/html5_video.asp -->
         <div id="countoffVisual"></div>
         <video id="videoBox">
