@@ -766,13 +766,13 @@
       commentsOn();
     }
   });
-  
+
   commentsOn = function () {
     isCommentsOn = true;
     commentsButton.setAttribute("style", "background-image:url('images/comments_on.svg');");
     $("#comments").fadeIn(200);
   }
-  
+
   commentsOff = function() {
     isCommentsOn = false;
     commentsButton.setAttribute("style", "background-image:url('images/comments_off.svg');");
@@ -942,6 +942,7 @@
   // courtesy of: http://stackoverflow.com/questions/10706070/how-to-detect-when-a-page-exits-fullscreen
   function toggleFullScreen(element)
   {
+    document.getElementById("codeSearch").focus();
       if (isFullScreen()) {
           document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen.svg')")
           document.getElementById("contentContainer").setAttribute("style", "")
@@ -1084,7 +1085,7 @@ function exitHandler()
           <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
 
           <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
-          
+
           <button type="button" class="btn btn-primary tool-icon" id="comments_visibility" style="background-image:url('images/comments_on.svg')" data-toggle="tooltip" data-placement="bottom" title="Show/Hide Comments"/>
 
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
