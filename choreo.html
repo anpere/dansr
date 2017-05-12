@@ -16,7 +16,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
+      $.extend({
+        getUrlVars: function() {
+          var vars = [], pair;
+          var pairs = window.location.search.substr(1).split('&');
+          for (var i = 0; i < pairs.length; i++) {
+            pair = pairs[i].split('=');
+            vars.push(pair[0]);
+            vars[pair[0]] = pair[1] &&
+                decodeURIComponent(pair[1].replace(/\+/g, ' '));
+          }
+          return vars;
+        },
+        getUrlVar: function(name) {
+          return $.getUrlVars()[name];
+        }
+      });
+
       $(document).ready(function() {
+        var title = $.getUrlVar("title");
+        $("#title").text(title);
 
         $(".cross").hide();
         $(".menu").hide();
@@ -119,26 +138,19 @@
 <body>
     <!-- <h1> This is an awesome Dancer interface</h1> -->
     <div id ="top">
-        <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
-        <div>
-          <button id="hamburger">
-            <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
-          </button>
-        </div>
+      <button id="hamburger">
+        <img id="hamburgerimg" src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="50px" alt="dancer menu">
+      </button>
+      <a href="homepage.html" id="logo"><img alt="homepage" src="images/dansrlogo.svg" height="40"/></a>
 
-        <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
-        <div id ="search">
-          <div class="ui-widget" id="searchWidget">
-            <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-            </div>
+      <div id ="search">
+        <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
+          <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
+          <span class="btnSearch ui-state-default" title="search">
+            <img src="images/search.svg" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
+          </span>
         </div>
-    
-        <button class="btn" id="watchDance" onclick="location.href='dancer.html'">
-            <img src="images/video.svg"> 
-            <div id="watchDanceText">
-                Watch Dance
-            </div>
-        </button>    
+      </div>
     </div>
 
      <div class="menu">
@@ -149,9 +161,22 @@
       </ul>
     </div>
 
+    <div id="videoHeader" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
+        <h1 id="title">
+            Title
 
-    <div id="content" style="width:80%; margin: 0 auto">
+            <button class="btn" id="watchDance" onclick="location.href='dancer.html'">
+              <img src="images/video.svg"> 
+              <div id="watchDanceText">
+                  Watch Dance
+              </div>
+          </button>
+        </h1>
+      </div>
+
+    <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
     <div id="video">
+      <div id="videoSpace" style="height: 480px;"></div>
       <button type="button" class="btn btn-primary" id="addComment">Add comment &#43;</button>
         <div class="btn-group" id="choreoTools">
             <button type="button" class="btn btn-primary tool-icon" id="addSection" style="background-image:url('images/plus.svg')"/>

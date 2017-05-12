@@ -71,7 +71,7 @@ body {
   margin-right: auto;
   position: relative;
 }
-#title {
+#videoHeader {
     margin-top: 25;
 }
 #search {
@@ -176,11 +176,6 @@ input#codeSearch {
   padding-right: 10px;
   background-color:rgb(220,220,220);
 }
-#watchDance {
-  position: absolute;
-  right: 0;
-
-}
 .section {
   z-index: 1;
   height: 33px;
@@ -195,33 +190,40 @@ input#codeSearch {
   width: 100%;
   display: inline-flex;
   position: relative;
+  background-color:black;
 }
 #section1 {
   position: absolute;
-  border-radius: 25px;
-  border: 2px solid cornflowerblue;
+  border-radius: 5px;
   top: 0px;
   left: 0%;
   right:85%;
-  background-color: yellow;
+  border: 2px solid  black;
+  background-color: powderblue;
+  cursor: pointer;
+
 }
 #section2 {
   right: 75%;
   position: absolute;
-  border-radius: 25px;
-  border: 2px solid cornflowerblue;
+  border-radius: 5px;
   top: 0px;
   left: 15%;
-  background-color: green;
+  border: 2px solid  black;
+  background-color: plum;
+  cursor: pointer;
+
 }
 #section3 {
   right: 0%;
   position: absolute;
-  border-radius: 25px;
-  border: 2px solid cornflowerblue;
+  border-radius: 5px;
+  border: 2px solid  black;
   top: 0px;
   left: 25%;
-  background-color: yellow;
+  background-color: powderblue;
+  cursor: pointer;
+
 }
 .grey {
   position: absolute;
@@ -375,16 +377,16 @@ div.toolbar-pane p {
 }
 
 #handlebarright {
-  width: 20 !important;
-  height: 20 !important;
-  margin-left: -10;
-  margin-top: -53;
+  width: 30 !important;
+  height: 30 !important;
+  margin-left: -15;
+  margin-top: -62;
 }
 #handlebarleft {
-  width: 20 !important;
-  height: 20 !important;
-  margin-left: -10;
-  margin-top: -53;
+  width: 30 !important;
+  height: 30 !important;
+  margin-left: -15;
+  margin-top: -62;
 }
 #indicatorBar {
   width: 15 !important;
@@ -435,4 +437,12 @@ div.toolbar-pane p {
 }
 :-webkit-full-screen #comments {
   top:78% !important;
+}
+
+#timestamp{
+    padding-left:20px;
+    padding-top:10px;
+    position:absolute;
+    color:white;
+    font-size:20px;
 }

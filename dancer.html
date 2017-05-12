@@ -58,10 +58,27 @@
 
   /************************ Helper Functions ********************/
 
+  updateTimestamp = function (currentTime, duration) {
+      var currentMin = ~~(~~(currentTime / 60)/1)
+      var currentSec = ~~(currentTime % 60/1)
+      var totalMin = ~~(duration / 60)
+      var totalSec = ~~(duration % 60 / 1)
+      if (currentSec < 10) {
+          currentSec = "0"+currentSec
+      }
+      if (totalSec < 10) {
+          totalSec = "0"+totalSec
+      }
+      $("#timestamp").text(currentMin+":"+currentSec + " / " + totalMin + ":" + totalSec);
+
+  }
+
   // function that plays the video starting at percentage
   // percentage: integer in range [0,100] represents percentage into the video thot the video should be started at
   // returns: null
-  loopVideoTo = function(percentage){
+  loopVideoTo = function (percentage) {
+
+
     var video = getVideo();
     video.currentTime = (percentage/100.) * video.duration;
 
@@ -70,6 +87,8 @@
     if (isPlayOn() && video.paused) {
       video.play()
     }
+    updateTimestamp(video.currentTime, video.duration)
+
   }
 
   // sets the speed of the video
@@ -337,7 +356,10 @@
   }
 
   // moves the indicator after pressing the play button
-  playIndicator = function() {
+  playIndicator = function () {
+      var video = getVideo();
+    updateTimestamp(video.currentTime, video.duration)
+
     // check if we are playing.
     console.log("in playIndicator")
     if (!isPlayOn() || startLoop) {
@@ -758,13 +780,13 @@
       commentsOn();
     }
   });
-  
+
   commentsOn = function () {
     isCommentsOn = true;
     commentsButton.setAttribute("style", "background-image:url('images/comments_on.svg');");
     $("#comments").fadeIn(200);
   }
-  
+
   commentsOff = function() {
     isCommentsOn = false;
     commentsButton.setAttribute("style", "background-image:url('images/comments_off.svg');");
@@ -861,18 +883,25 @@
   });
 
   $(document).on('keyup', "#speed", function(evt) {
-    var speed = $("#speed").val();
-
+    var inputtedSpeed = $("#speed").val(); //the original value entered in the textbox
+    var speed = $("#speed").val(); 
     var re = /\d?\.?\d+x?/;
 
-    if(re.test(speed)) { //valid speed string
-			speed = parseFloat(speed);
+    //adjusts the inputted speed so that it is within SPEED_MIN and SPEED_MAX and saves this new value in speed
+    if(re.test(inputtedSpeed)) { //valid speed string
+			speed = parseFloat(inputtedSpeed);
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
     }
 
     setVideoSpeed(last_valid_speed);
+
+    // if the inputted speed hass been capped by the max or min, update the textbox to reflect this
+    if (speed != inputtedSpeed) {
+      $("#speed").val(last_valid_speed.toFixed(1.));
+      $("#speed").effect("shake", {times:2, distance:3});
+    }
   });
 
 
@@ -890,11 +919,63 @@
   });
 
   $(document).keypress(function(evt) {
+    // handle space characater
     if (evt.charCode == 32) {
       evt.preventDefault();
       $("#playPause").trigger("click");
     }
+    // = key which is the same key as plus, which users may use to speed up
+    if (evt.charCode == 61 || evt.charCode == 43) {
+      $("#speedPlus").click();
+    }
+    // - should handle speedMinus
+    if (evt.charCode == 45){
+      $("#speedMinus").click();
+    }
+    if (evt.charCode == 108){
+      $("#loop").click();
+    }
+    if (evt.charCode == 109){
+      $("#metronome").click();
+    }
   });
+  $(document).on("keydown", function(evt){
+    var keyCode = evt.keyCode;
+    switch(keyCode) {
+      // left
+      case 37:
+        setIndicatorPosition(Math.max(getIndicatorPosition()-2, 0))
+        if (getHandleStartPosition()>getIndicatorPosition()){
+          setHandleStartPosition(getIndicatorPosition());
+        }
+        break;
+      // up
+      case 38:
+        console.log("38")
+        setHandleStartPosition(getIndicatorPosition())
+        break;
+      // right
+      case 39:
+        setIndicatorPosition(Math.min(getIndicatorPosition()+2, 100))
+        if (getHandleEndPosition()<getIndicatorPosition()){
+          setHandleEndPosition(getIndicatorPosition());
+        }
+        break;
+      // down
+      case 40:
+        setHandleEndPosition(getIndicatorPosition())
+        console.log("down")
+        break;
+      default:
+        console.log("neither")
+    }
+    loopVideoTo(getIndicatorPosition())
+  })
+
+  // handles efficiency and all that jazz...
+  $(document).on('click', ".btn", function (evt) {
+    $(':focus').blur();
+    })
 
   $(document).on('click', '#fullscreen', function (evt) {
     toggleFullScreen(document.getElementById("contentContainer"));
@@ -934,6 +1015,7 @@
   // courtesy of: http://stackoverflow.com/questions/10706070/how-to-detect-when-a-page-exits-fullscreen
   function toggleFullScreen(element)
   {
+    document.getElementById("codeSearch").focus();
       if (isFullScreen()) {
           document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen.svg')")
           document.getElementById("contentContainer").setAttribute("style", "")
@@ -1000,7 +1082,7 @@ function exitHandler()
 
 
     <div id="contentContainer">
-    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
+    <div id="videoHeader" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
         <h1>
             Chicken Dance
 
@@ -1015,12 +1097,15 @@ function exitHandler()
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="videoSeek">
         <div id="video">
+          <div id="timestamp">
+              0:00 / 0:31
+          </div>
           <!-- https://www.w3schools.com/html/html5_video.asp -->
           <div id="countoffVisual"></div>
           <video id="videoBox">
-          <source src="images/chicken.MOV">
-            Your browser does not support the video tag.
-          </video>
+            <source src="images/chicken.MOV">
+              Your browser does not support the video tag.
+            </video>
         </div>
 
         <div id ="seekbar">
@@ -1078,7 +1163,7 @@ function exitHandler()
           <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
 
           <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
-          
+
           <button type="button" class="btn btn-primary tool-icon" id="comments_visibility" style="background-image:url('images/comments_on.svg')" data-toggle="tooltip" data-placement="bottom" title="Show/Hide Comments"/>
 
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
@@ -1099,7 +1184,7 @@ function exitHandler()
     <!-- Comments Pane -->
     <div id="comments">
         <div id="comments-pane" class="pane" data-toggle="tooltip" data-placement="bottom" title="Choreographer Comments">
-            <p class="comments-content">Comments appear here...</p>
+            <p class="comments-content disable-selection" style="cursor: default">Comments appear here...</p>
         </div>
     </div>
   </div>
