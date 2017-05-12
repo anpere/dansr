@@ -44,12 +44,12 @@
 
         // hides the menu after the page is loaded
         $( ".menu" ).hide();
-        
+
         // shows/hides the menu after pressing the hamburger button
         $("#hamburger").click(function() {
             $( ".menu" ).slideToggle("slow");
         });
-        
+
         $( "#codeSearch" ).autocomplete({
           source: availableCodes
         });
@@ -67,15 +67,15 @@
         if(e.which == 13) {
             //Add entered code to auto-complete list:
             availableCodes.push($('#codeSearch').val());
-            
+
             $( "#codeSearch" ).val(""); //Uncomment to clear text field
 
             $( "#codeSearch" ).autocomplete({
                 source: availableCodes
             });
-            
+
             console.log("h");
-            location.href = "http://web.mit.edu/anpere/www/dansr/dancer.html";
+            location.href = "dancer.html";
     }
   });
 
@@ -100,7 +100,7 @@
       </div>
 
       <button class="btn" id="newDance" onclick="location.href='create.html'">
-          <img src="images/plus.svg"> 
+          <img src="images/plus.svg">
           <div id="newDanceText">
               Create New Dance
           </div>
