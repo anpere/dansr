@@ -955,12 +955,7 @@ function exitHandler()
       </div>
     </div>
 
-    <button class="btn" id="editDance" onclick="location.href='choreo.html'">
-      <img src="images/edit.svg" alt="edit video"/>
-      <div id="editDanceText">
-        Edit Dance
-      </div>
-    </button>
+
   </div>
     <!--Hamburger menu dropdown-->
     <div class="menu">
@@ -971,9 +966,20 @@ function exitHandler()
         </ul>
     </div>
 
-    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto"><h1>Chicken Dance</h1></div>
 
     <div id="contentContainer">
+    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
+        <h1>
+            Chicken Dance
+
+            <button class="btn" id="editDance" onclick="location.href='choreo.html'" >
+                <img src="images/edit.svg" alt="edit video" />
+                <div id="editDanceText" >
+                    Edit Dance
+                </div>
+            </button>
+        </h1>
+    </div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
@@ -1039,6 +1045,8 @@ function exitHandler()
 
           <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
+
+
 
         </div>
       </div>
