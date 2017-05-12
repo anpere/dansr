@@ -312,6 +312,9 @@
     } else {
       clearInterval(continueCountoffIndicator);
       $("#countoffVisual").text("");
+      if (isPlayOn()) {
+        play();
+      }
     }
   }
 
@@ -555,7 +558,6 @@
       $("#indicator").animate({left: leftPx.toString() }, 50, function() {
         //on completed animation
         if(clicking) {
-          console.log("clocking");
           $("#videoSeek").bind('mousemove', function (e) {
             e.preventDefault();
             var position = e.pageX - $("#seekbar").position().left;
@@ -645,7 +647,7 @@
                 setHandleStartPosition(fractionPosition*100);
   
               if(fractionPosition*100 - getHandleEndPosition() > 1)
-                setHandleEndPosition(fractionPosition*100);
+                setHandleEndPosition((fractionPosition + 0.01)*100);
         
               setIndicatorPosition(fractionPosition * 100);
               // Keep triggering 'move' while click-and-dragging
@@ -696,7 +698,6 @@
 
   $(document).on('click', "#playPause", function(evt)
   {
-    clearInterval(continueCountoffIndicator);
     console.log("playon: " + isPlayOn);
     if (!isPlayOn()){
       if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17 && !startLoop) {
