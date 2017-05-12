@@ -149,7 +149,6 @@ input#codeSearch {
   display: flex;
   border-style: solid;
   width: 100%;
-  height: 480px;
   max-height: 480px;
   margin-left: auto;
   margin-right: auto;
@@ -410,13 +409,19 @@ div.toolbar-pane p {
 }
 
 :-webkit-full-screen #content {
-  font-size: 20px;
-  width: 100%;
-  width: 100vw;
+  left: 0px;
+  /* font-size: 20px; */
+  width: 100vw !important;
   bottom: 0;
-  position: fixed;;
+  position: fixed;
+  margin: auto;
+  max-width: none !important;
 }
 :-moz-full-screen #content {
   font-size: 20px;
   width: 100%;
+}
+:-webkit-full-screen #video {
+  height: none;
+  max-height: none;
 }

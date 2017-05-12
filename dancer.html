@@ -865,7 +865,7 @@
 
 
   $(document).on('click', '#fullscreen', function (evt) {
-    toggleFullScreen(document.getElementById("content"));
+    toggleFullScreen(document.getElementById("contentContainer"));
   });
     // taken from http://stackoverflow.com/questions/7836204/chrome-fullscreen-api
     function isFullScreen()
@@ -904,10 +904,13 @@
   {
       if (isFullScreen()) {
           document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen.svg')")
+          document.getElementById("contentContainer").setAttribute("style", "")
           exitFullScreen();
         }
       else {
           document.getElementById("fullscreen").setAttribute("style", "margin-left: auto; background-image:url('images/fullscreen_exit.svg')")
+          document.getElementById("contentContainer").setAttribute("style", "height: 100%; background: black;")
+
           requestFullScreen(element || document.documentElement);
         }
   }
@@ -950,6 +953,8 @@
     </div>
 
     <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto"><h1>Chicken Dance</h1></div>
+
+    <div id="contentContainer">
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
       <div id="video">
         <!-- https://www.w3schools.com/html/html5_video.asp -->
@@ -1018,7 +1023,7 @@
 
         </div>
       </div>
-
+    </div>
     <!-- Formation Diagram Pane-->
     <div id="formations">
         <div height="10px">
