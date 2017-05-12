@@ -33,9 +33,12 @@
         }
       });
 
+      var title;
       $(document).ready(function() {
-        var title = $.getUrlVar("title");
-        $("#title").text(title);
+        title = $.getUrlVar("title");
+        if (title) {
+          $("#title").text(title);
+        }
 
         $(".cross").hide();
         $(".menu").hide();
@@ -131,6 +134,15 @@
         });
     });
 
+    $(document).on('click', "#watchDance", function(event) {
+      if (title) {
+        window.location.href='dancer.html?title=' + title;
+      } else {
+        window.location.href='dancer.html';
+      }
+      
+    });
+
     </script>
 </head>
 
@@ -162,10 +174,10 @@
     </div>
 
     <div id="videoHeader" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
-        <h1 id="title">
-            Title
+        <h1>
+            <div id="title" style="display: inline"> Title </div>
 
-            <button class="btn" id="watchDance" onclick="location.href='dancer.html'">
+            <button class="btn" id="watchDance">
               <img src="images/video.svg"> 
               <div id="watchDanceText">
                   Watch Dance
