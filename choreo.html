@@ -138,26 +138,19 @@
 <body>
     <!-- <h1> This is an awesome Dancer interface</h1> -->
     <div id ="top">
-        <!-- this is for the hamburger menu, logo, and watch/edit dance button-->
-        <div>
-          <button id="hamburger">
-            <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
-          </button>
-        </div>
+      <button id="hamburger">
+        <img id="hamburgerimg" src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="50px" alt="dancer menu">
+      </button>
+      <a href="homepage.html" id="logo"><img alt="homepage" src="images/dansrlogo.svg" height="40"/></a>
 
-        <a href="homepage.html" id="logo"><img src="images/dansrlogo.svg" height="40"/></a>
-        <div id ="search">
-          <div class="ui-widget" id="searchWidget">
-            <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code: Chicken Dance">
-            </div>
+      <div id ="search">
+        <div class="ui-toolbar ui-widget-header ui-helper-clearfix" id="searchWidget">
+          <input id="codeSearch" class="ui-autocomplete-input" placeholder="Dance Code"/>
+          <span class="btnSearch ui-state-default" title="search">
+            <img src="images/search.svg" style="min-width:100%; min-height:100%; flex-shrink:0;"/>
+          </span>
         </div>
-    
-        <button class="btn" id="watchDance" onclick="location.href='dancer.html'">
-            <img src="images/video.svg"> 
-            <div id="watchDanceText">
-                Watch Dance
-            </div>
-        </button>    
+      </div>
     </div>
 
      <div class="menu">
@@ -168,7 +161,19 @@
       </ul>
     </div>
 
-    <h1 id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto"> Dance Title </h1>
+    <div id="videoHeader" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
+        <h1 id="title">
+            Title
+
+            <button class="btn" id="watchDance" onclick="location.href='dancer.html'">
+              <img src="images/video.svg"> 
+              <div id="watchDanceText">
+                  Watch Dance
+              </div>
+          </button>
+        </h1>
+      </div>
+
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
     <div id="video">
       <div id="videoSpace" style="height: 480px;"></div>

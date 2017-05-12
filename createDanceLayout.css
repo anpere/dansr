@@ -1,8 +1,12 @@
 #top {
   position: relative;
-  margin-top: 10;
-  margin-left: 10;
-  margin-right: 10;
+  display: inline-flex;
+  width:100%;
+  /*padding-top: 10px;
+  padding-bottom: 10px;*/
+  padding-left: 0px; /*  using margins doesnt work for edit dance button */
+  padding-right: 10px;
+  background-color:rgb(220,220,220);
 }
 #newDance {
   display: inline-flex;
@@ -44,20 +48,29 @@
 #hamburger {
   background: none;
   position: relative;
+  height:auto;
   top: 0;
   left: 0;
   line-height: 45px;
   color: #999;
-  border: 0;
   font-size: 2em;
   font-weight: bold;
   cursor: pointer;
   outline: none;
   z-index: 10000000000000;
+  border:0;
+  padding-left:10px;
+  padding-bottom:5px;
+}
+#hamburgerimg{
+    padding-top:10px;
+    padding-bottom:10px;
 }
 #logo {
     position: relative;
-    top: -5;
+    padding-top: 5px;
+    top: 0;
+    left: 10px;
 }
 .info {
   width: 25px;
@@ -66,21 +79,19 @@
 h1 {
   margin-bottom: 20px;
 }
-#search {
-  display: inline-flex;
-  overflow: hidden;
-  height: 50;
-  max-height: 28px;
-  width: 66%;
-  max-height: 480px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  left: 7%;
-}
 .textbox {
   text-align: center;
   margin: 10px;
+}
+#search {
+  display: inline-flex;
+  overflow: hidden;
+  height: 50px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding-top:5px;
 }
 div#searchWidget {
   display: inline-flex;
@@ -89,9 +100,16 @@ div#searchWidget {
   white-space: nowrap;
 }
 input#codeSearch {
-  margin-left: 25px;
+  padding-left: 10px;
   width: 100%;
   font-size: 1.25em;
+}
+.btnSearch {
+  cursor: pointer;
+  display: flex;
+  padding-right: 15px;
+  padding-left: 5px;
+  padding-bottom: 10px;
 }
 #searchWidget button {
   background: rgba(75, 205, 100, 0.5)

@@ -869,18 +869,25 @@
   });
 
   $(document).on('keyup', "#speed", function(evt) {
-    var speed = $("#speed").val();
-
+    var inputtedSpeed = $("#speed").val(); //the original value entered in the textbox
+    var speed = $("#speed").val(); 
     var re = /\d?\.?\d+x?/;
 
-    if(re.test(speed)) { //valid speed string
-			speed = parseFloat(speed);
+    //adjusts the inputted speed so that it is within SPEED_MIN and SPEED_MAX and saves this new value in speed
+    if(re.test(inputtedSpeed)) { //valid speed string
+			speed = parseFloat(inputtedSpeed);
 			speed = Math.max(speed, SPEED_MIN);
 			speed = Math.min(speed, SPEED_MAX);
 			last_valid_speed = speed;
     }
 
     setVideoSpeed(last_valid_speed);
+
+    // if the inputted speed hass been capped by the max or min, update the textbox to reflect this
+    if (speed != inputtedSpeed) {
+      $("#speed").val(last_valid_speed.toFixed(1.));
+      $("#speed").effect("shake", {times:2, distance:3});
+    }
   });
 
 
@@ -898,11 +905,63 @@
   });
 
   $(document).keypress(function(evt) {
+    // handle space characater
     if (evt.charCode == 32) {
       evt.preventDefault();
       $("#playPause").trigger("click");
     }
+    // = key which is the same key as plus, which users may use to speed up
+    if (evt.charCode == 61 || evt.charCode == 43) {
+      $("#speedPlus").click();
+    }
+    // - should handle speedMinus
+    if (evt.charCode == 45){
+      $("#speedMinus").click();
+    }
+    if (evt.charCode == 108){
+      $("#loop").click();
+    }
+    if (evt.charCode == 109){
+      $("#metronome").click();
+    }
   });
+  $(document).on("keydown", function(evt){
+    var keyCode = evt.keyCode;
+    switch(keyCode) {
+      // left
+      case 37:
+        setIndicatorPosition(Math.max(getIndicatorPosition()-2, 0))
+        if (getHandleStartPosition()>getIndicatorPosition()){
+          setHandleStartPosition(getIndicatorPosition());
+        }
+        break;
+      // up
+      case 38:
+        console.log("38")
+        setHandleStartPosition(getIndicatorPosition())
+        break;
+      // right
+      case 39:
+        setIndicatorPosition(Math.min(getIndicatorPosition()+2, 100))
+        if (getHandleEndPosition()<getIndicatorPosition()){
+          setHandleEndPosition(getIndicatorPosition());
+        }
+        break;
+      // down
+      case 40:
+        setHandleEndPosition(getIndicatorPosition())
+        console.log("down")
+        break;
+      default:
+        console.log("neither")
+    }
+    loopVideoTo(getIndicatorPosition())
+  })
+
+  // handles efficiency and all that jazz...
+  $(document).on('click', ".btn", function (evt) {
+    $(':focus').blur();
+    })
 
   $(document).on('click', '#fullscreen', function (evt) {
     toggleFullScreen(document.getElementById("contentContainer"));
@@ -1009,7 +1068,7 @@ function exitHandler()
 
 
     <div id="contentContainer">
-    <div id="title" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
+    <div id="videoHeader" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
         <h1>
             Chicken Dance
 
