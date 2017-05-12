@@ -127,7 +127,7 @@
   // " (number)s"
   // note the preceding space
   // length of string is padded to 4 characters with a space
-  countoffToString = function() {
+  countoffToString = function(countoff) {
     var toString = '&nbsp' + countoff + "s";
     if (countoff < 10){
       toString = '&nbsp' + '   ' + countoff + "s";
@@ -378,7 +378,6 @@
   }
 
   $(document).ready(function() {
-    countoff = this.value;
     bpm = getChoreoBPM();
 
     // set initial positions of window panes
@@ -710,25 +709,12 @@
     }
   });
 
-  // snaps the handlebars to the section boundaries
-  $(document).on('dblclick', ".section", function(evt) {
-    startLoop = false;
-    var rect = document.getElementById("seekbar").getBoundingClientRect();
-    var left = $(this).position().left;
-    var right = left + $(this).width() - 20;
-    var handle = document.getElementById("sectionEnd").getBoundingClientRect();
-    secEnd = right / $("#seekbar").width();
-    secStart = left / $("#seekbar").width();
-    $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
-    $("#grayLeft").css({"width": left});
-  });
-
   $(document).on('mousemove', "#countoffBar", function(evt){
     // set countoff
     countoff = this.value;
-
+    console.log("here");
     // set countoff display
-    document.getElementById("countoff").innerHTML = countoffToString();
+    document.getElementById("countoff").innerHTML = countoffToString(countoff);
   })
 
   $( function() {
@@ -862,6 +848,10 @@
       $(".menu").slideToggle("fast", function () {
       });
   });
+
+  document.onclick = function(evt) {
+    console.log(evt.target);
+  };
 
   </script>
 </head>
