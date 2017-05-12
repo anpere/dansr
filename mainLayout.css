@@ -425,3 +425,6 @@ div.toolbar-pane p {
   height: none;
   max-height: none;
 }
+:-webkit-full-screen #comments {
+  top:78% !important;
+}
