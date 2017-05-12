@@ -3,6 +3,8 @@
   <!--this is bootstrap if you want it-->
   <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
 
+  <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/tooltipster.bundle.min.css" />
+
   <link rel="stylesheet" href="mainLayout.css">
   <link rel='shortcut icon' href='images/dfavicon.png'/>
   <meta charset="UTF-8">
@@ -14,6 +16,7 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="js/ui/jquery.ui.draggable.js" type="type/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="tooltipster/dist/js/tooltipster.bundle.min.js"></script>
 
   <script>
 
@@ -416,6 +419,10 @@
 
     $(".cross").hide();
     $(".menu").hide();
+
+    $('.tooltip').tooltipster({
+        theme: 'tooltipster-noir'
+    });
   });
 
   $( "#codeSearch" ).autocomplete({
@@ -1139,10 +1146,10 @@ function exitHandler()
 
         <!--The toolbar controlling playback controls-->
         <div class="btn-group" id="toolbar">
-          <button type="button" class="btn btn-primary tool-icon" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
-          <button type="button" class="btn btn-primary tool-icon" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
-          <button type="button" class="btn btn-primary tool-icon" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
-          <button type="button" class="btn btn-primary tool-icon" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed by 0.1">
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="playPause" style="background-image:url('images/play.svg')" data-toggle="tooltip" data-placement="bottom" title="Play"/>
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="goBack" style="background-image:url('images/previous.svg')" data-toggle="tooltip" data-placement="bottom" title="Back to beginning of Selection"/>
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="loop" style="background-image:url('images/loop.svg')" data-toggle="tooltip" data-placement="bottom" title="Loop Selection"/>
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="speedMinus" style="background-image:url('images/minus.svg')" data-toggle="tooltip" data-placement="bottom" title="Decrease Speed by 0.1">
           </button>
           <!-- TODO(AP) make speed look more like a text box in the toolbar like in our prototype-->
           <!--The speed controller-->
@@ -1152,27 +1159,27 @@ function exitHandler()
               <input class="form-control" id="speed" autocomplete="off" value="1.0">
             </div>
           </form>
-          <button type="button" class="btn btn-primary tool-icon" id="speedPlus" style="background-image:url('images/plus.svg')" data-toggle="tooltip" data-placement="bottom" title="Increase Speed by 0.1">
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="speedPlus" style="background-image:url('images/plus.svg')" data-toggle="tooltip" data-placement="bottom" title="Increase Speed by 0.1">
           </button>
 
           <div style="display: inline-block">
             <div style="display: flex; margin-bottom: -3px">
-              <label id="countoffLabel" class="disable-selection" data-toggle="tooltip" data-placement="bottom" title="Time delay before the video starts">Start delay:&#160;</label>
+              <label id="countoffLabel" class="disable-selection tooltip" data-toggle="tooltip" data-placement="bottom" title="Time delay before the video starts">Start delay:&#160;</label>
               <div id="countoff">&#160 0s</div>
             </div>
-            <input id="countoffBar" title="Countoff Bar" type="range" min="0" max="30" step="1" value="0"></input>
+            <input id="countoffBar" class="tooltip" title="Countoff Bar" type="range" min="0" max="30" step="1" value="0"></input>
           </div>
 
-          <button type="button" class="btn btn-primary tool-icon" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="metronome" style="background-image:url('images/metronome.svg')" data-toggle="tooltip" data-placement="bottom" title="Toggle Metronome"/>
 
           <!-- TODO(AP) make not a button, but still look nice -->
-          <button type="button" class="btn btn-primary tool-icon" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="volume" style="background-image:url('images/volume.svg'); margin-left:auto" data-toggle="tooltip" data-placement="bottom" title="Volume">	</button>
 
-          <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
+          <input id ="volumeBar" class="tooltip" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
 
-          <button type="button" class="btn btn-primary tool-icon" id="comments_visibility" style="background-image:url('images/comments_on.svg')" data-toggle="tooltip" data-placement="bottom" title="Show/Hide Comments"/>
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="comments_visibility" style="background-image:url('images/comments_on.svg')" data-toggle="tooltip" data-placement="bottom" title="Show/Hide Comments"/>
 
-          <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
+          <button type="button" class="btn btn-primary tool-icon tooltip" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
 
 
 
