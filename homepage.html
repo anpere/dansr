@@ -38,6 +38,9 @@
   /************ Event Handlers ********/
   $(document).ready(function() {
     document.getElementById("codeSearch").focus();
+
+    $(".cross").hide();
+    $(".menu").hide();
   });
 
   $(document).on("click", "#searchButton", function(evt) {
@@ -74,12 +77,10 @@
     }
   });
 
-  // hides the menu after the page is loaded
-  $( ".menu" ).hide();
-
-  // shows/hides the menu after pressing the hamburger button
-  $("#hamburger").click(function() {
-    $( ".menu" ).slideToggle("slow");
+  //Hamburger menu code
+  $(document).on('click', '#hamburger', function (evt) {
+      $(".menu").slideToggle("fast", function () {
+      });
   });
 
   $( "#codeSearch" ).autocomplete({
@@ -106,24 +107,24 @@
       <button id="hamburger">
         <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" width="30px" height="30px">
       </button>
-      <!--
-      <div id="options" class="menu">
-      <ul>
-      <a href="#"><li> <img src="http://www.clipartkid.com/images/158/clipartbest-com-7TO9x9-clipart.png" width="20px" height="20px"> Create New Dance</li></a>
-      <a href="#"><li> <img src="http://mattvanderpol.com/images/star_selected.png" width="20px" height="20px"> Favorites</li></a>
-      <a href="#"><li> <img src="https://thetomatos.com/wp-content/uploads/2016/12/symbol-hourglass-clipart.png" width="15px" height="20px"> History</li></a>
+    </div>
+
+    <!--For now, this buton links directly to the choreographer interface-->
+    <button class="btn" id="newDance" onclick="location.href='choreo.html'">
+      <img src="images/plus.svg">
+      <div id="newDanceText">
+        Create New Dance
+      </div>
+    </button>
+  </div>
+
+  <div class="menu">
+    <ul>
+        <a href="create.html"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
+        <a href="dancelist.html?title=History"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
+        <a href="dancelist.html?title=Favorites"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
     </ul>
   </div>
--->
-</div>
-<!--For now, this buton links directly to the choreographer interface-->
-<button class="btn" id="newDance" onclick="location.href='choreo.html'">
-  <img src="images/plus.svg">
-  <div id="newDanceText">
-    Create New Dance
-  </div>
-</button>
-</div>
 
 <div id="title">
   <img id="logo" src="images/dansrlogo.svg">
