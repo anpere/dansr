@@ -689,8 +689,9 @@
     }
   });
 
-  $(document).on('click', "#playPause", function(evt)
-  {
+  // this function only exists to make code dry... didn't
+  // want to copy and paste code for video click event handler o
+  playHandler = function() {
     clearInterval(continueCountoffIndicator);
     console.log("playon: " + isPlayOn);
     if (!isPlayOn()){
@@ -708,7 +709,14 @@
       pause();
       $("#indicator").stop();
     }
+  }
+  $(document).on('click', "#playPause", function(evt)
+  {
+    playHandler();
   });
+  $(document).on('click', "#video", function (evt){
+    playHandler();
+  })
 
   // snaps the handlebars to the section boundaries
   $(document).on('dblclick', ".section", function(evt) {
