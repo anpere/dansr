@@ -24,12 +24,12 @@
 
         // hides the menu after the page is loaded
         $( ".menu" ).hide();
-        
+
         // shows/hides the menu after pressing the hamburger button
         $("#hamburger").click(function() {
             $( ".menu" ).slideToggle("slow");
         });
-        
+
         $( "#codeSearch" ).autocomplete({
           source: availableCodes
         });
@@ -47,15 +47,15 @@
         if(e.which == 13) {
             //Add entered code to auto-complete list:
             availableCodes.push($('#codeSearch').val());
-            
+
             $( "#codeSearch" ).val(""); //Uncomment to clear text field
 
             $( "#codeSearch" ).autocomplete({
                 source: availableCodes
             });
-            
+
             console.log("h");
-            location.href = "http://web.mit.edu/anpere/www/dansr/dancer.html";
+            location.href = "dancer.html";
     }
   });
 
@@ -84,8 +84,8 @@
     <div class="menu">
         <ul>
             <a href="create.html"><li><img class="menuSymbol" src="images/plus.svg">Create Dance</li></a>
-            <a href="#"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
-            <a href="#"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
+            <a href="dancelist.html?title=History"><li><img class="menuSymbol" src="images/history.svg">Recently Watched</li></a>
+            <a href="dancelist.html?title=Favorites"><li><img class="menuSymbol" src="images/star.svg">Favorites</li></a>
         </ul>
     </div>
 
@@ -95,11 +95,11 @@
             Dance Code: <input form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the code that will be used to access the dance.">
         </div>
 
-        <div id="settings" class="textbox"> 
+        <div id="settings" class="textbox">
             Dance Title: <input form="text"> <img class="info" src="images/info.svg" data-toggle="tooltip" title="This is the title (or name) of the dance.">
         </div>
-    
-        <div id="upload"> 
+
+        <div id="upload">
             <button id="file"> Select File </button> danceVideo.avi
         </div>
 
