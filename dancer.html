@@ -29,6 +29,7 @@
   var isLoopOn = false;
   var isMetronomeOn = false;
   var isCommentsOn = true;
+  var isFormationOn = true;
 
   // to turn of debugging statements
   var debugOn = true;
@@ -755,6 +756,33 @@
     }
   });
 
+
+  //Toggle formation visibility
+
+  $(document).on('click', '#formation_visibility', function (evt) {
+      debug("#formation onClick");
+      formationButton = document.getElementById("formation_visibility");
+      if (isFormationOn) {
+          formationOff();
+      }
+      else {
+          formationOn();
+      }
+  });
+
+
+  formationOn = function () {
+      isFormationOn = true;
+      formationButton.setAttribute("style", "background-image:url('images/formation.svg');");
+      $("#formations").fadeIn(200);
+  }
+
+  formationOff = function () {
+      isFormationOn = false;
+      formationButton.setAttribute("style", "background-image:url('images/formationoff.svg');");
+      $("#formations").fadeOut(200);
+  }
+
   //Toggle comments visibility
   $(document).on('click', '#comments_visibility', function (evt) {
     debug("#comments onClick");
@@ -769,13 +797,13 @@
 
   commentsOn = function () {
     isCommentsOn = true;
-    commentsButton.setAttribute("style", "background-image:url('images/comments_on.svg');");
+    commentsButton.setAttribute("style", "background-image:url('images/cc.svg');");
     $("#comments").fadeIn(200);
   }
 
   commentsOff = function() {
     isCommentsOn = false;
-    commentsButton.setAttribute("style", "background-image:url('images/comments_off.svg');");
+    commentsButton.setAttribute("style", "background-image:url('images/ccoff.svg');");
     $("#comments").fadeOut(200);
   }
 
@@ -1138,7 +1166,8 @@ function exitHandler()
 
           <input id ="volumeBar" title="Volume Bar" type="range" min="0" max="100" step="1"></input>
 
-          <button type="button" class="btn btn-primary tool-icon" id="comments_visibility" style="background-image:url('images/comments_on.svg')" data-toggle="tooltip" data-placement="bottom" title="Show/Hide Comments"/>
+          <button type="button" class="btn btn-primary tool-icon" id="comments_visibility" style="background-image:url('images/cc.svg')" data-toggle="tooltip" data-placement="bottom" title="Show/Hide Comments"/>
+          <button type="button" class="btn btn-primary tool-icon" id="formation_visibility" style="background-image:url('images/formation.svg')" data-toggle="tooltip" data-placement="bottom" title="Show/Hide Formation Diagram" />
 
           <button type="button" class="btn btn-primary tool-icon" id="fullscreen" style="background-image:url('images/fullscreen.svg'); margin-left:auto;" data-toggle="tooltip" data-placement="bottom" title="Fullscreen"/>
 
