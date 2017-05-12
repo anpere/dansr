@@ -171,12 +171,8 @@ input#codeSearch {
   display: inline-flex;
   width:100%;
   margin-top: 10px;
-  padding-left: 2%; /*  using margins doesnt work for edit dance button */
-  padding-right: 2%;
-}
-#watchDance {
-  position: absolute;
-  right: 0;
+  padding-left: 1%; /*  using margins doesnt work for edit dance button */
+  padding-right: 1%;
 }
 .section {
   z-index: 1;
@@ -249,7 +245,7 @@ input#codeSearch {
 #countoff {
   width: 40px;
 }
-#editDance {
+#editDance, #watchDance {
   display: inline-flex;
   text-align: center;
   vertical-align: middle;
@@ -260,14 +256,6 @@ input#codeSearch {
   padding-top: 4px;
   margin: 0px;
   padding-left: 8px;
-}
-#watchDance {
-  display: inline-flex;
-  position: absolute;
-  text-align: center;
-  vertical-align: middle;
-  padding-left: 19px;
-  padding-bottom: 12px;
 }
 #watchDanceText {
   padding-top: 4px;
