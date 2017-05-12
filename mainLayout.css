@@ -74,7 +74,6 @@ body {
 }
 #title {
     margin-top: 25;
-    border:solid;
 }
 #search {
   display: inline-flex;
@@ -197,30 +196,36 @@ input#codeSearch {
 }
 #section1 {
   position: absolute;
-  border-radius: 25px;
+  border-radius: 5px;
   border: 2px solid cornflowerblue;
   top: 0px;
   left: 0%;
   right:85%;
   background-color: yellow;
+    cursor: pointer;
+
 }
 #section2 {
   right: 75%;
   position: absolute;
-  border-radius: 25px;
+  border-radius: 5px;
   border: 2px solid cornflowerblue;
   top: 0px;
   left: 15%;
   background-color: green;
+    cursor: pointer;
+
 }
 #section3 {
   right: 0%;
   position: absolute;
-  border-radius: 25px;
+  border-radius: 5px;
   border: 2px solid cornflowerblue;
   top: 0px;
   left: 25%;
   background-color: yellow;
+    cursor: pointer;
+
 }
 .grey {
   position: absolute;
@@ -255,7 +260,6 @@ input#codeSearch {
   display: inline-flex;
   text-align: center;
   vertical-align: middle;
-  border:solid;
   float:right;
   margin-top:5px;
 }
