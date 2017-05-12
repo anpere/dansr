@@ -150,7 +150,7 @@
   // " (number)s"
   // note the preceding space
   // length of string is padded to 4 characters with a space
-  countoffToString = function() {
+  countoffToString = function(countoff) {
     var toString = '&nbsp' + countoff + "s";
     if (countoff < 10){
       toString = '&nbsp' + '   ' + countoff + "s";
@@ -335,6 +335,9 @@
     } else {
       clearInterval(continueCountoffIndicator);
       $("#countoffVisual").text("");
+      if (isPlayOn()) {
+        play();
+      }
     }
   }
 
@@ -609,7 +612,8 @@
       $("#indicator").animate({left: leftPx.toString() }, 50, function() {
         //on completed animation
         if(clicking) {
-          $(document).bind('mousemove', function (e) {
+          $("#videoSeek").bind('mousemove', function (e) {
+            e.preventDefault();
             var position = e.pageX - $("#seekbar").position().left;
 
             // Adjust to stay in range of seekbar
@@ -631,7 +635,7 @@
           });
          }
          else { //no longer clicking; unbind mousemove
-           $(document).unbind('mousemove');
+           $("#videoSeek").unbind('mousemove');
          }
       });
 
@@ -641,6 +645,10 @@
 
     $("#seekbar").on("mousedown", function(event) {
       clicking = true;
+      var position = event.pageX - $("#seekbar").position().left;
+      setTimeout(function() {
+        $("#indicator").trigger("move", [position]);
+      }, DOUBLECLICK_DELAY);
     });
 
     $(".section").on("mousedown", function(event) {
@@ -693,8 +701,7 @@
                 setHandleStartPosition(fractionPosition*100);
 
               if(fractionPosition*100 - getHandleEndPosition() > 1)
-                setHandleEndPosition(fractionPosition*100);
-
+                setHandleEndPosition((fractionPosition + 0.01)*100); //moves the handlebar a little past the indicator
               setIndicatorPosition(fractionPosition * 100);
               // Keep triggering 'move' while click-and-dragging
               if(clicking)
@@ -707,7 +714,7 @@
 
     $('body').on("mouseup", function(event) {
       clicking = false;
-      $(document).unbind('mousemove');
+      $("#videoSeek").unbind('mousemove');
 
     });
   });
@@ -745,7 +752,6 @@
   // this function only exists to make code dry... didn't
   // want to copy and paste code for video click event handler o
   playHandler = function() {
-    clearInterval(continueCountoffIndicator);
     console.log("playon: " + isPlayOn);
     if (!isPlayOn()){
       if (getCountOff() > 0 && Math.abs(getHandleStartPosition()-getIndicatorPosition()) < 0.17 && !startLoop) {
@@ -771,25 +777,12 @@
     playHandler();
   })
 
-  // snaps the handlebars to the section boundaries
-  $(document).on('dblclick', ".section", function(evt) {
-    startLoop = false;
-    var rect = document.getElementById("seekbar").getBoundingClientRect();
-    var left = $(this).position().left;
-    var right = left + $(this).width() - 20;
-    var handle = document.getElementById("sectionEnd").getBoundingClientRect();
-    secEnd = right / $("#seekbar").width();
-    secStart = left / $("#seekbar").width();
-    $("#grayRight").css({"left": right+20, "width": rect.right-handle.left-10});
-    $("#grayLeft").css({"width": left});
-  });
-
   $(document).on('mousemove', "#countoffBar", function(evt){
     // set countoff
     countoff = this.value;
-
+    console.log("here");
     // set countoff display
-    document.getElementById("countoff").innerHTML = countoffToString();
+    document.getElementById("countoff").innerHTML = countoffToString(countoff);
   })
 
   $( function() {
@@ -1142,16 +1135,17 @@ function exitHandler()
         </h1>
     </div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
-      <div id="video">
+      <div id="videoSeek">
+        <div id="video">
           <div id="timestamp">
               0:00 / 0:31
           </div>
-        <!-- https://www.w3schools.com/html/html5_video.asp -->
-        <div id="countoffVisual"></div>
-        <video id="videoBox">
-          <source src="images/chicken.MOV">
-            Your browser does not support the video tag.
-          </video>
+          <!-- https://www.w3schools.com/html/html5_video.asp -->
+          <div id="countoffVisual"></div>
+          <video id="videoBox">
+            <source src="images/chicken.MOV">
+              Your browser does not support the video tag.
+            </video>
         </div>
 
         <div id ="seekbar">
@@ -1174,6 +1168,7 @@ function exitHandler()
             <img id="handlebarright" src="images/handlebartriangle.svg" alt="right handle bar">
           </div>
         </div>
+      </div>
 
 
         <!--The toolbar controlling playback controls-->
