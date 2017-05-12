@@ -378,7 +378,30 @@
     }
   }
 
+  $.extend({
+    getUrlVars: function() {
+      var vars = [], pair;
+      var pairs = window.location.search.substr(1).split('&');
+      for (var i = 0; i < pairs.length; i++) {
+        pair = pairs[i].split('=');
+        vars.push(pair[0]);
+        vars[pair[0]] = pair[1] &&
+            decodeURIComponent(pair[1].replace(/\+/g, ' '));
+      }
+      return vars;
+    },
+    getUrlVar: function(name) {
+      return $.getUrlVars()[name];
+    }
+  });
+  
+  var title;
   $(document).ready(function() {
+    title = $.getUrlVar("title");
+    if (title) {
+      $("#title").text(title);
+    }
+
     countoff = this.value;
     bpm = getChoreoBPM();
 
@@ -966,6 +989,15 @@
   $(document).on('click', '#fullscreen', function (evt) {
     toggleFullScreen(document.getElementById("contentContainer"));
   });
+
+  $(document).on('click', "#editDance", function(event) {
+      if (title) {
+        window.location.href='choreo.html?title=' + title;
+      } else {
+        window.location.href='choreo.html?title=Chicken%20Dance';
+      }
+      
+    });
     // taken from http://stackoverflow.com/questions/7836204/chrome-fullscreen-api
     function isFullScreen()
   {
@@ -1070,9 +1102,9 @@ function exitHandler()
     <div id="contentContainer">
     <div id="videoHeader" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
         <h1>
-            Chicken Dance
+            <div id="title" style="display: inline"> Chicken Dance </div>
 
-            <button class="btn" id="editDance" onclick="location.href='choreo.html'" >
+            <button class="btn" id="editDance">
                 <img src="images/edit.svg" alt="edit video" />
                 <div id="editDanceText" >
                     Edit Dance
