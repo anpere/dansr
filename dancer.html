@@ -168,10 +168,11 @@
   
   // set left position of the play Indicator to left
   // left is a floating point number in range [0,100]
-  setIndicatorPosition = function(left) {
+  setIndicatorPosition = function (left) {
     debug("setting indicator position to " + left + "%");
     var indicator = document.getElementById("indicator").style;
-    indicator.left = left+"%";
+    indicator.left = left + "%";
+    
   }
 
   // get left position of the start handle
@@ -486,7 +487,7 @@
       
     $("#indicator").on("drag", function(event, ui) {
       //event.stopPropagation();
-      var fractionalPosition = parseInt($(this).css("left")) / getSeekbarWidth();
+      var fractionalPosition = (parseInt($(this).css("left"))-15) / getSeekbarWidth();
           
       setIndicatorPosition(fractionalPosition * 100);
       
