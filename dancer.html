@@ -897,6 +897,12 @@
       });
   });
 
+  $(document).keypress(function(evt) {
+    if (evt.charCode == 32) {
+      evt.preventDefault();
+      $("#playPause").trigger("click");
+    }
+  });
 
   $(document).on('click', '#fullscreen', function (evt) {
     toggleFullScreen(document.getElementById("contentContainer"));
