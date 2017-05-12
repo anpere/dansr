@@ -589,7 +589,9 @@
     $("#seekbar").on("mousedown", function(event) {
       clicking = true;
       var position = event.pageX - $("#seekbar").position().left;
-      $("#indicator").trigger("move", [position]);
+      setTimeout(function() {
+        $("#indicator").trigger("move", [position]);
+      }, DOUBLECLICK_DELAY);
     });
     
     $(".section").on("mousedown", function(event) {
