@@ -555,7 +555,8 @@
       $("#indicator").animate({left: leftPx.toString() }, 50, function() {
         //on completed animation
         if(clicking) {
-          $(document).bind('mousemove', function (e) {
+          console.log("clocking");
+          $("#videoSeek").bind('mousemove', function (e) {
             var position = e.pageX - $("#seekbar").position().left;
             
             // Adjust to stay in range of seekbar
@@ -577,7 +578,7 @@
           });
          }
          else { //no longer clicking; unbind mousemove
-           $(document).unbind('mousemove');
+           $("#videoSeek").unbind('mousemove');
          }
       });
       
@@ -587,6 +588,8 @@
     
     $("#seekbar").on("mousedown", function(event) {
       clicking = true;
+      var position = event.pageX - $("#seekbar").position().left;
+      $("#indicator").trigger("move", [position]);
     });
     
     $(".section").on("mousedown", function(event) {
@@ -653,7 +656,7 @@
 
     $('body').on("mouseup", function(event) {
       clicking = false;
-      $(document).unbind('mousemove');
+      $("#videoSeek").unbind('mousemove');
 
     });
   });
@@ -899,10 +902,11 @@
         </h1>
     </div>
     <div id="content" style="max-width:999px; margin-top:10; margin-left:auto; margin-right:auto">
-      <div id="video">
-        <!-- https://www.w3schools.com/html/html5_video.asp -->
-        <div id="countoffVisual"></div>
-        <video id="videoBox">
+      <div id="videoSeek">
+        <div id="video">
+          <!-- https://www.w3schools.com/html/html5_video.asp -->
+          <div id="countoffVisual"></div>
+          <video id="videoBox">
           <source src="images/chicken.MOV">
             Your browser does not support the video tag.
           </video>
@@ -928,6 +932,7 @@
             <img id="handlebarright" src="images/handlebartriangle.svg" alt="right handle bar">
           </div>
         </div>
+      </div>
 
 
         <!--The toolbar controlling playback controls-->
