@@ -557,6 +557,7 @@
         if(clicking) {
           console.log("clocking");
           $("#videoSeek").bind('mousemove', function (e) {
+            e.preventDefault();
             var position = e.pageX - $("#seekbar").position().left;
             
             // Adjust to stay in range of seekbar
