@@ -498,7 +498,7 @@
         setHandleEndPosition(fractionalPosition * 100);
       } 
       // Moved indicator left of L handlebar:
-      else if (fractionalPosition*100 < getHandleStartPosition()) {
+      else if (fractionalPosition*100 +15 < getHandleStartPosition()) {
         setHandleStartPosition(fractionalPosition * 100);
       }
     });
